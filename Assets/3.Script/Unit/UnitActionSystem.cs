@@ -5,15 +5,31 @@ using UnityEngine;
 
 public class UnitActionSystem : MonoBehaviour
 {
-    [SerializeField] private UnitMove selectUnit;
+    public static UnitActionSystem Instance;
+
+
+    public event EventHandler OnSelectedUnitChanged;
+
+    [SerializeField] public UnitMove selectUnit;
     [SerializeField] private LayerMask UnitLayer;
+
+    private void Awake()
+    {
+        #region [ΩÃ±€≈Ê]
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        #endregion
+    }
 
     private void Update()
     {
-        if (TryHandleUnitSelection()) return;
-
         if(Input.GetMouseButtonDown(0))
         {
+            if (TryHandleUnitSelection()) return;
             selectUnit.Move(MouseWorld.Instance.GetPoint());
         }
     }
@@ -25,10 +41,22 @@ public class UnitActionSystem : MonoBehaviour
         {
             if(hit.transform.TryGetComponent<UnitMove>(out UnitMove Unit))
             {
-                selectUnit = Unit;
+                SetSelectUnit(Unit);
                 return true;
             }
         }
         return false;
+    }
+
+
+    private void SetSelectUnit(UnitMove unit)
+    {
+        selectUnit = unit;
+        OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public UnitMove GetSelectedUnit()
+    {
+        return selectUnit;
     }
 }

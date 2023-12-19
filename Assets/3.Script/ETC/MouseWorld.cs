@@ -17,10 +17,12 @@ public class MouseWorld : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            return;
         }
         else
         {
             Destroy(gameObject);
+            return;
         }
         #endregion
     }
