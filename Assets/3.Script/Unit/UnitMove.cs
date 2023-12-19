@@ -19,6 +19,11 @@ public class UnitMove : MonoBehaviour
     public bool isWalking = false;
 
 
+    private void Awake()
+    {
+        targetPosition = transform.position;
+    }
+
     private void Update()
     {
         animator.SetBool("isWalking", isWalking);
@@ -34,15 +39,9 @@ public class UnitMove : MonoBehaviour
         {
             isWalking = false;
         }
-
-        if(Input.GetMouseButtonDown(0))
-        {
-            Move(MouseWorld.Instance.GetPoint());
-        }
-
     }
 
-    private void Move(Vector3 target)
+    public void Move(Vector3 target)
     {
         targetPosition = target;
     }
