@@ -29,7 +29,7 @@ public class UnitMove : MonoBehaviour
     private void Start()
     {
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
-        LevelGrid.Instance.SetUnitAtGridPosition(gridPosition, this);
+        LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
     }
 
     private void Update()
@@ -49,10 +49,11 @@ public class UnitMove : MonoBehaviour
         }
 
         GridPosition newgridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
-/*        if(newgridPosition != gridPosition)
+        if (newgridPosition != gridPosition)
         {
-
-        }*/
+            LevelGrid.Instance.UnitMoveGridPostion(this, gridPosition, newgridPosition);
+            gridPosition = newgridPosition;
+        }
 
     }
 

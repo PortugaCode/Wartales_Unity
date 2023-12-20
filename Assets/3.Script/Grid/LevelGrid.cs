@@ -30,22 +30,28 @@ public class LevelGrid : MonoBehaviour
         gridSystem.CreateDebugObjects(debugGridPrefab);
     }
 
-    public void SetUnitAtGridPosition(GridPosition gridPosition, UnitMove unit)
+    public void AddUnitAtGridPosition(GridPosition gridPosition, UnitMove unit)
     {
         GridObject gridObject = gridSystem.GetGridObjectArray(gridPosition);
-        gridObject.SetUnit(unit);
+        gridObject.AddUnit(unit);
     }
 
-    public UnitMove GetUnitAtGridPosition(GridPosition gridPosition)
+    public List<UnitMove> GetUnitAtGridPosition(GridPosition gridPosition)
     {
         GridObject gridObject = gridSystem.GetGridObjectArray(gridPosition);
         return gridObject.GetUnit();
     }
 
-    public void ClearUnitAtGridPosition(GridPosition gridPosition)
+    public void RemoveUnitAtGridPosition(GridPosition gridPosition, UnitMove unit)
     {
         GridObject gridObject = gridSystem.GetGridObjectArray(gridPosition);
-        gridObject.SetUnit(null);
+        gridObject.RemoveUnit(unit);
+    }
+
+    public void UnitMoveGridPostion(UnitMove unit, GridPosition fromgridposition, GridPosition togridposition)
+    {
+        RemoveUnitAtGridPosition(fromgridposition, unit);
+        AddUnitAtGridPosition(togridposition, unit);
     }
 
     public GridPosition GetGridPosition(Vector3 WorldPosition) => gridSystem.GetGridPosition(WorldPosition);

@@ -11,6 +11,20 @@ public struct GridPosition : IEquatable<GridPosition>
         this.z = z;
     }
 
+    public override bool Equals(object obj)
+    {
+        return obj is GridPosition position &&
+               x == position.x &&
+               z == position.z;
+    }
+
+    public override int GetHashCode()
+    {
+        int hashCode = 1553271884;
+        hashCode = hashCode * -1521134295 + x.GetHashCode();
+        hashCode = hashCode * -1521134295 + z.GetHashCode();
+        return hashCode;
+    }
 
     public bool Equals(GridPosition other)
     {

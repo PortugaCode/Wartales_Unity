@@ -2,30 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridObject : MonoBehaviour
+public class GridObject
 {
     private GridSystem gridSystem;
     private GridPosition gridPosition;
-    private UnitMove unitMove;
+    private List<UnitMove> units;
 
     public GridObject(GridSystem gridSystem, GridPosition gridPosition)
     {
         this.gridSystem = gridSystem;
         this.gridPosition = gridPosition;
+        units = new List<UnitMove>();
     }
 
     public override string ToString()
     {
-        return gridPosition.ToString() + "\n" + unitMove;
+        string unitstrings = string.Empty;
+        foreach(UnitMove unit in units)
+        {
+            unitstrings += unit + "\n";
+        }
+        return gridPosition.ToString() + "\n" + unitstrings;
     }
 
-    public void SetUnit(UnitMove unit)
+    public void AddUnit(UnitMove unit)
     {
-        unitMove = unit;
+        units.Add(unit);
     }
 
-    public UnitMove GetUnit()
+    public void RemoveUnit(UnitMove unit)
     {
-        return unitMove;
+        units.Remove(unit);
+    }
+
+    public List<UnitMove> GetUnit()
+    {
+        return units;
     }
 }
