@@ -1,22 +1,33 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpinAction : MonoBehaviour
+public class SpinAction : BaseAction
 {
-    private bool isSpinStart = false;
+    public delegate void SpinCompleteDelegate();
 
+
+    private float totalSpin;
     private void Update()
     {
-        if(isSpinStart)
+        if (!isActive) return;
+
+        float spinAddAmount = 360.0f * Time.deltaTime;
+        transform.eulerAngles += new Vector3(0, spinAddAmount, 0);
+
+        totalSpin += spinAddAmount;
+        if (totalSpin >= 360f)
         {
-            float spinAddAmount = 360.0f * Time.deltaTime;
-            transform.eulerAngles += new Vector3(0, spinAddAmount, 0);
+            isActive = false;
+            onActionComplete();
         }
     }
 
-    public void Spin()
+    public void Spin(Action onActionComplete)
     {
-        isSpinStart = true;
+        this.onActionComplete = onActionComplete;
+        isActive = true;
+        totalSpin = 0;
     }
 }

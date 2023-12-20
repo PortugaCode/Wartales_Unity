@@ -13,6 +13,7 @@ public class UnitActionSystem : MonoBehaviour
     [SerializeField] private Unit selectUnit;
     [SerializeField] private LayerMask UnitLayer;
 
+    private bool isBusy;
     private void Awake()
     {
         #region [ΩÃ±€≈Ê]
@@ -27,20 +28,36 @@ public class UnitActionSystem : MonoBehaviour
 
     private void Update()
     {
+        if (isBusy) return;
+
         if(Input.GetMouseButtonDown(0))
         {
             if (TryHandleUnitSelection()) return;
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.Instance.GetPoint());
             if(selectUnit.GetMoveAction().isValidActionGridPosition(mouseGridPosition))
             {
-                selectUnit.GetMoveAction().Move(mouseGridPosition);
+                SetBusy();
+                selectUnit.GetMoveAction().Move(mouseGridPosition, ClearBusy);
             }
         }
 
         if(Input.GetKeyDown(KeyCode.C))
         {
-            selectUnit.GetSpinAction().Spin();
+            SetBusy();
+            selectUnit.GetSpinAction().Spin(ClearBusy);
         }
+    }
+
+    private void SetBusy()
+    {
+        isBusy = true;
+        Debug.Log("NowBusy!");
+    }
+
+    private void ClearBusy()
+    {
+        isBusy = false;
+        Debug.Log("ClearBusy!");
     }
 
     private bool TryHandleUnitSelection()

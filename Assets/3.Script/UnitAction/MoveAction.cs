@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveAction : MonoBehaviour
+public class MoveAction : BaseAction
 {
+
+
+
     [Header("Animator")]
     [SerializeField] private Animator animator;
 
@@ -21,34 +25,39 @@ public class MoveAction : MonoBehaviour
     [Header("Character State")]
     public bool isWalking = false;
 
-    private Unit unit;
 
-    private void Awake()
+    protected override void Awake()
     {
-        TryGetComponent(out unit);
+        base.Awake();
         targetPosition = transform.position;
     }
 
     private void Update()
     {
         animator.SetBool("isWalking", isWalking);
+        if (!isActive) return;
+        Vector3 moveDirection = (targetPosition - transform.position).normalized;
 
         if (Vector3.Distance(transform.position, targetPosition) > stopDistance)
         {
-            Vector3 moveDirection = (targetPosition - transform.position).normalized;
             transform.position += moveDirection * speed * Time.deltaTime;
-            transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationSpeed * Time.deltaTime);
             isWalking = true;
         }
         else
         {
+            isActive = false;
+            onActionComplete();
             isWalking = false;
         }
+
+        transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationSpeed * Time.deltaTime);
     }
 
-    public void Move(GridPosition gridPosition)
+    public void Move(GridPosition gridPosition, Action onActionComplete)
     {
+        this.onActionComplete = onActionComplete;
         targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+        isActive = true;
     }
 
     public bool isValidActionGridPosition(GridPosition gridPosition)
