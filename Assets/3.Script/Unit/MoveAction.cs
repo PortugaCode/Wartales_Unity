@@ -37,7 +37,7 @@ public class MoveAction : MonoBehaviour
         {
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
             transform.position += moveDirection * speed * Time.deltaTime;
-            transform.forward = Vector3.Lerp(transform.forward, moveDirection, rotationSpeed * Time.deltaTime);
+            transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationSpeed * Time.deltaTime);
             isWalking = true;
         }
         else
@@ -46,9 +46,15 @@ public class MoveAction : MonoBehaviour
         }
     }
 
-    public void Move(Vector3 target)
+    public void Move(GridPosition gridPosition)
     {
-        targetPosition = target;
+        targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+    }
+
+    public bool isValidActionGridPosition(GridPosition gridPosition)
+    {
+        List<GridPosition> validGridPostionList = GetValidGridPostionList();
+        return validGridPostionList.Contains(gridPosition);
     }
 
     public List<GridPosition> GetValidGridPostionList()
@@ -64,14 +70,21 @@ public class MoveAction : MonoBehaviour
                 GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
                 if(!LevelGrid.Instance.isValidGridPosition(testGridPosition))
                 {
+                    //해당 unit의 최대 거리만큼만 움직이게
                     continue;
                 }
                 if(unitGridPosition == testGridPosition)
                 {
+                    //자신의 그리드는 제외한다.
+                    continue;
+                }
+                if(LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
+                {
+                    //해당 위치 그리드에 Unit이 있다면?
                     continue;
                 }
 
-                Debug.Log(testGridPosition.ToString());
+                validGridPostionList.Add(testGridPosition);
             }
         }
         return validGridPostionList;
