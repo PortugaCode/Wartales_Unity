@@ -4648,7 +4648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   virtualCamera: {fileID: 2137390141}
-  zoomPower: 1
+  zoomPower: 2
   cameraSpeed: 7
   rotationSpeed: 60
 --- !u!1 &1992756465

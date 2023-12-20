@@ -36,12 +36,38 @@ public class CameraController : MonoBehaviour
         x = Input.GetAxis("Horizontal");
         z = Input.GetAxis("Vertical");
         rotationVector = new Vector3(0, 0, 0);
+
+
         if (Input.GetMouseButton(1))
         {
             RotationCam();
         }
+        ZoomCam();
+    }
 
-        if(Input.mouseScrollDelta.y > 0)
+    private void FixedUpdate()
+    {
+        //카메라 움직임
+        transform.position += transform.forward * z * cameraSpeed * Time.deltaTime 
+            + transform.right * x * cameraSpeed * Time.deltaTime;
+
+        //카메라 로테이션
+        transform.eulerAngles += rotationVector * rotationSpeed * Time.deltaTime;
+
+        //카메라 줌
+        followOffset.y = Mathf.Clamp(followOffset.y, MIN_FOLLOW_Y_OFFSET, MAX_FOLLOW_Y_OFFSET);
+        cinemachineTransposer.m_FollowOffset = Vector3.Lerp(cinemachineTransposer.m_FollowOffset, followOffset, zoomPower * Time.deltaTime);
+    }
+
+    private void RotationCam()
+    {
+        rotationVector = new Vector3(0, 0, 0);
+        rotationVector.y += x;
+    }
+
+    private void ZoomCam()
+    {
+        if (Input.mouseScrollDelta.y > 0)
         {
             followOffset.y -= zoomPower;
         }
@@ -49,22 +75,5 @@ public class CameraController : MonoBehaviour
         {
             followOffset.y += zoomPower;
         }
-    }
-
-    private void FixedUpdate()
-    {
-        transform.position += transform.forward * z * cameraSpeed * Time.deltaTime 
-            + transform.right * x * cameraSpeed * Time.deltaTime;
-
-        transform.eulerAngles += rotationVector * rotationSpeed * Time.deltaTime;
-
-        followOffset.y = Mathf.Clamp(followOffset.y, MIN_FOLLOW_Y_OFFSET, MAX_FOLLOW_Y_OFFSET);
-        cinemachineTransposer.m_FollowOffset = followOffset;
-    }
-
-    private void RotationCam()
-    {
-        rotationVector = new Vector3(0, 0, 0);
-        rotationVector.y += x;
     }
 }
