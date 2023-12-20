@@ -32,7 +32,7 @@ public class MouseWorld : MonoBehaviour
         transform.position = GetPoint();
     }
 
-    public Vector3 GetPoint()
+    public Vector3 GetPoint() //마우스 스크린 포인트 찍기
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Physics.Raycast(ray, out hit, float.MaxValue, plannLayer);

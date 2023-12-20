@@ -36,6 +36,11 @@ public class UnitActionSystem : MonoBehaviour
                 selectUnit.GetMoveAction().Move(mouseGridPosition);
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            selectUnit.GetSpinAction().Spin();
+        }
     }
 
     private bool TryHandleUnitSelection()
