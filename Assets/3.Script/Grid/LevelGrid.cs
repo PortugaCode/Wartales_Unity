@@ -30,29 +30,31 @@ public class LevelGrid : MonoBehaviour
         gridSystem.CreateDebugObjects(debugGridPrefab);
     }
 
-    public void AddUnitAtGridPosition(GridPosition gridPosition, UnitMove unit)
+    public void AddUnitAtGridPosition(GridPosition gridPosition, Unit unit)
     {
         GridObject gridObject = gridSystem.GetGridObjectArray(gridPosition);
         gridObject.AddUnit(unit);
     }
 
-    public List<UnitMove> GetUnitAtGridPosition(GridPosition gridPosition)
+    public List<Unit> GetUnitAtGridPosition(GridPosition gridPosition)
     {
         GridObject gridObject = gridSystem.GetGridObjectArray(gridPosition);
         return gridObject.GetUnit();
     }
 
-    public void RemoveUnitAtGridPosition(GridPosition gridPosition, UnitMove unit)
+    public void RemoveUnitAtGridPosition(GridPosition gridPosition, Unit unit)
     {
         GridObject gridObject = gridSystem.GetGridObjectArray(gridPosition);
         gridObject.RemoveUnit(unit);
     }
 
-    public void UnitMoveGridPostion(UnitMove unit, GridPosition fromgridposition, GridPosition togridposition)
+    public void UnitMoveGridPostion(Unit unit, GridPosition fromgridposition, GridPosition togridposition)
     {
         RemoveUnitAtGridPosition(fromgridposition, unit);
         AddUnitAtGridPosition(togridposition, unit);
     }
 
     public GridPosition GetGridPosition(Vector3 WorldPosition) => gridSystem.GetGridPosition(WorldPosition);
+
+    public bool isValidGridPosition(GridPosition gridPosition) => gridSystem.isValidGridPosition(gridPosition);
 }

@@ -10,7 +10,7 @@ public class UnitActionSystem : MonoBehaviour
 
     public event EventHandler OnSelectedUnitChanged;
 
-    [SerializeField] public UnitMove selectUnit;
+    [SerializeField] public Unit selectUnit;
     [SerializeField] private LayerMask UnitLayer;
 
     private void Awake()
@@ -30,7 +30,7 @@ public class UnitActionSystem : MonoBehaviour
         if(Input.GetMouseButtonDown(0))
         {
             if (TryHandleUnitSelection()) return;
-            selectUnit.Move(MouseWorld.Instance.GetPoint());
+            selectUnit.GetMoveAction().Move(MouseWorld.Instance.GetPoint());
         }
     }
 
@@ -39,7 +39,7 @@ public class UnitActionSystem : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if(Physics.Raycast(ray, out RaycastHit hit, float.MaxValue, UnitLayer))
         {
-            if(hit.transform.TryGetComponent<UnitMove>(out UnitMove Unit))
+            if(hit.transform.TryGetComponent<Unit>(out Unit Unit))
             {
                 SetSelectUnit(Unit);
                 return true;
@@ -49,13 +49,13 @@ public class UnitActionSystem : MonoBehaviour
     }
 
 
-    private void SetSelectUnit(UnitMove unit)
+    private void SetSelectUnit(Unit unit)
     {
         selectUnit = unit;
         OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public UnitMove GetSelectedUnit()
+    public Unit GetSelectedUnit()
     {
         return selectUnit;
     }

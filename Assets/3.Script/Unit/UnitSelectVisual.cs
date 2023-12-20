@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class UnitSelectVisual : MonoBehaviour
 {
-    [SerializeField] private UnitMove unit;
+    [SerializeField] private Unit unit;
 
     private MeshRenderer meshRenderer;
 
