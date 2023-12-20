@@ -14,6 +14,8 @@ public class UnitActionSystem : MonoBehaviour
     [SerializeField] private LayerMask UnitLayer;
 
     private bool isBusy;
+
+
     private void Awake()
     {
         #region [ΩÃ±€≈Ê]
@@ -26,8 +28,13 @@ public class UnitActionSystem : MonoBehaviour
         #endregion
     }
 
+    private void Start()
+    {
+        ChangeUI();
+    }
     private void Update()
     {
+
         if (isBusy) return;
 
         if(Input.GetMouseButtonDown(0))
@@ -78,11 +85,34 @@ public class UnitActionSystem : MonoBehaviour
     private void SetSelectUnit(Unit unit)
     {
         selectUnit = unit;
+        ChangeUI();
         OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public Unit GetSelectedUnit()
     {
         return selectUnit;
+    }
+
+    private void ChangeUI()
+    {
+        #region [UI SetActive]
+        if (selectUnit.isAchor)
+        {
+            for (int i = 0; i < selectUnit.UI.transform.childCount; i++)
+            {
+                selectUnit.UI.transform.GetChild(i).transform.gameObject.SetActive(false);
+            }
+            selectUnit.UI.transform.GetChild(0).transform.gameObject.SetActive(true);
+        }
+        else if (selectUnit.isWarrior)
+        {
+            for (int i = 0; i < selectUnit.UI.transform.childCount; i++)
+            {
+                selectUnit.UI.transform.GetChild(i).transform.gameObject.SetActive(false);
+            }
+            selectUnit.UI.transform.GetChild(1).transform.gameObject.SetActive(true);
+        }
+        #endregion
     }
 }

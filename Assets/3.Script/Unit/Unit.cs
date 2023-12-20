@@ -8,10 +8,15 @@ public class Unit : MonoBehaviour
     private MoveAction moveAction;
     private SpinAction spinAction;
 
+    public GameObject UI;
+    public bool isWarrior;
+    public bool isAchor;
+
     private void Awake()
     {
         TryGetComponent(out moveAction);
         TryGetComponent(out spinAction);
+        UI = GameObject.FindGameObjectWithTag("UI").transform.gameObject;
     }
 
     private void Start()
