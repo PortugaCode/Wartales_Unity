@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class UnitActionSystem : MonoBehaviour
 {
-    public static UnitActionSystem Instance;
+    public static UnitActionSystem Instance { get; private set; }
 
 
     public event EventHandler OnSelectedUnitChanged;

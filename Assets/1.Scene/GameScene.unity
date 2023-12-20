@@ -316,7 +316,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &50075546
 Transform:
   m_ObjectHideFlags: 0
@@ -343,7 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35b459f834b1d6045bcb275d2f35e2e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugGridPrefab: {fileID: 0}
+  debugGridPrefab: {fileID: 8726670049919959062, guid: d084481d267e8684b8dfa86879b3fccb, type: 3}
   width: 10
   height: 10
   cellSize: 2
@@ -519,8 +519,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.39, y: 2, z: 1}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Size: {x: 0.3, y: 1.5, z: 1}
+  m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!1 &110990310
 GameObject:
   m_ObjectHideFlags: 0
@@ -2057,7 +2057,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &907919733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2083,7 +2083,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 907919732}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4, y: 0, z: 0}
+  m_LocalPosition: {x: 4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 748614571}
@@ -2102,8 +2102,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.39, y: 2, z: 1}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Size: {x: 0.3, y: 1.5, z: 1}
+  m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -2869,7 +2869,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1260232552
 Transform:
   m_ObjectHideFlags: 0
@@ -2896,10 +2896,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b96128018fe66e848b5a3ccb4add5107, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugGridPrefab: {fileID: 8726670049919959062, guid: d084481d267e8684b8dfa86879b3fccb, type: 3}
-  width: 10
-  height: 10
-  cellSize: 2
 --- !u!1 &1260843033
 GameObject:
   m_ObjectHideFlags: 0

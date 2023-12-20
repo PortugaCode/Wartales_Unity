@@ -6,6 +6,7 @@ public class GridObject : MonoBehaviour
 {
     private GridSystem gridSystem;
     private GridPosition gridPosition;
+    private UnitMove unitMove;
 
     public GridObject(GridSystem gridSystem, GridPosition gridPosition)
     {
@@ -15,6 +16,16 @@ public class GridObject : MonoBehaviour
 
     public override string ToString()
     {
-        return gridPosition.ToString();
+        return gridPosition.ToString() + "\n" + unitMove;
+    }
+
+    public void SetUnit(UnitMove unit)
+    {
+        unitMove = unit;
+    }
+
+    public UnitMove GetUnit()
+    {
+        return unitMove;
     }
 }
