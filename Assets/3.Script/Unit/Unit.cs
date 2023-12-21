@@ -10,7 +10,7 @@ public class Unit : MonoBehaviour
     private BaseAction[] baseActionArray;
 
     [Header("ActionCount")]
-    [SerializeField] private int actionPoint = 3;
+    [SerializeField] private int actionPoints = 3;
 
     [Header("UnitClass")]
     public bool isWarrior;
@@ -68,5 +68,31 @@ public class Unit : MonoBehaviour
         return baseActionArray;
     }
 
+    public int GetActionPoints()
+    {
+        return actionPoints;
+    }
 
+
+    public bool TrySpendActionPointsToTakeAction(BaseAction baseAction)
+    {
+        if (CanSpendActionPointsToTakeAction(baseAction))
+        {
+            SpendAcionPoint(baseAction.GetActionPointCost());
+            return true;
+        }
+        else return false;
+    }
+
+
+    private bool CanSpendActionPointsToTakeAction(BaseAction baseAction)
+    {
+        if (actionPoints >= baseAction.GetActionPointCost()) return true;
+        else return false;
+    }
+
+    private void SpendAcionPoint(int amount)
+    {
+        actionPoints -= amount;
+    }
 }
