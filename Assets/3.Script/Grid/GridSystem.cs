@@ -35,7 +35,6 @@ public class GridSystem
     }
 
     //Grid에 반올림 포지션 ex) x : 1, y : 1
-
     public GridPosition GetGridPosition(Vector3 worldPosition)
     {
         return new GridPosition(

@@ -25,6 +25,8 @@ public class MoveAction : BaseAction
     [Header("Character State")]
     public bool isWalking = false;
 
+    [Header("Image")]
+    public Sprite sprite;
 
     protected override void Awake()
     {
@@ -53,22 +55,18 @@ public class MoveAction : BaseAction
         transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationSpeed * Time.deltaTime);
     }
 
-    public void Move(GridPosition gridPosition, Action onActionComplete)
+    public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         this.onActionComplete = onActionComplete;
         targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
         isActive = true;
     }
 
-    public bool isValidActionGridPosition(GridPosition gridPosition)
-    {
-        List<GridPosition> validGridPostionList = GetValidGridPostionList();
-        return validGridPostionList.Contains(gridPosition);
-    }
 
-    public List<GridPosition> GetValidGridPostionList()
+    public override List<GridPosition> GetValidGridPostionList()
     {
         List<GridPosition> validGridPostionList = new List<GridPosition>();
+
         GridPosition unitGridPosition = unit.GetGridPostion();
 
         for(int x = -maxMoveDistance; x <= maxMoveDistance; x++)
@@ -97,5 +95,19 @@ public class MoveAction : BaseAction
             }
         }
         return validGridPostionList;
+    }
+
+
+
+
+
+    public override string GetActionName()
+    {
+        return "Move";
+    }
+
+    public override Sprite GetActionImage()
+    {
+        return sprite;
     }
 }

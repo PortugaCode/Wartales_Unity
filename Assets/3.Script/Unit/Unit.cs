@@ -7,16 +7,21 @@ public class Unit : MonoBehaviour
     private GridPosition gridPosition;
     private MoveAction moveAction;
     private SpinAction spinAction;
+    private BaseAction[] baseActionArray;
 
-    public GameObject UI;
+
+    private GameObject uiObject;
+
     public bool isWarrior;
     public bool isAchor;
+ 
 
     private void Awake()
     {
         TryGetComponent(out moveAction);
         TryGetComponent(out spinAction);
-        UI = GameObject.FindGameObjectWithTag("UI").transform.gameObject;
+        baseActionArray = GetComponents<BaseAction>();
+        uiObject = GameObject.FindGameObjectWithTag("UI");
     }
 
     private void Start()
@@ -35,6 +40,11 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public GameObject GetUiObject()
+    {
+        return uiObject;
+    }    
+
     public MoveAction GetMoveAction()
     {
         return moveAction;
@@ -48,6 +58,11 @@ public class Unit : MonoBehaviour
     public GridPosition GetGridPostion()
     {
         return gridPosition;
+    }
+
+    public BaseAction[] GetBaseActionsArray()
+    {
+        return baseActionArray;
     }
 
 

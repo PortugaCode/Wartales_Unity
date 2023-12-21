@@ -2,11 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SpinAction : BaseAction
 {
     public delegate void SpinCompleteDelegate();
 
+
+    [Header("Image")]
+    public Sprite sprite;
 
     private float totalSpin;
     private void Update()
@@ -24,10 +28,31 @@ public class SpinAction : BaseAction
         }
     }
 
-    public void Spin(Action onActionComplete)
+    public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         this.onActionComplete = onActionComplete;
         isActive = true;
         totalSpin = 0;
+    }
+
+
+    public override string GetActionName()
+    {
+        return "Spin";
+    }
+
+    public override Sprite GetActionImage()
+    {
+        return sprite;
+    }
+
+    public override List<GridPosition> GetValidGridPostionList()
+    {
+        GridPosition unitGridPosition = unit.GetGridPostion();
+
+        return new List<GridPosition>
+        {
+            unitGridPosition
+        };
     }
 }

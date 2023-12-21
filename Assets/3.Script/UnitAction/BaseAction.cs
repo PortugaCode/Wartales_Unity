@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class BaseAction : MonoBehaviour
 {
@@ -13,4 +14,17 @@ public abstract class BaseAction : MonoBehaviour
     {
         TryGetComponent(out unit);
     }
+
+    public abstract string GetActionName();
+    public abstract Sprite GetActionImage();
+
+    public abstract void TakeAction(GridPosition gridPosition, Action onActionComplete);
+
+    public virtual bool isValidActionGridPosition(GridPosition gridPosition)
+    {
+        List<GridPosition> validGridPositionList = GetValidGridPostionList();
+        return validGridPositionList.Contains(gridPosition);
+    }
+
+    public abstract List<GridPosition> GetValidGridPostionList();
 }
