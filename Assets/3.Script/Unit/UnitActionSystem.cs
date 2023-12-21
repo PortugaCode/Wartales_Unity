@@ -10,6 +10,7 @@ public class UnitActionSystem : MonoBehaviour
     
     //[이벤트 핸들러]
     public event EventHandler OnSelectedUnitChanged;
+    public event EventHandler OnSelectedActionChanged;
 
     //[Unit관련]
     [SerializeField] private Unit selectUnit;
@@ -95,15 +96,21 @@ public class UnitActionSystem : MonoBehaviour
 
     private void SetSelectUnit(Unit unit)
     {
+        if (isBusy) return;
         selectUnit = unit;
         SetSelectAction(unit.GetMoveAction());
         ChangeUI();
         OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
+        OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void SetSelectAction(BaseAction baseAction)
     {
+        if (isBusy) return;
         selectedAction = baseAction;
+
+
+        OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public Unit GetSelectedUnit()

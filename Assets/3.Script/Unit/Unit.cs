@@ -9,12 +9,15 @@ public class Unit : MonoBehaviour
     private SpinAction spinAction;
     private BaseAction[] baseActionArray;
 
+    [Header("ActionCount")]
+    [SerializeField] private int actionPoint = 3;
 
-    private GameObject uiObject;
-
+    [Header("UnitClass")]
     public bool isWarrior;
     public bool isAchor;
- 
+
+
+    private GameObject uiObject;
 
     private void Awake()
     {
