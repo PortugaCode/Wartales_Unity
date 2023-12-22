@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,8 +10,11 @@ public class Unit : MonoBehaviour
     private SpinAction spinAction;
     private BaseAction[] baseActionArray;
 
+    public static event EventHandler OnAnyActionPointsChanged;
+
     [Header("ActionCount")]
-    [SerializeField] private int actionPoints = 3;
+    public int BaseActionPoints = 3;
+    [SerializeField] private int actionPoints;
 
     [Header("UnitClass")]
     public bool isWarrior;
@@ -25,12 +29,15 @@ public class Unit : MonoBehaviour
         TryGetComponent(out spinAction);
         baseActionArray = GetComponents<BaseAction>();
         uiObject = GameObject.FindGameObjectWithTag("UI");
+        actionPoints = BaseActionPoints;
     }
 
     private void Start()
     {
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
+
+        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
     }
 
     private void Update()
@@ -94,5 +101,14 @@ public class Unit : MonoBehaviour
     private void SpendAcionPoint(int amount)
     {
         actionPoints -= amount;
+
+        OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    {
+        actionPoints = BaseActionPoints;
+
+        OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
     }
 }

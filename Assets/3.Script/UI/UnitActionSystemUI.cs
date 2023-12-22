@@ -24,6 +24,9 @@ public class UnitActionSystemUI : MonoBehaviour
         UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectUnitChange;
         UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectActionChange;
         UnitActionSystem.Instance.OnActionStarted += UpdateActionPoints_OnActionChanged;
+        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
+
         CreateUnitActionButton();
         UndateSelectVisual();
         UpdateActionPoints();
@@ -79,5 +82,15 @@ public class UnitActionSystemUI : MonoBehaviour
     {
         Unit selectUnit = UnitActionSystem.Instance.GetSelectedUnit();
         textMeshPro.text = $"Action Points : {selectUnit.GetActionPoints()}";
+    }
+    
+    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    {
+        UpdateActionPoints();
+    }
+
+    private void Unit_OnAnyActionPointsChanged(object sender, EventArgs e)
+    {
+        UpdateActionPoints();
     }
 }
