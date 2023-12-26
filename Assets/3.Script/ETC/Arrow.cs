@@ -5,9 +5,12 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
+    public Unit target;
+    public int damage;
 
-    private void Awake()
+    private void Start()
     {
+        transform.transform.LookAt(target.GetWorldPosition() + new Vector3(0f, 1.2f, 0f));
         rb.AddForce(transform.forward * 1000f);
     }
 
@@ -15,7 +18,9 @@ public class Arrow : MonoBehaviour
     {
         if(collision.collider.CompareTag("Enemy"))
         {
-            collision.transform.GetComponent<Unit>().Damage();
+            collision.transform.GetComponent<Unit>().Damage(damage);
+            EffectSystem.Instance.hitEffect.transform.position = transform.position;
+            EffectSystem.Instance.hitEffect.Play();
             Destroy(gameObject);
         }
     }

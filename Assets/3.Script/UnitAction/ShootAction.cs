@@ -13,12 +13,14 @@ public class ShootAction : BaseAction
         Shooting,
         Cooloff
     }
+
     private State state;
     private float stateTimer;
 
     [SerializeField] private Sprite icon;
 
     [SerializeField] private int maxShootDistance = 7;
+    [SerializeField] private int damage = 50;
     private Unit targetUnit;
     private bool canShootArrow;
 
@@ -156,5 +158,9 @@ public class ShootAction : BaseAction
     public Unit GetUnit()
     {
         return unit;
+    }
+    public int GetDamage()
+    {
+        return damage;
     }
 }

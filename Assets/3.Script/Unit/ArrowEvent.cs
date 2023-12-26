@@ -11,8 +11,9 @@ public class ArrowEvent : MonoBehaviour
     public void CreateArro()
     {
         Vector3 direction = (shootAction.GetTargetUnit().GetWorldPosition() - shootAction.GetUnit().GetWorldPosition()).normalized;
-        GameObject arrowClone = Instantiate(arrow, arrowPivot.position, Quaternion.LookRotation(direction));
-
+        GameObject arrowClone = Instantiate(arrow, arrowPivot.position, Quaternion.identity);
+        arrowClone.GetComponent<Arrow>().target = shootAction.GetTargetUnit();
+        arrowClone.GetComponent<Arrow>().damage = shootAction.GetDamage();
     }
 
 }
