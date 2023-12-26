@@ -135,7 +135,7 @@ public class ShootAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        ActionStart(onActionComplete);
+        
 
         targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(gridPosition);
 
@@ -144,6 +144,8 @@ public class ShootAction : BaseAction
         stateTimer = aimingStateTimer;
         OnShooting?.Invoke(this, EventArgs.Empty);
         canShootArrow = true;
+
+        ActionStart(onActionComplete);
     }
 
     public override int GetActionPointCost()
@@ -154,10 +156,6 @@ public class ShootAction : BaseAction
     public Unit GetTargetUnit()
     {
         return targetUnit;
-    }
-    public Unit GetUnit()
-    {
-        return unit;
     }
     public int GetDamage()
     {

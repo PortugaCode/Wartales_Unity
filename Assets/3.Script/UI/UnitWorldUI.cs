@@ -12,11 +12,21 @@ public class UnitWorldUI : MonoBehaviour
     [SerializeField] private Image healthBar;
     [SerializeField] private HealthSystem healthSystem;
     [SerializeField] private Image enemyIcon;
+    [SerializeField] private Image warriorIcon;
+    [SerializeField] private Image achorIcon;
 
     private void Start()
     {
         Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
-        enemyIcon.enabled = unit.IsEnemy();
+        if (unit.IsEnemy())
+        {
+            enemyIcon.enabled = unit.IsEnemy();
+        }
+        else
+        {
+            warriorIcon.enabled = unit.isWarrior;
+            achorIcon.enabled = unit.isAchor;
+        }
         unit.OnDamage += Unit_OnDamage;
         unit.OnDie += Unit_OnDamage;
         UpdateHealthBar();
