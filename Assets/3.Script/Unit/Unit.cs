@@ -12,6 +12,9 @@ public class Unit : MonoBehaviour
 
     public static event EventHandler OnAnyActionPointsChanged;
 
+    [Header("isEnemy")]
+    [SerializeField] private bool isEnemy;
+
     [Header("ActionCount")]
     public int BaseActionPoints = 3;
     [SerializeField] private int actionPoints;
@@ -39,6 +42,8 @@ public class Unit : MonoBehaviour
 
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
     }
+
+
 
     private void Update()
     {
@@ -70,6 +75,11 @@ public class Unit : MonoBehaviour
         return gridPosition;
     }
 
+    public Vector3 GetWorldPosition()
+    {
+        return transform.position;
+    }
+
     public BaseAction[] GetBaseActionsArray()
     {
         return baseActionArray;
@@ -78,6 +88,11 @@ public class Unit : MonoBehaviour
     public int GetActionPoints()
     {
         return actionPoints;
+    }
+
+    public bool IsEnemy()
+    {
+        return isEnemy;
     }
 
 
@@ -107,8 +122,16 @@ public class Unit : MonoBehaviour
 
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
-        actionPoints = BaseActionPoints;
+        if((IsEnemy() && !TurnSystem.Instance.IsPlayerTurn()) || (!IsEnemy() && TurnSystem.Instance.IsPlayerTurn()))
+        {
+            actionPoints = BaseActionPoints;
 
-        OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+            OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    public void Damage()
+    {
+        Debug.Log(transform + " damaged!!");
     }
 }

@@ -45,6 +45,8 @@ public class UnitActionSystem : MonoBehaviour
     {
         if (isBusy) return;
 
+        if (!TurnSystem.Instance.IsPlayerTurn()) return;
+
         if (EventSystem.current.IsPointerOverGameObject()) return;
 
         if (TryHandleUnitSelection()) return;
@@ -70,13 +72,13 @@ public class UnitActionSystem : MonoBehaviour
     private void SetBusy()
     {
         isBusy = true;
-        Debug.Log("NowBusy!");
+        //Debug.Log("NowBusy!");
     }
 
     private void ClearBusy()
     {
         isBusy = false;
-        Debug.Log("ClearBusy!");
+        //Debug.Log("ClearBusy!");
     }
 
     private bool TryHandleUnitSelection()
@@ -88,6 +90,16 @@ public class UnitActionSystem : MonoBehaviour
             {
                 if (hit.transform.TryGetComponent<Unit>(out Unit Unit))
                 {
+                    if(Unit == selectUnit)
+                    {
+                        return false;
+                    }
+
+                    if(Unit.IsEnemy())
+                    {
+                        return false;
+                    }
+
                     SetSelectUnit(Unit);
                     return true;
                 }

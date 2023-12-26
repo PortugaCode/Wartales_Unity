@@ -6,10 +6,8 @@ using UnityEngine;
 public class MoveAction : BaseAction
 {
 
-
-
-    [Header("Animator")]
-    [SerializeField] private Animator animator;
+    public event EventHandler OnStartMoving;
+    public event EventHandler OnStopMoving;
 
     [Header("Target Position")]
     [SerializeField] private Vector3 targetPosition;
@@ -22,9 +20,6 @@ public class MoveAction : BaseAction
     [Header("MaxMoveDistance")]
     [SerializeField] private int maxMoveDistance = 4;
 
-    [Header("Character State")]
-    public bool isWalking = false;
-
     [Header("Image")]
     public Sprite sprite;
 
@@ -36,20 +31,17 @@ public class MoveAction : BaseAction
 
     private void Update()
     {
-        animator.SetBool("isWalking", isWalking);
         if (!isActive) return;
         Vector3 moveDirection = (targetPosition - transform.position).normalized;
 
         if (Vector3.Distance(transform.position, targetPosition) > stopDistance)
         {
             transform.position += moveDirection * speed * Time.deltaTime;
-            isWalking = true;
         }
         else
         {
-            isActive = false;
-            onActionComplete();
-            isWalking = false;
+            ActionComplete();
+            OnStopMoving?.Invoke(this, EventArgs.Empty);
         }
 
         transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationSpeed * Time.deltaTime);
@@ -57,9 +49,9 @@ public class MoveAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        this.onActionComplete = onActionComplete;
+        ActionStart(onActionComplete);
         targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
-        isActive = true;
+        OnStartMoving?.Invoke(this, EventArgs.Empty);
     }
 
 
