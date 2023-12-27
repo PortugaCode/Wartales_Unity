@@ -36,7 +36,7 @@ public class ShootAction : BaseAction
             case State.Aiming:
                 Debug.Log(targetUnit.name);
                 Vector3 aimDirection = (targetUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
-                float rotationSpeed = 10f;
+                float rotationSpeed = 8f;
                 transform.forward = Vector3.Slerp(transform.forward, aimDirection, rotationSpeed * Time.deltaTime);
                 break;
 
@@ -75,7 +75,7 @@ public class ShootAction : BaseAction
 
             case State.Shooting:
                 state = State.Cooloff;
-                float coolOffStateTimer = 1.7f;
+                float coolOffStateTimer = 1.9f;
                 stateTimer = coolOffStateTimer;
                 break;
 
@@ -182,7 +182,7 @@ public class ShootAction : BaseAction
 
         if (targetUnit == null)
         {
-                            return new EnemyAIAction
+                return new EnemyAIAction
                 {
                     gridPosition = gridPosition,
                     actionValue = 0,
