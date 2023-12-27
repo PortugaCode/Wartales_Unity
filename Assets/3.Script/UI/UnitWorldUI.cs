@@ -15,12 +15,15 @@ public class UnitWorldUI : MonoBehaviour
     [SerializeField] private Image warriorIcon;
     [SerializeField] private Image achorIcon;
 
+    [SerializeField] private Color enemy;
+
     private void Start()
     {
         Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
         if (unit.IsEnemy())
         {
             enemyIcon.enabled = unit.IsEnemy();
+            healthBar.color = enemy;
         }
         else
         {

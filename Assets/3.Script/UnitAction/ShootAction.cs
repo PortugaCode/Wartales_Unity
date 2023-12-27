@@ -102,7 +102,7 @@ public class ShootAction : BaseAction
                 GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
                 if (!LevelGrid.Instance.isValidGridPosition(testGridPosition))
                 {
-                    //해당 unit의 최대 거리만큼만 움직이게
+                    //그리드 안에서만 움직이게끔
                     continue;
                 }
 
@@ -135,8 +135,6 @@ public class ShootAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        
-
         targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(gridPosition);
 
         state = State.Aiming;
@@ -160,5 +158,9 @@ public class ShootAction : BaseAction
     public int GetDamage()
     {
         return damage;
+    }
+    public int GetMaxShootDistance()
+    {
+        return maxShootDistance;
     }
 }

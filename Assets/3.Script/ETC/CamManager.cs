@@ -34,18 +34,21 @@ public class CamManager : MonoBehaviour
                 Unit shooterUnit = shootAction.GetUnit();
                 Unit targetUnit = shootAction.GetTargetUnit();
 
-                Vector3 CamHeight = Vector3.up * 1.7f;
+                if(targetUnit.GetHealthSystem().Gethealth() <= shootAction.GetDamage())
+                {
+                    Vector3 CamHeight = Vector3.up * 1.7f;
 
-                Vector3 shootdir = (targetUnit.GetWorldPosition() - shooterUnit.GetWorldPosition()).normalized;
-                float shoulderOffsetAmount = 0.7f;
-                Vector3 shoulderOffset = Quaternion.Euler(0, 90f, 0f) * shootdir * shoulderOffsetAmount;
+                    Vector3 shootdir = (targetUnit.GetWorldPosition() - shooterUnit.GetWorldPosition()).normalized;
+                    float shoulderOffsetAmount = 0.7f;
+                    Vector3 shoulderOffset = Quaternion.Euler(0, 90f, 0f) * shootdir * shoulderOffsetAmount;
 
-                Vector3 actionCamPosition =
-                shooterUnit.GetWorldPosition() + CamHeight + shoulderOffset + (shootdir * -4);
+                    Vector3 actionCamPosition =
+                    shooterUnit.GetWorldPosition() + CamHeight + shoulderOffset + (shootdir * -2);
 
-                actionCameraGameObject.transform.position = actionCamPosition;
-                actionCameraGameObject.transform.LookAt(targetUnit.GetWorldPosition() + CamHeight);
-                ShowActionCam();
+                    actionCameraGameObject.transform.position = actionCamPosition;
+                    actionCameraGameObject.transform.LookAt(targetUnit.GetWorldPosition() + CamHeight);
+                    ShowActionCam();
+                }
                 break;
         }
     }

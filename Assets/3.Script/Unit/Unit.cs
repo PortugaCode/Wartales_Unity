@@ -54,8 +54,10 @@ public class Unit : MonoBehaviour
         GridPosition newgridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         if (newgridPosition != gridPosition)
         {
-            LevelGrid.Instance.UnitMoveGridPostion(this, gridPosition, newgridPosition);
+            //유닛이 기존 그리드 포지션에서 위치가 바뀌었다면
+            GridPosition oldGridPosition = gridPosition;
             gridPosition = newgridPosition;
+            LevelGrid.Instance.UnitMoveGridPostion(this, oldGridPosition, newgridPosition);
         }
     }
 
@@ -132,6 +134,11 @@ public class Unit : MonoBehaviour
 
             OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
         }
+    }
+
+    public HealthSystem GetHealthSystem()
+    {
+        return healthSystem;
     }
 
     public void Damage(int amount)

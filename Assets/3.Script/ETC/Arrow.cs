@@ -23,5 +23,12 @@ public class Arrow : MonoBehaviour
             EffectSystem.Instance.hitEffect.Play();
             Destroy(gameObject);
         }
+        else if(collision.collider.CompareTag("Player"))
+        {
+            collision.transform.GetComponent<Unit>().Damage(damage);
+            EffectSystem.Instance.hitEffect.transform.position = transform.position;
+            EffectSystem.Instance.hitEffect.Play();
+            Destroy(gameObject);
+        }
     }
 }
