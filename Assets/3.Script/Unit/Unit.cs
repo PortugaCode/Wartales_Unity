@@ -31,6 +31,10 @@ public class Unit : MonoBehaviour
     public bool isWarrior;
     public bool isAchor;
 
+    [Header("LayerMasks")]
+    public LayerMask unitLayer;
+    public LayerMask wallLayer;
+
 
     private GameObject uiObject;
 

@@ -18,6 +18,7 @@ public class UnitAnimator : MonoBehaviour
         if (TryGetComponent<ShootAction>(out ShootAction shootAction))
         {
             shootAction.OnShooting += ShootAction_OnShooting;
+            shootAction.OnAiming += ShootAction_OnAiming;
         }
         if(TryGetComponent<Unit>(out Unit unit))
         {
@@ -25,6 +26,8 @@ public class UnitAnimator : MonoBehaviour
             unit.OnDie += Unit_OnDie;
         }
     }
+
+
 
     private void Unit_OnDie(object sender, EventArgs e)
     {
@@ -39,6 +42,11 @@ public class UnitAnimator : MonoBehaviour
     private void ShootAction_OnShooting(object sender, EventArgs e)
     {
         animator.SetTrigger("Shooting");
+    }
+
+    private void ShootAction_OnAiming(object sender, EventArgs e)
+    {
+        animator.SetTrigger("Aiming");
     }
 
     private void MoveAction_OnStartMoving(object sender, EventArgs e)

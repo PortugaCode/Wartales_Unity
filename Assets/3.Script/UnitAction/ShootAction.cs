@@ -6,6 +6,7 @@ using UnityEngine;
 public class ShootAction : BaseAction
 {
     public event EventHandler OnShooting;
+    public event EventHandler OnAiming;
 
     private enum State
     {
@@ -30,13 +31,15 @@ public class ShootAction : BaseAction
 
         stateTimer -= Time.deltaTime;
 
-        switch(state)
+        switch (state)
         {
             case State.Aiming:
+                Debug.Log(targetUnit.name);
                 Vector3 aimDirection = (targetUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
                 float rotationSpeed = 10f;
-                transform.forward = Vector3.Lerp(transform.forward, aimDirection, rotationSpeed * Time.deltaTime);
+                transform.forward = Vector3.Slerp(transform.forward, aimDirection, rotationSpeed * Time.deltaTime);
                 break;
+
             case State.Shooting:
                 if(canShootArrow)
                 {
@@ -44,6 +47,7 @@ public class ShootAction : BaseAction
                     canShootArrow = false;
                 }
                 break;
+
             case State.Cooloff:
                 break;
         }
@@ -55,6 +59,7 @@ public class ShootAction : BaseAction
 
     private void Shoot()
     {
+        OnShooting?.Invoke(this, EventArgs.Empty);
         //targetUnit.Damage();
     }
 
@@ -67,11 +72,13 @@ public class ShootAction : BaseAction
                 float shootingStateTimer = 0.1f;
                 stateTimer = shootingStateTimer;
                 break;
+
             case State.Shooting:
                 state = State.Cooloff;
-                float coolOffStateTimer = 0.5f;
+                float coolOffStateTimer = 1.7f;
                 stateTimer = coolOffStateTimer;
                 break;
+
             case State.Cooloff:
                 ActionComplete();
                 break;
@@ -143,11 +150,10 @@ public class ShootAction : BaseAction
         targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(gridPosition);
 
         state = State.Aiming;
-        float aimingStateTimer = 1.5f;
+        float aimingStateTimer = 1.0f;
         stateTimer = aimingStateTimer;
-        OnShooting?.Invoke(this, EventArgs.Empty);
         canShootArrow = true;
-
+        OnAiming?.Invoke(this, EventArgs.Empty);
         ActionStart(onActionComplete);
     }
 
@@ -172,12 +178,44 @@ public class ShootAction : BaseAction
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         Unit targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(gridPosition);
+        Vector3 direction = (targetUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
 
-        return new EnemyAIAction
+        if (targetUnit == null)
         {
-            gridPosition = gridPosition,
-            actionValue = 100 + Mathf.RoundToInt((1 - targetUnit.GetHealthSystem().GetHealthNormalized()) * 100f),
-        };
+                            return new EnemyAIAction
+                {
+                    gridPosition = gridPosition,
+                    actionValue = 0,
+                };
+        }
+
+        if(Physics.Raycast(unit.GetWorldPosition(), direction, out RaycastHit hit, 1000f, unit.unitLayer))
+        {
+            if(hit.transform.CompareTag("Enemy"))
+            {
+                return new EnemyAIAction
+                {
+                    gridPosition = gridPosition,
+                    actionValue = 0,
+                };
+            }
+            else
+            {
+                return new EnemyAIAction
+                {
+                    gridPosition = gridPosition,
+                    actionValue = 100 + Mathf.RoundToInt((1 - targetUnit.GetHealthSystem().GetHealthNormalized()) * 100f),
+                };
+            }
+        }
+        else
+        {
+            return new EnemyAIAction
+            {
+                gridPosition = gridPosition,
+                actionValue = 100 + Mathf.RoundToInt((1 - targetUnit.GetHealthSystem().GetHealthNormalized()) * 100f),
+            };
+        }
     }
 
     public int GetTargetCountAtPosition(GridPosition gridPosition)
