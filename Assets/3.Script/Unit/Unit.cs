@@ -8,12 +8,17 @@ public class Unit : MonoBehaviour
     private GridPosition gridPosition;
     private MoveAction moveAction;
     private SpinAction spinAction;
+    private ShootAction shootAction;
     private BaseAction[] baseActionArray;
     private HealthSystem healthSystem;
 
+    //EventHandler==========================================
     public static event EventHandler OnAnyActionPointsChanged;
     public event EventHandler OnDamage;
     public event EventHandler OnDie;
+    public static event EventHandler OnAnyUnitSpawned;
+    public static event EventHandler OnAnyUnitDead;
+    //======================================================
 
     [Header("isEnemy")]
     [SerializeField] private bool isEnemy;
@@ -33,6 +38,7 @@ public class Unit : MonoBehaviour
     {
         TryGetComponent(out moveAction);
         TryGetComponent(out spinAction);
+        TryGetComponent(out shootAction);
         TryGetComponent(out healthSystem);
         baseActionArray = GetComponents<BaseAction>();
         uiObject = GameObject.FindGameObjectWithTag("UI");
@@ -46,6 +52,7 @@ public class Unit : MonoBehaviour
 
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         healthSystem.OnDead += HealthSystem_OnDead;
+        OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
     }
 
 
@@ -74,6 +81,11 @@ public class Unit : MonoBehaviour
     public SpinAction GetSpinAction()
     {
         return spinAction;
+    }
+
+    public ShootAction GetShootAction()
+    {
+        return shootAction;
     }
 
     public GridPosition GetGridPostion()
@@ -155,5 +167,7 @@ public class Unit : MonoBehaviour
         LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
         OnDie?.Invoke(this, EventArgs.Empty);
         Destroy(gameObject, 4f);
+
+        OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
     }
 }
