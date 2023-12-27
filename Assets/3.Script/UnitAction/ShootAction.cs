@@ -88,18 +88,23 @@ public class ShootAction : BaseAction
         return "Shoot";
     }
 
+
     public override List<GridPosition> GetValidGridPostionList()
     {
-        List<GridPosition> validGridPostionList = new List<GridPosition>();
-
         GridPosition unitGridPosition = unit.GetGridPostion();
+        return GetValidGridPostionList(unitGridPosition);
+    }
+
+    public List<GridPosition> GetValidGridPostionList(GridPosition gridPosition)
+    {
+        List<GridPosition> validGridPostionList = new List<GridPosition>();
 
         for (int x = -maxShootDistance; x <= maxShootDistance; x++)
         {
             for (int z = -maxShootDistance; z <= maxShootDistance; z++)
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
-                GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
+                GridPosition testGridPosition = gridPosition + offsetGridPosition;
                 if (!LevelGrid.Instance.isValidGridPosition(testGridPosition))
                 {
                     //그리드 안에서만 움직이게끔
@@ -163,4 +168,21 @@ public class ShootAction : BaseAction
     {
         return maxShootDistance;
     }
+
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    {
+        Unit targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(gridPosition);
+
+        return new EnemyAIAction
+        {
+            gridPosition = gridPosition,
+            actionValue = 100 + Mathf.RoundToInt((1 - targetUnit.GetHealthSystem().GetHealthNormalized()) * 100f),
+        };
+    }
+
+    public int GetTargetCountAtPosition(GridPosition gridPosition)
+    {
+        return GetValidGridPostionList(gridPosition).Count;
+    }
+
 }

@@ -13,7 +13,7 @@ public class EnemyAI : MonoBehaviour
     }
 
 
-    private State state;
+    [SerializeField] private State state;
     private float timer;
 
     private void Awake()
@@ -71,8 +71,6 @@ public class EnemyAI : MonoBehaviour
 
     private bool TryTakeEnemyAIAciton(Action OnEnemyAIActionComplete)
     {
-        Debug.Log("Take Enemy AI Action!");
-
         foreach(Unit enemyUnit in UnitManager.Instance.GetEnemyUnitList())
         {
             if(TryTakeEnemyAIAciton(enemyUnit, OnEnemyAIActionComplete))
@@ -85,15 +83,44 @@ public class EnemyAI : MonoBehaviour
 
     private bool TryTakeEnemyAIAciton(Unit enemyUnit, Action OnEnemyAIActionComplete)
     {
-        SpinAction spinAction = enemyUnit.GetSpinAction();
+        EnemyAIAction bestEnemyAiAction = null;
+        BaseAction bestBaseAction = null;
 
-        GridPosition actionGridPosition = enemyUnit.GetGridPostion();
-        if (!spinAction.isValidActionGridPosition(actionGridPosition)) return false;
+        foreach(BaseAction baseAction in enemyUnit.GetBaseActionsArray())
+        {
+            if(!enemyUnit.CanSpendActionPointsToTakeAction(baseAction))
+            {
+                Debug.Log(baseAction + "할 수 있는 코스트가 없다.");
+                //적이 해당 액션을 할 코스트가 없을 경우
+                continue;
+            }
 
-        if (!enemyUnit.TrySpendActionPointsToTakeAction(spinAction)) return false;
+            if(bestEnemyAiAction == null)
+            {
+                bestEnemyAiAction = baseAction.GetBestEnemyAIAction();
+                bestBaseAction = baseAction;
+            }
 
-        Debug.Log(enemyUnit + "Spin Aciton!");
-        spinAction.TakeAction(actionGridPosition, OnEnemyAIActionComplete);
-        return true;
+            else
+            {
+                EnemyAIAction testEnemyAIAction = baseAction.GetBestEnemyAIAction();
+                if(testEnemyAIAction != null && testEnemyAIAction.actionValue > bestEnemyAiAction.actionValue)
+                {
+                    bestEnemyAiAction = testEnemyAIAction;
+                    bestBaseAction = baseAction;
+                }
+            }
+        }
+
+        if(bestEnemyAiAction != null && enemyUnit.TrySpendActionPointsToTakeAction(bestBaseAction))
+        {
+            bestBaseAction.TakeAction(bestEnemyAiAction.gridPosition, OnEnemyAIActionComplete);
+            return true;
+        }
+        else
+        {
+            Debug.Log("할 수 있는 Action이 없다.");
+            return false;
+        }
     }
 }
