@@ -151,6 +151,18 @@ public class MoveAction : BaseAction
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         int targetCountAtGridPosition = unit.GetAction<ShootAction>().GetTargetCountAtPosition(gridPosition);
+        if(targetCountAtGridPosition <= 0)
+        {
+            List<Unit> targetUnitList = UnitManager.Instance.GetFriendlyUnitList();
+            Unit targetUnit = targetUnitList[0];
+            GridPosition targetGridPosition = targetUnit.GetGridPostion();
+
+            List<GridPosition> gridPositionList = Pathfinding.Instance.FindPath(gridPosition, targetGridPosition, out int pathLength);
+        }
+
+
+        
+
 
         return new EnemyAIAction
         {
