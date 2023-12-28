@@ -116,7 +116,7 @@ public class UnitActionSystem : MonoBehaviour
     {
         if (isBusy) return;
         selectUnit = unit;
-        SetSelectAction(unit.GetMoveAction());
+        SetSelectAction(unit.GetAction<MoveAction>());
         ChangeUI();
         OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
     }

@@ -6,9 +6,6 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     private GridPosition gridPosition;
-    private MoveAction moveAction;
-    private SpinAction spinAction;
-    private ShootAction shootAction;
     private BaseAction[] baseActionArray;
     private HealthSystem healthSystem;
 
@@ -40,9 +37,6 @@ public class Unit : MonoBehaviour
 
     private void Awake()
     {
-        TryGetComponent(out moveAction);
-        TryGetComponent(out spinAction);
-        TryGetComponent(out shootAction);
         TryGetComponent(out healthSystem);
         baseActionArray = GetComponents<BaseAction>();
         uiObject = GameObject.FindGameObjectWithTag("UI");
@@ -77,19 +71,17 @@ public class Unit : MonoBehaviour
         return uiObject;
     }    
 
-    public MoveAction GetMoveAction()
-    {
-        return moveAction;
-    }
 
-    public SpinAction GetSpinAction()
+    public T GetAction<T>() where T : BaseAction
     {
-        return spinAction;
-    }
-
-    public ShootAction GetShootAction()
-    {
-        return shootAction;
+        foreach(BaseAction baseAction in baseActionArray)
+        {
+            if(baseAction is T)
+            {
+                return (T)baseAction;
+            }
+        }
+        return null;
     }
 
     public GridPosition GetGridPostion()
