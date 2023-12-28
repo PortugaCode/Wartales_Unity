@@ -11,11 +11,12 @@ public class MoveAction : BaseAction
 
     [Header("Target Position")]
     [SerializeField] private List<Vector3> positionList;
+    private int currentPositionIndex;
 
     [Header("Movefloat")]
     [SerializeField] private float speed = 4f;
     [SerializeField] private float rotationSpeed = 8f;
-    private float stopDistance = .1f;
+    private float stopDistance = .05f;
 
     [Header("MaxMoveDistance")]
     [SerializeField] private int maxMoveDistance = 4;
@@ -27,6 +28,9 @@ public class MoveAction : BaseAction
     private void Update()
     {
         if (!isActive) return;
+
+        Vector3 targetPosition = positionList[currentPositionIndex];
+
         Vector3 moveDirection = (targetPosition - transform.position).normalized;
 
         if (Vector3.Distance(transform.position, targetPosition) > stopDistance)
@@ -35,8 +39,12 @@ public class MoveAction : BaseAction
         }
         else
         {
-            ActionComplete();
-            OnStopMoving?.Invoke(this, EventArgs.Empty);
+            currentPositionIndex++;
+            if(currentPositionIndex >= positionList.Count)
+            {
+                OnStopMoving?.Invoke(this, EventArgs.Empty);
+                ActionComplete();
+            }
         }
 
         transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationSpeed * Time.deltaTime);
@@ -44,7 +52,18 @@ public class MoveAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
-        targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+        List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(unit.GetGridPostion(), gridPosition, out int pathLegth);
+
+
+        currentPositionIndex = 0;
+        positionList = new List<Vector3>();
+
+        foreach(GridPosition pathGridPosition in pathGridPositionList)
+        {
+            positionList.Add(LevelGrid.Instance.GetWorldPosition(pathGridPosition));
+        }
+
+
         OnStartMoving?.Invoke(this, EventArgs.Empty);
         ActionStart(onActionComplete);
     }
@@ -62,19 +81,45 @@ public class MoveAction : BaseAction
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
                 GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
+
                 if(!LevelGrid.Instance.isValidGridPosition(testGridPosition))
                 {
                     //해당 unit의 최대 거리만큼만 움직이게
                     continue;
                 }
-                if(unitGridPosition == testGridPosition)
+
+                int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
+                if (testDistance > maxMoveDistance)
+                {
+                    continue;
+                }
+
+                if (unitGridPosition == testGridPosition)
                 {
                     //자신의 그리드는 제외한다.
                     continue;
                 }
+
                 if(LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
                 {
                     //해당 위치 그리드에 Unit이 있다면?
+                    continue;
+                }
+
+                if(!Pathfinding.Instance.IsWalkableGridPosition(testGridPosition))
+                {
+                    continue;
+                }
+
+                if(!Pathfinding.Instance.HasPath(unitGridPosition, testGridPosition))
+                {
+                    continue;
+                }
+
+                int pathFindingDistanceMulti = 10;
+                if(Pathfinding.Instance.PathLength(unitGridPosition, testGridPosition) > maxMoveDistance * pathFindingDistanceMulti)
+                {
+                    //해당 위치가 maxMoveDistance보다 더 많이 움직여야 한다면?
                     continue;
                 }
 

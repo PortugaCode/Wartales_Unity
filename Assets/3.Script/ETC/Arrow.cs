@@ -8,6 +8,14 @@ public class Arrow : MonoBehaviour
     public Unit target;
     public int damage;
 
+    [SerializeField] private LayerMask arrow;
+    [SerializeField] private LayerMask wall;
+
+    private void Awake()
+    {
+        Physics.IgnoreLayerCollision(arrow, wall, true);
+    }
+
     private void Start()
     {
         transform.transform.LookAt(target.GetWorldPosition() + new Vector3(0f, 1.2f, 0f));
@@ -30,11 +38,9 @@ public class Arrow : MonoBehaviour
             EffectSystem.Instance.hitEffect.Play();
             Destroy(gameObject);
         }
-        else if(collision.collider)
+        else
         {
-            rb.velocity = Vector3.zero;
-            rb.constraints = RigidbodyConstraints.FreezeAll;
-            Destroy(gameObject, 2f);
+            Destroy(gameObject, 5f);
         }
     }
 }

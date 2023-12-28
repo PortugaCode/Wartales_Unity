@@ -73,7 +73,7 @@ public class Pathfinding : MonoBehaviour
     }
 
 
-    public List<GridPosition> FindPath(GridPosition startGridPosition, GridPosition endGridPosition)
+    public List<GridPosition> FindPath(GridPosition startGridPosition, GridPosition endGridPosition, out int pathLegth)
     {
         SetWalkablePathNode();
         List<PathNode> openList = new List<PathNode>();
@@ -108,6 +108,7 @@ public class Pathfinding : MonoBehaviour
             if(currentNode == endNode)
             {
                 //마지막 노드 찾음
+                pathLegth = endNode.GetFCost();
                 return CalculatePath(endNode);
             }
 
@@ -146,6 +147,7 @@ public class Pathfinding : MonoBehaviour
                 }
             }
         }
+        pathLegth = 0;
         return null;
     }
 
@@ -241,14 +243,21 @@ public class Pathfinding : MonoBehaviour
 
     public int CalculateDistance(GridPosition gridPositionA, GridPosition gridPositionB)
     {
+        #region [휴리스틱 계산법]
+        //휴리스틱 계산 방법
         GridPosition gridPositionDistance = gridPositionA - gridPositionB;
-        int distance = Mathf.Abs(gridPositionDistance.x) + Mathf.Abs(gridPositionDistance.z);
+        //int distance = Mathf.Abs(gridPositionDistance.x) + Mathf.Abs(gridPositionDistance.z);
+
 
         int xDistance = Mathf.Abs(gridPositionDistance.x);
         int zDistance = Mathf.Abs(gridPositionDistance.z);
         int remaining = Math.Abs(xDistance - zDistance);
 
+        // HCost = MOVE_DIAGONAL_COST * Mathf.Min(xDistance, zDistance) + MOVE_STRAIGHT_COST * remaining
+        #endregion
+
         return MOVE_DIAGONAL_COST * Mathf.Min(xDistance, zDistance) + MOVE_STRAIGHT_COST * remaining;
+
     }
 
     private PathNode GetLowestFCostPathNode(List<PathNode> pathNodeList)
@@ -264,4 +273,24 @@ public class Pathfinding : MonoBehaviour
         return lowestFCostPathNode;
     }
 
+    public bool IsWalkableGridPosition(GridPosition gridPosition)
+    {
+        return gridSystem.GetGridObjectArray(gridPosition).IsWalkable();
+    }
+
+    public bool HasPath(GridPosition startGridPosition, GridPosition endGridPosition)
+    {
+        return FindPath(startGridPosition, endGridPosition, out int pathLegth) != null;
+    }
+
+    public int PathLength(GridPosition startGridPosition, GridPosition endGridPosition)
+    {
+        FindPath(startGridPosition, endGridPosition, out int pathLegth);
+        return pathLegth;
+    }
+
+    public LayerMask GetCannotWalkLayerMasks()
+    {
+        return cannotWalkLayerMasks;
+    }
 }

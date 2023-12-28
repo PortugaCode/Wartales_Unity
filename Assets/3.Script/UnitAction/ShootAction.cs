@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -102,16 +101,17 @@ public class ShootAction : BaseAction
         return GetValidGridPostionList(unitGridPosition);
     }
 
-    public List<GridPosition> GetValidGridPostionList(GridPosition gridPosition)
+    public List<GridPosition> GetValidGridPostionList(GridPosition unitGridPosition)
     {
         List<GridPosition> validGridPostionList = new List<GridPosition>();
+
 
         for (int x = -maxShootDistance; x <= maxShootDistance; x++)
         {
             for (int z = -maxShootDistance; z <= maxShootDistance; z++)
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
-                GridPosition testGridPosition = gridPosition + offsetGridPosition;
+                GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
                 if (!LevelGrid.Instance.isValidGridPosition(testGridPosition))
                 {
                     //그리드 안에서만 움직이게끔
@@ -135,6 +135,18 @@ public class ShootAction : BaseAction
                 if(targetUnit.IsEnemy() == unit.IsEnemy())
                 {
                     //서로 같은 팀일 경우
+                    continue;
+                }
+
+                Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
+
+                Vector3 shootdir = (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
+                if (Physics.Raycast(unitWorldPosition + (Vector3.up * 1.7f) + (unit.transform.right * 0.5f),
+                                shootdir,
+                                Vector3.Distance(unitWorldPosition, targetUnit.GetWorldPosition()),
+                                Pathfinding.Instance.GetCannotWalkLayerMasks()
+                                ))
+                {
                     continue;
                 }
 
@@ -180,6 +192,14 @@ public class ShootAction : BaseAction
         Unit targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(gridPosition);
         Vector3 direction = (targetUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
 
+        return new EnemyAIAction
+        {
+            gridPosition = gridPosition,
+            actionValue = 100 + Mathf.RoundToInt((1 - targetUnit.GetHealthSystem().GetHealthNormalized()) * 100f),
+        };
+
+        #region
+        /*
         if (targetUnit == null)
         {
                 return new EnemyAIAction
@@ -189,33 +209,27 @@ public class ShootAction : BaseAction
                 };
         }
 
-        if(Physics.Raycast(unit.GetWorldPosition(), direction, out RaycastHit hit, 1000f, unit.unitLayer))
-        {
-            if(hit.transform.CompareTag("Enemy"))
-            {
-                return new EnemyAIAction
+                if(Physics.Raycast(unit.GetWorldPosition(), direction, out RaycastHit hit, 1000f, unit.unitLayer))
                 {
-                    gridPosition = gridPosition,
-                    actionValue = 0,
-                };
-            }
-            else
-            {
-                return new EnemyAIAction
-                {
-                    gridPosition = gridPosition,
-                    actionValue = 100 + Mathf.RoundToInt((1 - targetUnit.GetHealthSystem().GetHealthNormalized()) * 100f),
-                };
-            }
-        }
-        else
-        {
-            return new EnemyAIAction
-            {
-                gridPosition = gridPosition,
-                actionValue = 100 + Mathf.RoundToInt((1 - targetUnit.GetHealthSystem().GetHealthNormalized()) * 100f),
-            };
-        }
+                    if(hit.transform.CompareTag("Enemy"))
+                    {
+                        return new EnemyAIAction
+                        {
+                            gridPosition = gridPosition,
+                            actionValue = 0,
+                        };
+                    }
+                    else
+                    {
+                        return new EnemyAIAction
+                        {
+                            gridPosition = gridPosition,
+                            actionValue = 100 + Mathf.RoundToInt((1 - targetUnit.GetHealthSystem().GetHealthNormalized()) * 100f),
+                        };
+                    }
+                }*/
+        #endregion
+
     }
 
     public int GetTargetCountAtPosition(GridPosition gridPosition)
