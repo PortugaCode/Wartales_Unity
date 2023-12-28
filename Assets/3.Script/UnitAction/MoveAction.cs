@@ -157,7 +157,7 @@ public class MoveAction : BaseAction
             Unit targetUnit = targetUnitList[0];
             GridPosition targetGridPosition = targetUnit.GetGridPostion();
 
-            List<GridPosition> gridPositionList = Pathfinding.Instance.FindPath(gridPosition, targetGridPosition, out int pathLength);
+            int targetPathLengh = Pathfinding.Instance.PathLength(gridPosition, targetGridPosition);
         }
 
 
