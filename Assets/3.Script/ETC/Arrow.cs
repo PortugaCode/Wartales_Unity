@@ -30,5 +30,11 @@ public class Arrow : MonoBehaviour
             EffectSystem.Instance.hitEffect.Play();
             Destroy(gameObject);
         }
+        else if(collision.collider)
+        {
+            rb.velocity = Vector3.zero;
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+            Destroy(gameObject, 2f);
+        }
     }
 }

@@ -10,7 +10,7 @@ public class MoveAction : BaseAction
     public event EventHandler OnStopMoving;
 
     [Header("Target Position")]
-    [SerializeField] private Vector3 targetPosition;
+    [SerializeField] private List<Vector3> positionList;
 
     [Header("Movefloat")]
     [SerializeField] private float speed = 4f;
@@ -23,11 +23,6 @@ public class MoveAction : BaseAction
     [Header("Image")]
     public Sprite sprite;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        targetPosition = transform.position;
-    }
 
     private void Update()
     {
