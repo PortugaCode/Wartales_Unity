@@ -127,7 +127,7 @@ public class Unit : MonoBehaviour
         else return false;
     }
 
-    private void SpendAcionPoint(int amount)
+    public void SpendAcionPoint(int amount)
     {
         actionPoints -= amount;
 

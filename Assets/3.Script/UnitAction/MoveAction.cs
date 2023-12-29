@@ -24,7 +24,8 @@ public class MoveAction : BaseAction
     [Header("Image")]
     public Sprite sprite;
 
-    Unit targetUnit;
+    private Unit targetUnit;
+    private bool isNowNodeisMaxDistance = false;
     private void Update()
     {
         if (!isActive) return;
@@ -182,7 +183,11 @@ public class MoveAction : BaseAction
                 int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
                 if (testDistance == maxShootDistance)
                 {
-                    return 1;
+                    if(testGridPosition == unit.GetGridPostion())
+                    {
+                        isNowNodeisMaxDistance = true;
+                    }
+                    return 5;
                 }
             }
         }
@@ -222,11 +227,17 @@ public class MoveAction : BaseAction
 
             Debug.Log($"{unit.name}의 가까운 적" + targetUnit);
 
-            ShooterMoveToMaxDistance(maxShootDistance, gridPosition);
+            calculateActionValue += ShooterMoveToMaxDistance(maxShootDistance, gridPosition);
 
-            calculateActionValue = CalculateValue(calculateActionValue, gridPosition);
+            calculateActionValue += CalculateValue(calculateActionValue, gridPosition);
 
             Debug.Log($"{gridPosition} : actionValue = {targetCountAtGridPosition * 10 + calculateActionValue}");
+
+            if(isNowNodeisMaxDistance && unit.GetActionPoints() <= GetActionPointCost())
+            {
+                isNowNodeisMaxDistance = false;
+                unit.SpendAcionPoint(GetActionPointCost());
+            }
 
             return new EnemyAIAction
             {
