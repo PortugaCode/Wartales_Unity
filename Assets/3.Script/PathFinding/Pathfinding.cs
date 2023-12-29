@@ -49,6 +49,7 @@ public class Pathfinding : MonoBehaviour
         cannotWalkLayerMasks = obstaclesLayerMask | unitLayerMask;
 
         SetWalkablePathNode();
+        SetWalkablePathNode_Obstacles();
     }
 
     private void SetWalkablePathNode()
@@ -64,7 +65,7 @@ public class Pathfinding : MonoBehaviour
 
                 if (Physics.Raycast(worldPosition + Vector3.down * raycastOffsetDistance,
                                 Vector3.up, raycastOffsetDistance * 2f,
-                                obstaclesLayerMask))
+                                cannotWalkLayerMasks))
                 {
                     GetNode(x, z).SetWalkable(false);
                 }
@@ -72,11 +73,32 @@ public class Pathfinding : MonoBehaviour
         }
     }
 
+    private void SetWalkablePathNode_Obstacles()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int z = 0; z < height; z++)
+            {
+                GetNode(x, z).SetWalkable_ObstaclesLayerMask(true);
+                GridPosition gridPosition = new GridPosition(x, z);
+                Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+                float raycastOffsetDistance = 5.0f;
+
+                if (Physics.Raycast(worldPosition + Vector3.down * raycastOffsetDistance,
+                                Vector3.up, raycastOffsetDistance * 2f,
+                                obstaclesLayerMask))
+                {
+                    GetNode(x, z).SetWalkable_ObstaclesLayerMask(false);
+                }
+            }
+        }
+    }
 
 
     public List<GridPosition> FindPath(GridPosition startGridPosition, GridPosition endGridPosition, out int pathLegth)
     {
         SetWalkablePathNode();
+        SetWalkablePathNode_Obstacles();
         List<PathNode> openList = new List<PathNode>();
         List<PathNode> closedList = new List<PathNode>();
 
@@ -162,8 +184,10 @@ public class Pathfinding : MonoBehaviour
         GridPosition CurNodeGridPosition = curnode.GetGridPosition();
         GridPosition NeighbourNodeGridPosition = neighbourNode.GetGridPosition();
 
-        if (!GetNode(CurNodeGridPosition.x, NeighbourNodeGridPosition.z).IsWalkable()) return false;
-        if (!GetNode(NeighbourNodeGridPosition.x, CurNodeGridPosition.z).IsWalkable()) return false;
+        if (!GetNode(CurNodeGridPosition.x, NeighbourNodeGridPosition.z).IsWalkable_ObstaclesLayerMask()) return false;
+
+        if (!GetNode(NeighbourNodeGridPosition.x, CurNodeGridPosition.z).IsWalkable_ObstaclesLayerMask()) return false;
+
 
 
         return true;

@@ -13,6 +13,7 @@ public class PathNode
     private PathNode cameFromPathNode;
 
     private bool isWalkable = true;
+    private bool isWalkable_ObstaclesLayerMask = true;
 
 
     public PathNode(GridPosition gridPosition)
@@ -33,6 +34,16 @@ public class PathNode
     public void SetWalkable(bool isWalkable)
     {
         this.isWalkable = isWalkable;
+    }
+
+    public bool IsWalkable_ObstaclesLayerMask()
+    {
+        return isWalkable_ObstaclesLayerMask;
+    }
+
+    public void SetWalkable_ObstaclesLayerMask(bool isWalkable)
+    {
+        this.isWalkable_ObstaclesLayerMask = isWalkable;
     }
 
 
