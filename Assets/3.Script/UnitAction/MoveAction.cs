@@ -26,6 +26,9 @@ public class MoveAction : BaseAction
 
     private Unit targetUnit;
     private bool isNowNodeisMaxDistance = false;
+
+
+
     private void Update()
     {
         if (!isActive) return;
@@ -135,10 +138,6 @@ public class MoveAction : BaseAction
         return base.GetActionPointCost();
     }
 
-
-
-
-
     public override string GetActionName()
     {
         return "Move";
@@ -223,16 +222,14 @@ public class MoveAction : BaseAction
             float distance = float.MaxValue;
             int maxShootDistance = unit.GetAction<ShootAction>().GetMaxShootDistance();
 
-            FindNearestUnit(distance, targetUnitList);
+            FindNearestUnit(distance, targetUnitList); //가장 가까운 적은 지정
 
-            Debug.Log($"{unit.name}의 가까운 적" + targetUnit);
+            calculateActionValue += ShooterMoveToMaxDistance(maxShootDistance, gridPosition); // 슛 거리 닿는 지역 중 가장 타겟과 먼 쪽으로 이동
 
-            calculateActionValue += ShooterMoveToMaxDistance(maxShootDistance, gridPosition);
+            calculateActionValue += CalculateValue(calculateActionValue, gridPosition); // 이동할 때 타깃한테 가는 최단 루트로 이동 (A*)
 
-            calculateActionValue += CalculateValue(calculateActionValue, gridPosition);
 
-            Debug.Log($"{gridPosition} : actionValue = {targetCountAtGridPosition * 10 + calculateActionValue}");
-
+            //만약 현재 위치가 슛 비거리 가장 먼 위치라면?
             if(isNowNodeisMaxDistance && unit.GetActionPoints() <= GetActionPointCost())
             {
                 isNowNodeisMaxDistance = false;

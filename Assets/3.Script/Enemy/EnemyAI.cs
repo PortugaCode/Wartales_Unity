@@ -16,6 +16,11 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private State state;
     [SerializeField] private float timer;
 
+    [SerializeField] private Transform cameraTarget;
+    [SerializeField] private Unit target;
+    private Vector3 offset;
+    private Vector3 currentVelocity = Vector3.zero;
+
     private void Awake()
     {
         state = State.WaitingforEnemyTurn;
@@ -30,7 +35,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (TurnSystem.Instance.IsPlayerTurn()) return;
 
-        switch(state)
+        switch (state)
         {
             case State.WaitingforEnemyTurn:
                 break;
@@ -38,19 +43,29 @@ public class EnemyAI : MonoBehaviour
                 timer -= Time.deltaTime;
                 if (timer <= 0f)
                 {
-                    if(TryTakeEnemyAIAciton(SetStateTakingTurn))
+                    if (TryTakeEnemyAIAciton(SetStateTakingTurn))
                     {
                         state = State.Busy;
                     }
                     else
                     {
                         // 적이 코스트가 더이상 없을 때
+                        target = null;
                         TurnSystem.Instance.NextTurn();
                     }
                 }
                 break;
             case State.Busy:
                 break;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (target != null)
+        {
+            Vector3 targetposition = target.GetWorldPosition() + offset;
+            cameraTarget.position = Vector3.SmoothDamp(cameraTarget.position, targetposition, ref currentVelocity, 0.25f);
         }
     }
 
@@ -75,6 +90,9 @@ public class EnemyAI : MonoBehaviour
         {
             if(TryTakeEnemyAIAciton(enemyUnit, OnEnemyAIActionComplete))
             {
+                target = enemyUnit;
+                Vector3 targetPosition = target.GetWorldPosition();
+                offset = targetPosition - target.GetWorldPosition();
                 return true;
             }
         }
