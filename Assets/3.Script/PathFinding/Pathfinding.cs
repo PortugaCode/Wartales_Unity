@@ -64,13 +64,14 @@ public class Pathfinding : MonoBehaviour
 
                 if (Physics.Raycast(worldPosition + Vector3.down * raycastOffsetDistance,
                                 Vector3.up, raycastOffsetDistance * 2f,
-                                cannotWalkLayerMasks))
+                                obstaclesLayerMask))
                 {
                     GetNode(x, z).SetWalkable(false);
                 }
             }
         }
     }
+
 
 
     public List<GridPosition> FindPath(GridPosition startGridPosition, GridPosition endGridPosition, out int pathLegth)
@@ -128,6 +129,11 @@ public class Pathfinding : MonoBehaviour
                     continue;
                 }
 
+                if (!DiagonalWalkable(currentNode, neighbourNode))
+                {
+                    continue;
+                }
+
                 int tentativeGCost = 
                     currentNode.GetGCost() 
                     + CalculateDistance(currentNode.GetGridPosition(),
@@ -149,6 +155,18 @@ public class Pathfinding : MonoBehaviour
         }
         pathLegth = 0;
         return null;
+    }
+
+    private bool DiagonalWalkable(PathNode curnode, PathNode neighbourNode)
+    {
+        GridPosition CurNodeGridPosition = curnode.GetGridPosition();
+        GridPosition NeighbourNodeGridPosition = neighbourNode.GetGridPosition();
+
+        if (!GetNode(CurNodeGridPosition.x, NeighbourNodeGridPosition.z).IsWalkable()) return false;
+        if (!GetNode(NeighbourNodeGridPosition.x, CurNodeGridPosition.z).IsWalkable()) return false;
+
+
+        return true;
     }
 
     private List<GridPosition> CalculatePath(PathNode endNode)

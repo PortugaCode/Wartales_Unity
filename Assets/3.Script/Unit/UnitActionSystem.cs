@@ -40,7 +40,7 @@ public class UnitActionSystem : MonoBehaviour
     }
     private void Start()
     {
-        selectUnit = FindObjectOfType<Unit>();
+        selectUnit = FindObjectOfType<IsPlayerUnit>().GetComponent<Unit>();
         SetSelectUnit(selectUnit);
         ChangeUI();
     }
