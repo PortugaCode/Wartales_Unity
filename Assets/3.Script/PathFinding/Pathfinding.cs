@@ -232,7 +232,6 @@ public class Pathfinding : MonoBehaviour
             neighbourList.Add(GetNode(gridPosition.x + 0, gridPosition.z - 1));
         }
 
-
         return neighbourList;
     }
 
@@ -288,6 +287,7 @@ public class Pathfinding : MonoBehaviour
         FindPath(startGridPosition, endGridPosition, out int pathLegth);
         return pathLegth;
     }
+
 
     public LayerMask GetCannotWalkLayerMasks()
     {

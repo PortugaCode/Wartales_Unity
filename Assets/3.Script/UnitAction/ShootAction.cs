@@ -141,7 +141,7 @@ public class ShootAction : BaseAction
                 Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
 
                 Vector3 shootdir = (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
-                if (Physics.Raycast(unitWorldPosition + (Vector3.up * 1.7f) + (unit.transform.right * 0.5f),
+                if (Physics.Raycast(unitWorldPosition + (Vector3.up * 1.7f),
                                 shootdir,
                                 Vector3.Distance(unitWorldPosition, targetUnit.GetWorldPosition()),
                                 Pathfinding.Instance.GetCannotWalkLayerMasks()
@@ -190,12 +190,13 @@ public class ShootAction : BaseAction
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         Unit targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(gridPosition);
-        Vector3 direction = (targetUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
+
+        Debug.Log($"슈팅!!! 해당 지역 {gridPosition} / actionValue {200 + Mathf.RoundToInt((1 - targetUnit.GetHealthSystem().GetHealthNormalized()) * 100f)} ");
 
         return new EnemyAIAction
         {
             gridPosition = gridPosition,
-            actionValue = 100 + Mathf.RoundToInt((1 - targetUnit.GetHealthSystem().GetHealthNormalized()) * 100f),
+            actionValue = 200 + Mathf.RoundToInt((1 - targetUnit.GetHealthSystem().GetHealthNormalized()) * 100f),
         };
 
         #region

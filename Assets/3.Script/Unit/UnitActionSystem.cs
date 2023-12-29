@@ -40,6 +40,7 @@ public class UnitActionSystem : MonoBehaviour
     }
     private void Start()
     {
+        selectUnit = FindObjectOfType<Unit>();
         SetSelectUnit(selectUnit);
         ChangeUI();
     }

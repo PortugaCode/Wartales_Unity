@@ -90,7 +90,6 @@ public class EnemyAI : MonoBehaviour
         {
             if(!enemyUnit.CanSpendActionPointsToTakeAction(baseAction))
             {
-                Debug.Log(baseAction + "할 수 있는 코스트가 없다.");
                 //적이 해당 액션을 할 코스트가 없을 경우
                 continue;
             }
@@ -119,7 +118,6 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            Debug.Log("할 수 있는 Action이 없다.");
             return false;
         }
     }

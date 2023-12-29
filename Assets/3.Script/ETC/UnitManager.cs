@@ -8,8 +8,8 @@ public class UnitManager : MonoBehaviour
     public static UnitManager Instance = null;
 
     private List<Unit> unitList;
-    private List<Unit> friendlyUnitList;
-    private List<Unit> enemyUnitList;
+    [SerializeField] private List<Unit> friendlyUnitList;
+    [SerializeField] private List<Unit> enemyUnitList;
 
 
     private void Awake()

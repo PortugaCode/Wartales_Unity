@@ -24,7 +24,7 @@ public class MoveAction : BaseAction
     [Header("Image")]
     public Sprite sprite;
 
-
+    Unit targetUnit;
     private void Update()
     {
         if (!isActive) return;
@@ -150,24 +150,80 @@ public class MoveAction : BaseAction
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
-        int targetCountAtGridPosition = unit.GetAction<ShootAction>().GetTargetCountAtPosition(gridPosition);
-        if(targetCountAtGridPosition <= 0)
+        if(unit.isAchor)
         {
+            int targetCountAtGridPosition = unit.GetAction<ShootAction>().GetTargetCountAtPosition(gridPosition);
+            int calculateActionValue = 0;
             List<Unit> targetUnitList = UnitManager.Instance.GetFriendlyUnitList();
-            Unit targetUnit = targetUnitList[0];
+            float distance = float.MaxValue;
+            int maxShootDistance = unit.GetAction<ShootAction>().GetMaxShootDistance();
+
+            if(targetUnit == null)
+            {
+                foreach (Unit target in targetUnitList)
+                {
+                    if (!target.IsEnemy())
+                    {
+                        if (Vector3.Distance(unit.GetWorldPosition(), target.GetWorldPosition()) < distance)
+                        {
+                            distance = Vector3.Distance(unit.GetWorldPosition(), target.GetWorldPosition());
+                            targetUnit = target;
+                        }
+                    }
+                }
+            }
+
+            Debug.Log($"{unit.name}의 가까운 적" + targetUnit);
+
+            for (int x = -maxShootDistance; x <= maxShootDistance; x++)
+            {
+                for (int z = -maxShootDistance; z <= maxShootDistance; z++)
+                {
+                    GridPosition offsetGridPosition = new GridPosition(x, z);
+                    GridPosition testGridPosition = gridPosition + offsetGridPosition;
+                    if (!LevelGrid.Instance.isValidGridPosition(testGridPosition))
+                    {
+                        //그리드 안에서만 움직이게끔
+                        continue;
+                    }
+                    int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
+                    if (testDistance == maxShootDistance)
+                    {
+                        calculateActionValue += 1;
+                    }
+                }
+            }
+
+
+
             GridPosition targetGridPosition = targetUnit.GetGridPostion();
 
-            int targetPathLengh = Pathfinding.Instance.PathLength(gridPosition, targetGridPosition);
+
+            int baseValue = maxMoveDistance * 10;
+            List<GridPosition> pathLengthList = Pathfinding.Instance.FindPath(targetGridPosition, gridPosition, out int pathLength);
+            calculateActionValue += baseValue - pathLengthList.Count;
+
+            if (calculateActionValue <= 0)
+            {
+                calculateActionValue = 0;
+            }
+
+            //Debug.Log($"{gridPosition} : actionValue = {targetCountAtGridPosition * 10 + calculateActionValue}");
+
+            return new EnemyAIAction
+            {
+                gridPosition = gridPosition,
+                actionValue = targetCountAtGridPosition * 10 + calculateActionValue,
+            };
+        }
+        else
+        {
+            return new EnemyAIAction
+            {
+                gridPosition = gridPosition,
+                actionValue = 10,
+            };
         }
 
-
-        
-
-
-        return new EnemyAIAction
-        {
-            gridPosition = gridPosition,
-            actionValue = targetCountAtGridPosition * 10,
-        };
     }
 }
