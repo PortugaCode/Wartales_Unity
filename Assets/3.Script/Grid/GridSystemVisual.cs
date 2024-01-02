@@ -139,6 +139,10 @@ public class GridSystemVisual : MonoBehaviour
 
                 ShowGridPositionRange(selectUnit.GetGridPostion(), shootAction.GetMaxShootDistance(), GridVisualType.RedSoft);
                 break;
+
+            case FireBallAction fireBallAction:
+                gridVisualType = GridVisualType.Red;
+                break;
         }
 
         ShowGridPositionList(selectAction.GetValidGridPostionList(), gridVisualType);

@@ -27,11 +27,14 @@ public class Unit : MonoBehaviour
     [Header("UnitClass")]
     public bool isWarrior;
     public bool isAchor;
+    public bool isWizard;
 
     [Header("LayerMasks")]
     public LayerMask unitLayer;
     public LayerMask wallLayer;
 
+    [HideInInspector]
+    public bool isDie;
 
     private GameObject uiObject;
 
@@ -56,6 +59,8 @@ public class Unit : MonoBehaviour
 
     private void Update()
     {
+        isDie = healthSystem.IsDie;
+
         GridPosition newgridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         if (newgridPosition != gridPosition)
         {
@@ -162,7 +167,6 @@ public class Unit : MonoBehaviour
     {
         LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
         OnDie?.Invoke(this, EventArgs.Empty);
-        ScreenShake.Instance.Shake();
         Destroy(gameObject, 4f);
 
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);

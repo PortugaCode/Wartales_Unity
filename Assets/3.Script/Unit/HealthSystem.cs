@@ -8,6 +8,9 @@ public class HealthSystem : MonoBehaviour
     public event EventHandler OnDead;
 
     private int health;
+    private bool isDie = false;
+    public bool IsDie => isDie;
+
     [Header("MaxHP")]
     [SerializeField] private int Maxhealth = 100;
 
@@ -29,8 +32,9 @@ public class HealthSystem : MonoBehaviour
             health = 0;
         }
 
-        if(health == 0)
+        if(health == 0 && !isDie)
         {
+            isDie = true;
             Die();
         }
     }

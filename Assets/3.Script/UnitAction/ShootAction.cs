@@ -74,7 +74,7 @@ public class ShootAction : BaseAction
 
             case State.Shooting:
                 state = State.Cooloff;
-                float coolOffStateTimer = 1.9f;
+                float coolOffStateTimer = 2.5f;
                 stateTimer = coolOffStateTimer;
                 break;
 
@@ -159,6 +159,7 @@ public class ShootAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
+        if (unit.isDie) return;
         targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(gridPosition);
 
         state = State.Aiming;
@@ -191,7 +192,7 @@ public class ShootAction : BaseAction
     {
         Unit targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(gridPosition);
 
-        Debug.Log($"슈팅!!! 해당 지역 {gridPosition} / actionValue {200 + Mathf.RoundToInt((1 - targetUnit.GetHealthSystem().GetHealthNormalized()) * 100f)} ");
+        //Debug.Log($"슈팅!!! 해당 지역 {gridPosition} / actionValue {200 + Mathf.RoundToInt((1 - targetUnit.GetHealthSystem().GetHealthNormalized()) * 100f)} ");
 
         return new EnemyAIAction
         {

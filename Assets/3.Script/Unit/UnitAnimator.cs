@@ -25,12 +25,20 @@ public class UnitAnimator : MonoBehaviour
             unit.OnDamage += Unit_OnDamage;
             unit.OnDie += Unit_OnDie;
         }
+        if(TryGetComponent<FireBallAction>(out FireBallAction fireBallAction))
+        {
+            fireBallAction.OnShootingFireBall += fireBallAction_OnShootingFireBall;
+        }
     }
 
-
+    private void fireBallAction_OnShootingFireBall(object sender, EventArgs e)
+    {
+        animator.SetTrigger("FireBall");
+    }
 
     private void Unit_OnDie(object sender, EventArgs e)
     {
+        ScreenShake.Instance.Shake();
         animator.SetTrigger("Die");
     }
 

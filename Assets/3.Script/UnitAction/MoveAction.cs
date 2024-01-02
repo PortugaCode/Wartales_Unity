@@ -27,6 +27,14 @@ public class MoveAction : BaseAction
     [SerializeField] private Unit targetUnit;
     private bool isNowNodeisMaxDistance = false;
 
+    private void Update()
+    {
+        if (!isActive) return;
+        Vector3 targetPosition = positionList[currentPositionIndex];
+        Vector3 moveDirection = (targetPosition - transform.position).normalized;
+
+        transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationSpeed * Time.deltaTime);
+    }
 
 
     private void FixedUpdate()
@@ -51,11 +59,11 @@ public class MoveAction : BaseAction
             }
         }
 
-        transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationSpeed * Time.deltaTime);
     }
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
+        if (unit.isDie) return;
         List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(unit.GetGridPostion(), gridPosition, out int pathLegth);
 
 
@@ -177,7 +185,7 @@ public class MoveAction : BaseAction
             {
                 if (pathLengthList.Count >= maxShootDistance)
                 {
-                    Debug.Log($"{gridPosition} 가장 먼 비거리입니다.");
+                    //Debug.Log($"{gridPosition} 가장 먼 비거리입니다.");
                     return 15;
                 }
             }
@@ -236,6 +244,5 @@ public class MoveAction : BaseAction
                 actionValue = 10,
             };
         }
-
     }
 }

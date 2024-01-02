@@ -7,7 +7,10 @@ using UnityEngine.EventSystems;
 public class UnitActionSystem : MonoBehaviour
 {
     public static UnitActionSystem Instance { get; private set; }
-    
+
+    //[범위]
+    [SerializeField] private GameObject range;
+
 
     //[이벤트 핸들러]
     public event EventHandler OnSelectedUnitChanged;
@@ -54,6 +57,16 @@ public class UnitActionSystem : MonoBehaviour
         if (EventSystem.current.IsPointerOverGameObject()) return;
 
         if (TryHandleUnitSelection()) return;
+
+        if(selectedAction == selectUnit.GetAction<FireBallAction>())
+        {
+            range.SetActive(true);
+            range.transform.position = MouseWorld.Instance.GetPoint() + Vector3.up * 0.005f;
+        }
+        else
+        {
+            range.SetActive(false);
+        }
 
         HandleSelectAction();
     }

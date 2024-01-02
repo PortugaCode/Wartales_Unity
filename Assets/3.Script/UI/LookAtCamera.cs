@@ -37,7 +37,7 @@ public class LookAtCamera : MonoBehaviour
         [SerializeField] private Image backGround;
 
 
-        private void LateUpdate()
+        private void FixedUpdate()
         {
             BehindHpBar();
 
