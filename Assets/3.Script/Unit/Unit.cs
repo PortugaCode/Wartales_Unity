@@ -162,6 +162,7 @@ public class Unit : MonoBehaviour
     {
         LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
         OnDie?.Invoke(this, EventArgs.Empty);
+        ScreenShake.Instance.Shake();
         Destroy(gameObject, 4f);
 
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
