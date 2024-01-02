@@ -8,12 +8,9 @@ public class Arrow : MonoBehaviour
     public Unit target;
     public int damage;
 
-    [SerializeField] private LayerMask arrow;
-    [SerializeField] private LayerMask wall;
-
     private void Awake()
     {
-        Physics.IgnoreLayerCollision(arrow, wall, true);
+        Physics.IgnoreLayerCollision(11, 12);
     }
 
     private void Start()

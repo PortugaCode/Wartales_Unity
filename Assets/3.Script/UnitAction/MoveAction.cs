@@ -24,12 +24,12 @@ public class MoveAction : BaseAction
     [Header("Image")]
     public Sprite sprite;
 
-    private Unit targetUnit;
+    [SerializeField] private Unit targetUnit;
     private bool isNowNodeisMaxDistance = false;
 
 
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!isActive) return;
 
@@ -168,30 +168,23 @@ public class MoveAction : BaseAction
 
     private int ShooterMoveToMaxDistance(int maxShootDistance, GridPosition gridPosition)
     {
-        for (int x = -maxShootDistance; x <= maxShootDistance; x++)
+        GridPosition targetGridPosition = targetUnit.GetGridPostion();
+        List<GridPosition> pathLengthList = Pathfinding.Instance.FindPath(targetGridPosition, gridPosition, out int pathLength);
+
+        if (unit.GetAction<ShootAction>().GetTargetCountAtPosition(gridPosition) > 0)
         {
-            for (int z = -maxShootDistance; z <= maxShootDistance; z++)
+            if(pathLengthList != null)
             {
-                GridPosition offsetGridPosition = new GridPosition(x, z);
-                GridPosition testGridPosition = gridPosition + offsetGridPosition;
-                if (!LevelGrid.Instance.isValidGridPosition(testGridPosition))
+                if (pathLengthList.Count >= maxShootDistance)
                 {
-                    //그리드 안에서만 움직이게끔
-                    continue;
-                }
-                int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
-                if (testDistance == maxShootDistance)
-                {
-                    if(testGridPosition == unit.GetGridPostion())
-                    {
-                        isNowNodeisMaxDistance = true;
-                    }
-                    return 5;
+                    Debug.Log($"{gridPosition} 가장 먼 비거리입니다.");
+                    return 15;
                 }
             }
         }
         return 0;
     }
+
 
     private int CalculateValue(int calculateActionValue, GridPosition gridPosition)
     {
@@ -199,7 +192,8 @@ public class MoveAction : BaseAction
         int baseValue = maxMoveDistance * 10;
         List<GridPosition> pathLengthList = Pathfinding.Instance.FindPath(targetGridPosition, gridPosition, out int pathLength);
 
-        if(pathLengthList !=null)
+
+        if (pathLengthList !=null)
         {
             calculateActionValue += baseValue - pathLengthList.Count;
         }
@@ -211,6 +205,7 @@ public class MoveAction : BaseAction
 
         return calculateActionValue;
     }
+
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
@@ -225,16 +220,7 @@ public class MoveAction : BaseAction
             FindNearestUnit(distance, targetUnitList); //가장 가까운 적은 지정
 
             calculateActionValue += ShooterMoveToMaxDistance(maxShootDistance, gridPosition); // 슛 거리 닿는 지역 중 가장 타겟과 먼 쪽으로 이동
-
             calculateActionValue += CalculateValue(calculateActionValue, gridPosition); // 이동할 때 타깃한테 가는 최단 루트로 이동 (A*)
-
-
-            //만약 현재 위치가 슛 비거리 가장 먼 위치라면?
-            if(isNowNodeisMaxDistance && unit.GetActionPoints() <= GetActionPointCost())
-            {
-                isNowNodeisMaxDistance = false;
-                unit.SpendAcionPoint(GetActionPointCost());
-            }
 
             return new EnemyAIAction
             {
