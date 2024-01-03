@@ -81,10 +81,31 @@ public class CamManager : MonoBehaviour
     private void ShowActionCam()
     {
         actionCameraGameObject.SetActive(true);
+        Unit[] units = FindObjectsOfType<Unit>();
+        foreach(Unit unit in units)
+        {
+            unit.UnitUI.SetActive(false);
+        }
     }
+
+/*    private IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(0.7f);
+
+        Unit[] units = FindObjectsOfType<Unit>();
+        foreach (Unit unit in units)
+        {
+            unit.UnitUI.SetActive(true);
+        }
+    }*/
 
     private void HideActionCam()
     {
         actionCameraGameObject.SetActive(false);
+        Unit[] units = FindObjectsOfType<Unit>();
+        foreach (Unit unit in units)
+        {
+            unit.UnitUI.SetActive(true);
+        }
     }
 }

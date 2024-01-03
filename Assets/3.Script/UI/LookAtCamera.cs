@@ -30,14 +30,16 @@ public class LookAtCamera : MonoBehaviour
         }*/
     #endregion
 
+
     [SerializeField] private Transform target;
     [SerializeField] private Vector3 offset;
     [SerializeField] private LayerMask WallLayer;
 
     [SerializeField] private Image foreGround;
     [SerializeField] private Image backGround;
-    [SerializeField] private Image[] classes;
+    [SerializeField] private List<Image> classes;
     [SerializeField] private TextMeshProUGUI textMeshPro;
+
 
 
     private void Update()
@@ -48,23 +50,21 @@ public class LookAtCamera : MonoBehaviour
 
     private void FixedUpdate()
     {
-        BehindHpBar();
-
         transform.position = Camera.main.WorldToScreenPoint(target.position + offset);
     }
 
     private void BehindHpBar()
     {
         Vector3 direction = (target.position - Camera.main.transform.position).normalized;
-        bool isBehind = Vector3.Dot(direction, Camera.main.transform.forward) <= 0.0f;
+        bool isBehind = Vector3.Dot(direction, Camera.main.transform.forward) < 0.0f;
 
         foreGround.enabled = !isBehind;
         backGround.enabled = !isBehind;
-        for (int i = 0; i < classes.Length; i++)
+        for (int i = 0; i < classes.Count; i++)
         {
             classes[i].transform.gameObject.SetActive(!isBehind);
         }
-        textMeshPro.gameObject.SetActive(!isBehind);
+        textMeshPro.gameObject.SetActive(isBehind);
     }
 
     private void BehindWall()
@@ -83,7 +83,7 @@ public class LookAtCamera : MonoBehaviour
 
         foreGround.enabled = !isBehind;
         backGround.enabled = !isBehind;
-        for (int i = 0; i < classes.Length; i++)
+        for (int i = 0; i < classes.Count; i++)
         {
             classes[i].transform.gameObject.SetActive(!isBehind);
         }

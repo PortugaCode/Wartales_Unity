@@ -17,6 +17,9 @@ public class Unit : MonoBehaviour
     public static event EventHandler OnAnyUnitDead;
     //======================================================
 
+    [Header("UnitUI")]
+    public GameObject UnitUI;
+
     [Header("isEnemy")]
     [SerializeField] private bool isEnemy;
 
@@ -28,6 +31,7 @@ public class Unit : MonoBehaviour
     public bool isWarrior;
     public bool isAchor;
     public bool isWizard;
+    public bool isRogue;
 
     [Header("LayerMasks")]
     public LayerMask unitLayer;
@@ -165,9 +169,9 @@ public class Unit : MonoBehaviour
 
     private void HealthSystem_OnDead(object sender, EventArgs e)
     {
+        gameObject.layer = 13;
         LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
         OnDie?.Invoke(this, EventArgs.Empty);
-        gameObject.layer = 13;
         Destroy(gameObject, 4f);
 
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);

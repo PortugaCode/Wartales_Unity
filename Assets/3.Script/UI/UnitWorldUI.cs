@@ -15,6 +15,7 @@ public class UnitWorldUI : MonoBehaviour
     [SerializeField] private Image warriorIcon;
     [SerializeField] private Image achorIcon;
     [SerializeField] private Image wizardIcon;
+    [SerializeField] private Image rogueIcon;
 
     [SerializeField] private Color enemy;
 
@@ -31,6 +32,7 @@ public class UnitWorldUI : MonoBehaviour
             warriorIcon.enabled = unit.isWarrior;
             achorIcon.enabled = unit.isAchor;
             wizardIcon.enabled = unit.isWizard;
+            rogueIcon.enabled = unit.isRogue;
         }
         unit.OnDamage += Unit_OnDamage;
         unit.OnDie += Unit_OnDamage;

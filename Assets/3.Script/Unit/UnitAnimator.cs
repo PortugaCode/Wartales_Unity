@@ -37,7 +37,7 @@ public class UnitAnimator : MonoBehaviour
 
     private void SwordAction_OnAttack(object sender, EventArgs e)
     {
-        animator.SetTrigger("AxeAttack");
+        animator.SetTrigger("Attack");
     }
 
     private void FireBallAction_OnShootingFireBall(object sender, EventArgs e)

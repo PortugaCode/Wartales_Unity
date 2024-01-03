@@ -58,11 +58,20 @@ public class SwordAction : BaseAction
         {
             case State.SwingingSwordBeforeHit:
                 state = State.SwingingSwordAfterHit;
-                float afterHitState = 2.5f;
-                stateTimer = afterHitState;
+                if(unit.isRogue)
+                {
+                    float afterHitState = 2.0f;
+                    stateTimer = afterHitState;
+                }
+                else
+                {
+                    float afterHitState = 2.7f;
+                    stateTimer = afterHitState;
+                }
+
                 if(canAttack)
                 {
-                    AxeAttack();
+                    Attack();
                     canAttack = false;
                 }
                 break;
@@ -73,8 +82,21 @@ public class SwordAction : BaseAction
         }
     }
 
-    private void AxeAttack()
+    private IEnumerator TargetDamage(Unit target)
     {
+        yield return new WaitForSeconds(0.25f);
+        target.Damage(damage);
+        EffectSystem.Instance.hitEffect.transform.position = target.GetWorldPosition() + Vector3.up * 1.2f;
+        EffectSystem.Instance.hitEffect.Play();
+    }
+
+
+    private void Attack()
+    {
+        if (unit.isRogue)
+        {
+            StartCoroutine(TargetDamage(targetUnit));
+        }
         OnAttack?.Invoke(this, EventArgs.Empty);
     }
 
@@ -96,6 +118,10 @@ public class SwordAction : BaseAction
 
     public override string GetActionName()
     {
+        if(unit.isRogue)
+        {
+            return "Dagger";
+        }
         return "Axe";
     }
 

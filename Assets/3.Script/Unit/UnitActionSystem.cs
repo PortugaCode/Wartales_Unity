@@ -183,6 +183,14 @@ public class UnitActionSystem : MonoBehaviour
             }
             selectUnit.GetUiObject().transform.GetChild(2).transform.gameObject.SetActive(true);
         }
+        else if (selectUnit.isRogue)
+        {
+            for (int i = 0; i < selectUnit.GetUiObject().transform.childCount; i++)
+            {
+                selectUnit.GetUiObject().transform.GetChild(i).transform.gameObject.SetActive(false);
+            }
+            selectUnit.GetUiObject().transform.GetChild(3).transform.gameObject.SetActive(true);
+        }
         #endregion
     }
 }
