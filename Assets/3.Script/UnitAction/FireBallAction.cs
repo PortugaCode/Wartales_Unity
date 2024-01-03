@@ -98,6 +98,14 @@ public class FireBallAction : BaseAction
                     continue;
                 }
 
+
+                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
+                {
+                    if(LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition)[0].IsEnemy() == unit.IsEnemy())
+                    {
+                        continue;
+                    }
+                }
                 validGridPostionList.Add(testGridPosition);
             }
         }

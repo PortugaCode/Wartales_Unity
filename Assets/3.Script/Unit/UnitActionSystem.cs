@@ -43,7 +43,10 @@ public class UnitActionSystem : MonoBehaviour
     }
     private void Start()
     {
-        selectUnit = FindObjectOfType<IsPlayerUnit>().GetComponent<Unit>();
+        IsPlayerUnit[] select = FindObjectsOfType<IsPlayerUnit>();
+        int rand = UnityEngine.Random.Range(0, select.Length);
+
+        selectUnit = select[rand].GetComponent<Unit>();
         SetSelectUnit(selectUnit);
         ChangeUI();
     }
@@ -171,6 +174,14 @@ public class UnitActionSystem : MonoBehaviour
                 selectUnit.GetUiObject().transform.GetChild(i).transform.gameObject.SetActive(false);
             }
             selectUnit.GetUiObject().transform.GetChild(1).transform.gameObject.SetActive(true);
+        }
+        else if (selectUnit.isWizard)
+        {
+            for (int i = 0; i < selectUnit.GetUiObject().transform.childCount; i++)
+            {
+                selectUnit.GetUiObject().transform.GetChild(i).transform.gameObject.SetActive(false);
+            }
+            selectUnit.GetUiObject().transform.GetChild(2).transform.gameObject.SetActive(true);
         }
         #endregion
     }

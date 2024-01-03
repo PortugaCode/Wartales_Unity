@@ -27,11 +27,20 @@ public class UnitAnimator : MonoBehaviour
         }
         if(TryGetComponent<FireBallAction>(out FireBallAction fireBallAction))
         {
-            fireBallAction.OnShootingFireBall += fireBallAction_OnShootingFireBall;
+            fireBallAction.OnShootingFireBall += FireBallAction_OnShootingFireBall;
+        }
+        if (TryGetComponent<SwordAction>(out SwordAction swordAction))
+        {
+            swordAction.OnAttack += SwordAction_OnAttack;
         }
     }
 
-    private void fireBallAction_OnShootingFireBall(object sender, EventArgs e)
+    private void SwordAction_OnAttack(object sender, EventArgs e)
+    {
+        animator.SetTrigger("AxeAttack");
+    }
+
+    private void FireBallAction_OnShootingFireBall(object sender, EventArgs e)
     {
         animator.SetTrigger("FireBall");
     }

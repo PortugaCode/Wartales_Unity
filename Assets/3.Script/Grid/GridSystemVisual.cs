@@ -65,6 +65,7 @@ public class GridSystemVisual : MonoBehaviour
         UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
         LevelGrid.Instance.OnAnyUnitMovedGridPosition += LevelGrid_OnAnyUnitMovedGridPosition;
         Unit.OnAnyUnitSpawned += Unit_OnAnyUnitSpawned;
+        Unit.OnAnyUnitDead += Unit_OnAnyUnitSpawned;
         UpdateGridVisual();
     }
 
@@ -108,6 +109,28 @@ public class GridSystemVisual : MonoBehaviour
         ShowGridPositionList(gridPositionList, gridVisualType);
     }
 
+    private void ShowGridPositionRange_Sword(GridPosition gridPosition, int range, GridVisualType gridVisualType)
+    {
+        List<GridPosition> gridPositionList = new List<GridPosition>();
+
+        for (int x = -range; x <= range; x++)
+        {
+            for (int z = -range; z <= range; z++)
+            {
+                GridPosition testGridPosition = gridPosition + new GridPosition(x, z);
+
+                if (!LevelGrid.Instance.isValidGridPosition(testGridPosition))
+                {
+                    //그리드 안에서만 움직이게끔
+                    continue;
+                }
+
+                gridPositionList.Add(testGridPosition);
+            }
+        }
+        ShowGridPositionList(gridPositionList, gridVisualType);
+    }
+
 
     public void ShowGridPositionList(List<GridPosition> gridPositionList, GridVisualType gridVisualType)
     {
@@ -142,6 +165,11 @@ public class GridSystemVisual : MonoBehaviour
 
             case FireBallAction fireBallAction:
                 gridVisualType = GridVisualType.Red;
+                break;
+
+            case SwordAction swordAction:
+                gridVisualType = GridVisualType.Red;
+                ShowGridPositionRange_Sword(selectUnit.GetGridPostion(), swordAction.GetMaxSwordDistance(), GridVisualType.RedSoft);
                 break;
         }
 

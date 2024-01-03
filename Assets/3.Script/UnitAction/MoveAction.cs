@@ -217,12 +217,14 @@ public class MoveAction : BaseAction
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
-        if(unit.isAchor)
+        
+        int calculateActionValue = 0;
+        List<Unit> targetUnitList = UnitManager.Instance.GetFriendlyUnitList();
+        float distance = float.MaxValue;
+
+        if (unit.isAchor)
         {
             int targetCountAtGridPosition = unit.GetAction<ShootAction>().GetTargetCountAtPosition(gridPosition);
-            int calculateActionValue = 0;
-            List<Unit> targetUnitList = UnitManager.Instance.GetFriendlyUnitList();
-            float distance = float.MaxValue;
             int maxShootDistance = unit.GetAction<ShootAction>().GetMaxShootDistance();
 
             FindNearestUnit(distance, targetUnitList); //가장 가까운 적은 지정
@@ -238,10 +240,14 @@ public class MoveAction : BaseAction
         }
         else
         {
+            int targetCountAtGridPosition = unit.GetAction<SwordAction>().GetTargetCountAtPosition(gridPosition);
+            FindNearestUnit(distance, targetUnitList);
+            calculateActionValue += CalculateValue(calculateActionValue, gridPosition);
+
             return new EnemyAIAction
             {
                 gridPosition = gridPosition,
-                actionValue = 10,
+                actionValue = targetCountAtGridPosition * 10 + calculateActionValue,
             };
         }
     }

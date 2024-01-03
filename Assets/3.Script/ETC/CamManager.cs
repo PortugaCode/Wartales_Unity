@@ -23,6 +23,10 @@ public class CamManager : MonoBehaviour
             case ShootAction shootAction:
                 HideActionCam();
                 break;
+
+            case SwordAction swordAction:
+                HideActionCam();
+                break;
         }
     }
 
@@ -47,6 +51,27 @@ public class CamManager : MonoBehaviour
 
                     actionCameraGameObject.transform.position = actionCamPosition;
                     actionCameraGameObject.transform.LookAt(targetUnit.GetWorldPosition() + CamHeight);
+                    ShowActionCam();
+                }
+                break;
+
+            case SwordAction swordAction:
+                Unit attackUnit = swordAction.GetUnit();
+                Unit targetUnit_Sword = swordAction.GetTargetUnit();
+
+                if (targetUnit_Sword.GetHealthSystem().Gethealth() <= swordAction.intdamage)
+                {
+                    Vector3 CamHeight = Vector3.up * 1.7f;
+
+                    Vector3 dir = (targetUnit_Sword.GetWorldPosition() - attackUnit.GetWorldPosition()).normalized;
+                    float shoulderOffsetAmount = 0.7f;
+                    Vector3 shoulderOffset = Quaternion.Euler(0, 90f, 0f) * dir * shoulderOffsetAmount;
+
+                    Vector3 actionCamPosition =
+                    attackUnit.GetWorldPosition() + CamHeight + shoulderOffset + (dir * -2);
+
+                    actionCameraGameObject.transform.position = actionCamPosition;
+                    actionCameraGameObject.transform.LookAt(targetUnit_Sword.GetWorldPosition() + CamHeight);
                     ShowActionCam();
                 }
                 break;
