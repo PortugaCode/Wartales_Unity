@@ -58,6 +58,7 @@ public class LevelGrid : MonoBehaviour
 
     public void UnitMoveGridPostion(Unit unit, GridPosition fromgridposition, GridPosition togridposition)
     {
+        OnAnyUnitMovedGridPosition?.Invoke(this, EventArgs.Empty);
         RemoveUnitAtGridPosition(fromgridposition, unit);
         AddUnitAtGridPosition(togridposition, unit);
 

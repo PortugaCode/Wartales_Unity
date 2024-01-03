@@ -58,6 +58,10 @@ public class FireBall : MonoBehaviour
                 {
                     target.Damage(damage);
                 }
+                if(col.TryGetComponent<DestructibleCrate>(out DestructibleCrate crate))
+                {
+                    crate.Damage();
+                }
             }
             OnAnyFireBallExploded?.Invoke(this, EventArgs.Empty);
             EffectSystem.Instance.BombEffect(transform.position);

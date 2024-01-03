@@ -141,9 +141,10 @@ public class ShootAction : BaseAction
                 Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
 
                 Vector3 shootdir = (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
-                if (Physics.Raycast(unitWorldPosition + (Vector3.up * 1.7f),
+                if (Physics.Raycast(unitWorldPosition + (Vector3.up * 1.4f),
                                 shootdir,
-                                Vector3.Distance(unitWorldPosition, targetUnit.GetWorldPosition()),
+                                out RaycastHit hit,
+                                Vector3.Distance(unitWorldPosition, targetUnit.GetWorldPosition())-1.5f,
                                 Pathfinding.Instance.GetCannotWalkLayerMasks()
                                 ))
                 {
