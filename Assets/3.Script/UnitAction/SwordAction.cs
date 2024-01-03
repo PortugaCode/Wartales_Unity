@@ -26,6 +26,8 @@ public class SwordAction : BaseAction
     private Unit targetUnit;
     private bool canAttack;
 
+    private float dotProduct;
+
 
 
     private void Update()
@@ -33,6 +35,8 @@ public class SwordAction : BaseAction
         if (!isActive) return;
 
         stateTimer -= Time.deltaTime;
+
+
 
         switch (state)
         {
@@ -85,7 +89,23 @@ public class SwordAction : BaseAction
     private IEnumerator TargetDamage(Unit target)
     {
         yield return new WaitForSeconds(0.25f);
-        target.Damage(damage);
+        Vector3 targetdir = unit.GetWorldPosition() + Vector3.up * 1.2f - targetUnit.GetWorldPosition() + Vector3.up * 1.2f;
+
+        Vector3 targetforward = target.transform.forward;
+        targetdir.Normalize();
+
+        dotProduct = Vector3.Dot(targetdir, targetforward);
+        Debug.Log(dotProduct);
+
+        if (dotProduct < -0.6 && dotProduct > -0.7)
+        {
+            target.Damage(damage * 2);
+        }
+        else
+        {
+            target.Damage(damage);
+        }
+
         EffectSystem.Instance.hitEffect.transform.position = target.GetWorldPosition() + Vector3.up * 1.2f;
         EffectSystem.Instance.hitEffect.Play();
     }
