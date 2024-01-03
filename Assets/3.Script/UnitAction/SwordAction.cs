@@ -88,16 +88,25 @@ public class SwordAction : BaseAction
 
     private IEnumerator TargetDamage(Unit target)
     {
-        yield return new WaitForSeconds(0.25f);
         Vector3 targetdir = unit.GetWorldPosition() + Vector3.up * 1.2f - targetUnit.GetWorldPosition() + Vector3.up * 1.2f;
-
         Vector3 targetforward = target.transform.forward;
         targetdir.Normalize();
 
         dotProduct = Vector3.Dot(targetdir, targetforward);
         Debug.Log(dotProduct);
 
-        if (dotProduct < -0.6 && dotProduct > -0.7)
+        if (dotProduct < -0.55 && dotProduct > -0.75)
+        {
+            //백어택 모션
+            OnAttack?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            OnAttack?.Invoke(this, EventArgs.Empty);
+        }
+        yield return new WaitForSeconds(0.25f);
+
+        if (dotProduct < -0.55 && dotProduct > -0.75)
         {
             target.Damage(damage * 2);
         }
@@ -105,6 +114,7 @@ public class SwordAction : BaseAction
         {
             target.Damage(damage);
         }
+
 
         EffectSystem.Instance.hitEffect.transform.position = target.GetWorldPosition() + Vector3.up * 1.2f;
         EffectSystem.Instance.hitEffect.Play();
@@ -117,7 +127,10 @@ public class SwordAction : BaseAction
         {
             StartCoroutine(TargetDamage(targetUnit));
         }
-        OnAttack?.Invoke(this, EventArgs.Empty);
+        else
+        {
+            OnAttack?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     public int GetMaxSwordDistance()
