@@ -71,6 +71,7 @@ public class GridSystemVisual : MonoBehaviour
 
 
 
+
     public void HideAllGridPosition()
     {
         for (int x = 0; x < LevelGrid.Instance.GetWidth(); x++)
@@ -134,7 +135,12 @@ public class GridSystemVisual : MonoBehaviour
 
     public void ShowGridPositionList(List<GridPosition> gridPositionList, GridVisualType gridVisualType)
     {
-        foreach(GridPosition gridPosition in gridPositionList)
+        if (!TurnSystem.Instance.IsPlayerTurn())
+        {
+            return;
+        }
+
+        foreach (GridPosition gridPosition in gridPositionList)
         {
             gridSystemVisualSinglesArray[gridPosition.x, gridPosition.z].Show(GetGridVisualTypeMaterial(gridVisualType));
         }

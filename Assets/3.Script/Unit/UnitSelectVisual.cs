@@ -18,7 +18,20 @@ public class UnitSelectVisual : MonoBehaviour
     private void Start()
     {
         UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
+        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         UpdateVisual();
+    }
+
+    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    {
+        if(!TurnSystem.Instance.IsPlayerTurn())
+        {
+            meshRenderer.enabled = false;
+        }
+        else
+        {
+            meshRenderer.enabled = true;
+        }
     }
 
     private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs empty)

@@ -29,6 +29,12 @@ public class TurnSystem : MonoBehaviour
     {
         turnNumber++;
         isPlayerTurn = !isPlayerTurn;
+
+        if(!isPlayerTurn)
+        {
+            GridSystemVisual.Instance.HideAllGridPosition();
+        }
+
         OnTurnChanged?.Invoke(this, EventArgs.Empty);
     }
 

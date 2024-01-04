@@ -22,6 +22,7 @@ public class UnitActionSystem : MonoBehaviour
     [SerializeField] private LayerMask UnitLayer;
     private BaseAction selectedAction;
 
+    [SerializeField] private GameObject mousePosition;
 
 
     //[현재 Action중인지?]
@@ -61,7 +62,18 @@ public class UnitActionSystem : MonoBehaviour
 
         if (TryHandleUnitSelection()) return;
 
-        if(selectedAction == selectUnit.GetAction<FireBallAction>())
+
+        GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.Instance.GetPoint());
+        if (selectedAction.isValidActionGridPosition(mouseGridPosition))
+        {
+            mousePosition.SetActive(true);
+            mousePosition.transform.position = LevelGrid.Instance.GetWorldPosition(mouseGridPosition) + Vector3.up * 0.02f;
+        } else mousePosition.SetActive(false);
+        
+
+
+
+        if (selectedAction == selectUnit.GetAction<FireBallAction>())
         {
             range.SetActive(true);
             range.transform.position = MouseWorld.Instance.GetPoint() + Vector3.up * 0.005f;
@@ -82,6 +94,8 @@ public class UnitActionSystem : MonoBehaviour
             if (!selectedAction.isValidActionGridPosition(mouseGridPosition)) return;
 
             if (!selectUnit.TrySpendActionPointsToTakeAction(selectedAction)) return;
+
+            mousePosition.SetActive(false);
 
             SetBusy();
             selectedAction.TakeAction(mouseGridPosition, ClearBusy);
@@ -129,7 +143,7 @@ public class UnitActionSystem : MonoBehaviour
     }
 
 
-    private void SetSelectUnit(Unit unit)
+    public void SetSelectUnit(Unit unit)
     {
         if (isBusy) return;
         selectUnit = unit;

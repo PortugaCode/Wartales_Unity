@@ -64,6 +64,7 @@ public class Unit : MonoBehaviour
     private void Update()
     {
         isDie = healthSystem.IsDie;
+        
 
         GridPosition newgridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         if (newgridPosition != gridPosition)
@@ -170,6 +171,13 @@ public class Unit : MonoBehaviour
     private void HealthSystem_OnDead(object sender, EventArgs e)
     {
         gameObject.layer = 13;
+
+        if (!isEnemy)
+        {
+            int r = UnityEngine.Random.Range(0, UnitManager.Instance.GetFriendlyUnitList().Count);
+            UnitActionSystem.Instance.SetSelectUnit(UnitManager.Instance.GetFriendlyUnitList()[r]);
+        }
+
         LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
         OnDie?.Invoke(this, EventArgs.Empty);
         Destroy(gameObject, 4f);
