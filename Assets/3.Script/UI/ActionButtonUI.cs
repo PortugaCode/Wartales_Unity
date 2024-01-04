@@ -10,6 +10,7 @@ public class ActionButtonUI : MonoBehaviour
     [SerializeField] private Button button;
     [SerializeField] private Image img;
     [SerializeField] private GameObject selectGameObject;
+    [SerializeField] private GameObject[] needCost;
 
     private BaseAction baseAction;
 
@@ -18,6 +19,14 @@ public class ActionButtonUI : MonoBehaviour
         this.baseAction = baseAction;
         textMeshPro.text = baseAction.GetActionName().ToUpper();
         img.sprite = baseAction.GetActionImage();
+        if(baseAction.GetActionPointCost() == 1)
+        {
+            needCost[0].SetActive(true);
+        }
+        if (baseAction.GetActionPointCost() == 2)
+        {
+            needCost[1].SetActive(true);
+        }
 
         button.onClick.AddListener(() => {
 

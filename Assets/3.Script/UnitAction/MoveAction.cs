@@ -269,7 +269,6 @@ public class MoveAction : BaseAction
             FindNearestUnit(distance, targetUnitList);
             calculateActionValue += CalculateValue(calculateActionValue, gridPosition);
 
-            Debug.Log(gridPosition + " : " + GridPositionCanBackAttack(gridPosition));
             if(GridPositionCanBackAttack(gridPosition))
             {
                 if(targetUnit.GetHealthSystem().Gethealth() <= unit.GetAction<SwordAction>().intdamage)
