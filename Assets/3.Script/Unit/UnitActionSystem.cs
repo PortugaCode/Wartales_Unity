@@ -23,10 +23,16 @@ public class UnitActionSystem : MonoBehaviour
     private BaseAction selectedAction;
 
     [SerializeField] private GameObject mousePosition;
-
+    [SerializeField] private Transform cameraTarget;
+    public bool isCamMove;
+    public bool needSetPosition;
 
     //[현재 Action중인지?]
     private bool isBusy;
+
+    private Vector3 offset;
+    private Vector3 targetPosition;
+    private Vector3 currentVelocity = Vector3.zero;
 
 
     private void Awake()
@@ -50,6 +56,35 @@ public class UnitActionSystem : MonoBehaviour
         selectUnit = select[rand].GetComponent<Unit>();
         SetSelectUnit(selectUnit);
         ChangeUI();
+
+        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+    }
+
+    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    {
+        ChangeUI();
+    }
+
+    private void FixedUpdate()
+    {
+        if (TurnSystem.Instance.IsPlayerTurn() && isCamMove)
+        {
+            if(needSetPosition)
+            {
+                targetPosition = selectUnit.GetWorldPosition();
+                offset = targetPosition - selectUnit.GetWorldPosition();
+
+                targetPosition = selectUnit.GetWorldPosition() + offset;
+
+                needSetPosition = false;
+            }
+
+            cameraTarget.position = Vector3.SmoothDamp(cameraTarget.position, targetPosition, ref currentVelocity, 0.25f);
+            if(Vector3.Distance(cameraTarget.position, targetPosition) <= 0.2f)
+            {
+                isCamMove = false;
+            }
+        }
     }
 
     private void Update()
@@ -85,6 +120,8 @@ public class UnitActionSystem : MonoBehaviour
 
         HandleSelectAction();
     }
+
+
 
     private void HandleSelectAction()
     {
@@ -172,6 +209,19 @@ public class UnitActionSystem : MonoBehaviour
 
     private void ChangeUI()
     {
+
+        if(!TurnSystem.Instance.IsPlayerTurn())
+        {
+            for (int i = 0; i < selectUnit.GetUiObject().transform.childCount; i++)
+            {
+                selectUnit.GetUiObject().transform.GetChild(i).transform.gameObject.SetActive(false);
+            }
+            selectUnit.GetUiObject().transform.GetChild(4).transform.gameObject.SetActive(true);
+
+            return;
+        }
+
+
         #region [UI SetActive]
         if (selectUnit.isAchor)
         {

@@ -86,6 +86,14 @@ public class UnitActionSystemUI : MonoBehaviour
     
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
+        if (TurnSystem.Instance.IsPlayerTurn())
+        {
+            textMeshPro.gameObject.SetActive(true);
+        }
+        else
+        {
+            textMeshPro.gameObject.SetActive(false);
+        }
         UpdateActionPoints();
     }
 

@@ -30,7 +30,7 @@ public class UnitSelectVisual : MonoBehaviour
         }
         else
         {
-            meshRenderer.enabled = true;
+            UpdateVisual();
         }
     }
 

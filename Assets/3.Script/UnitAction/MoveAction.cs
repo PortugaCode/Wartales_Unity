@@ -219,7 +219,7 @@ public class MoveAction : BaseAction
         Vector3 targetdir = LevelGrid.Instance.GetWorldPosition(gridPosition) + Vector3.up * 1.2f - targetUnit.GetWorldPosition() + Vector3.up * 1.2f;
         Vector3 targetforward = targetUnit.transform.forward;
 
-        if(targetdir.sqrMagnitude > 1f)
+        if(targetdir.magnitude > 2.2f)
         {
             return false;
         }

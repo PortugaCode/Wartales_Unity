@@ -82,6 +82,11 @@ public class EnemyAI : MonoBehaviour
             timer = 2.0f;
             state = State.TakingTurn;
         }
+        else
+        {
+            UnitActionSystem.Instance.isCamMove = true;
+            UnitActionSystem.Instance.needSetPosition = true;
+        }
     }
 
     private bool TryTakeEnemyAIAciton(Action OnEnemyAIActionComplete)

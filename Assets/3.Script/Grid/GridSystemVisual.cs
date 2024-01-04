@@ -66,9 +66,9 @@ public class GridSystemVisual : MonoBehaviour
         LevelGrid.Instance.OnAnyUnitMovedGridPosition += LevelGrid_OnAnyUnitMovedGridPosition;
         Unit.OnAnyUnitSpawned += Unit_OnAnyUnitSpawned;
         Unit.OnAnyUnitDead += Unit_OnAnyUnitSpawned;
+        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         UpdateGridVisual();
     }
-
 
 
 
@@ -180,6 +180,11 @@ public class GridSystemVisual : MonoBehaviour
         }
 
         ShowGridPositionList(selectAction.GetValidGridPostionList(), gridVisualType);
+    }
+
+    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    {
+        UpdateGridVisual();
     }
 
     private void UnitActionSystem_OnSelectedActionChanged(object sender, EventArgs e)
