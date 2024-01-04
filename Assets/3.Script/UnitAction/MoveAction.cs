@@ -214,6 +214,30 @@ public class MoveAction : BaseAction
         return calculateActionValue;
     }
 
+    private bool GridPositionCanBackAttack(GridPosition gridPosition)
+    {
+        Vector3 targetdir = LevelGrid.Instance.GetWorldPosition(gridPosition) + Vector3.up * 1.2f - targetUnit.GetWorldPosition() + Vector3.up * 1.2f;
+        Vector3 targetforward = targetUnit.transform.forward;
+
+        if(targetdir.sqrMagnitude > 1f)
+        {
+            return false;
+        }
+
+        targetdir.Normalize();
+        float dotProduct = Vector3.Dot(targetdir, targetforward);
+        
+        if (dotProduct < -0.55 && dotProduct > -0.75)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
@@ -221,6 +245,7 @@ public class MoveAction : BaseAction
         int calculateActionValue = 0;
         List<Unit> targetUnitList = UnitManager.Instance.GetFriendlyUnitList();
         float distance = float.MaxValue;
+
 
         if (unit.isAchor)
         {
@@ -237,6 +262,41 @@ public class MoveAction : BaseAction
                 gridPosition = gridPosition,
                 actionValue = targetCountAtGridPosition * 10 + calculateActionValue,
             };
+        }
+        else if(unit.isRogue)
+        {
+            int targetCountAtGridPosition = unit.GetAction<SwordAction>().GetTargetCountAtPosition(gridPosition);
+            FindNearestUnit(distance, targetUnitList);
+            calculateActionValue += CalculateValue(calculateActionValue, gridPosition);
+
+            Debug.Log(gridPosition + " : " + GridPositionCanBackAttack(gridPosition));
+            if(GridPositionCanBackAttack(gridPosition))
+            {
+                if(targetUnit.GetHealthSystem().Gethealth() <= unit.GetAction<SwordAction>().intdamage)
+                {
+                    return new EnemyAIAction
+                    {
+                        gridPosition = gridPosition,
+                        actionValue = targetCountAtGridPosition * 10 + calculateActionValue,
+                    };
+                }
+                else
+                {
+                    return new EnemyAIAction
+                    {
+                        gridPosition = gridPosition,
+                        actionValue = 200 + targetCountAtGridPosition * 10 + calculateActionValue,
+                    };
+                }
+            }
+            else
+            {
+                return new EnemyAIAction
+                {
+                    gridPosition = gridPosition,
+                    actionValue = targetCountAtGridPosition * 10 + calculateActionValue,
+                };
+            }
         }
         else
         {

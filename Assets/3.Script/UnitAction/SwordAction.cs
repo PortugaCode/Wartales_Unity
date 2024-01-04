@@ -6,11 +6,17 @@ using UnityEngine;
 public class SwordAction : BaseAction
 {
     public event EventHandler OnAttack;
+    public event EventHandler OnBackAttack;
 
 
     [SerializeField] private Sprite sprite;
     [SerializeField] private int damage = 50;
     public int intdamage => damage;
+
+
+
+    [SerializeField] private bool isBackAttack;
+    public bool IsBackAttack => isBackAttack;
 
     private enum State
     {
@@ -35,7 +41,7 @@ public class SwordAction : BaseAction
         if (!isActive) return;
 
         stateTimer -= Time.deltaTime;
-
+        
 
 
         switch (state)
@@ -86,6 +92,25 @@ public class SwordAction : BaseAction
         }
     }
 
+    private bool SetBackAttack(Unit target)
+    {
+        Vector3 targetdir = unit.GetWorldPosition() + Vector3.up * 1.2f - targetUnit.GetWorldPosition() + Vector3.up * 1.2f;
+        Vector3 targetforward = target.transform.forward;
+        targetdir.Normalize();
+
+        dotProduct = Vector3.Dot(targetdir, targetforward);
+
+        if (dotProduct < -0.55 && dotProduct > -0.75)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
     private IEnumerator TargetDamage(Unit target)
     {
         Vector3 targetdir = unit.GetWorldPosition() + Vector3.up * 1.2f - targetUnit.GetWorldPosition() + Vector3.up * 1.2f;
@@ -93,17 +118,17 @@ public class SwordAction : BaseAction
         targetdir.Normalize();
 
         dotProduct = Vector3.Dot(targetdir, targetforward);
-        Debug.Log(dotProduct);
 
         if (dotProduct < -0.55 && dotProduct > -0.75)
         {
             //백어택 모션
-            OnAttack?.Invoke(this, EventArgs.Empty);
+            OnBackAttack?.Invoke(this, EventArgs.Empty);
         }
         else
         {
             OnAttack?.Invoke(this, EventArgs.Empty);
         }
+
         yield return new WaitForSeconds(0.25f);
 
         if (dotProduct < -0.55 && dotProduct > -0.75)
@@ -158,6 +183,10 @@ public class SwordAction : BaseAction
         return "Axe";
     }
 
+    public void SetBackAttack(bool a)
+    {
+        isBackAttack = a;
+    }
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         Unit targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(gridPosition);
@@ -232,6 +261,10 @@ public class SwordAction : BaseAction
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(gridPosition);
+        if(unit.isRogue)
+        {
+            isBackAttack = SetBackAttack(targetUnit);
+        }
         canAttack = true;
         state = State.SwingingSwordBeforeHit;
         float beforeHitState = 1f;

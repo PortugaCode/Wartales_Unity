@@ -32,7 +32,13 @@ public class UnitAnimator : MonoBehaviour
         if (TryGetComponent<SwordAction>(out SwordAction swordAction))
         {
             swordAction.OnAttack += SwordAction_OnAttack;
+            swordAction.OnBackAttack += SwordAction_OnBackAttack;
         }
+    }
+
+    private void SwordAction_OnBackAttack(object sender, EventArgs e)
+    {
+        animator.SetTrigger("BackAttack");
     }
 
     private void SwordAction_OnAttack(object sender, EventArgs e)

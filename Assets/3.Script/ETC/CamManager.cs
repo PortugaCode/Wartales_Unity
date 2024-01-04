@@ -59,7 +59,7 @@ public class CamManager : MonoBehaviour
                 Unit attackUnit = swordAction.GetUnit();
                 Unit targetUnit_Sword = swordAction.GetTargetUnit();
 
-                if (targetUnit_Sword.GetHealthSystem().Gethealth() <= swordAction.intdamage)
+                if (targetUnit_Sword.GetHealthSystem().Gethealth() <= swordAction.intdamage || (swordAction.IsBackAttack && targetUnit_Sword.GetHealthSystem().Gethealth() <= swordAction.intdamage * 2))
                 {
                     Vector3 CamHeight = Vector3.up * 1.7f;
 
@@ -73,6 +73,7 @@ public class CamManager : MonoBehaviour
                     actionCameraGameObject.transform.position = actionCamPosition;
                     actionCameraGameObject.transform.LookAt(targetUnit_Sword.GetWorldPosition() + CamHeight);
                     ShowActionCam();
+                    swordAction.SetBackAttack(false);
                 }
                 break;
         }
