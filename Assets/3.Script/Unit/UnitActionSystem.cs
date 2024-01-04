@@ -35,6 +35,10 @@ public class UnitActionSystem : MonoBehaviour
     private Vector3 currentVelocity = Vector3.zero;
 
 
+    [Header("LineRenderer")]
+    public LineRenderer lineRenderer;
+
+
     private void Awake()
     {
         #region [ΩÃ±€≈Ê]
@@ -99,12 +103,21 @@ public class UnitActionSystem : MonoBehaviour
 
 
         GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.Instance.GetPoint());
+
         if (selectedAction.isValidActionGridPosition(mouseGridPosition))
         {
             mousePosition.SetActive(true);
             mousePosition.transform.position = LevelGrid.Instance.GetWorldPosition(mouseGridPosition) + Vector3.up * 0.02f;
-        } else mousePosition.SetActive(false);
-        
+            if(selectedAction == selectUnit.GetAction<MoveAction>())
+            {
+                DrawLineRenderer(mouseGridPosition);
+            }
+        }
+        else
+        {
+            lineRenderer.enabled = false;
+            mousePosition.SetActive(false);
+        }
 
 
 
@@ -121,7 +134,20 @@ public class UnitActionSystem : MonoBehaviour
         HandleSelectAction();
     }
 
+    private void DrawLineRenderer(GridPosition gridPosition)
+    {
+        if (selectUnit.isDie) return;
+        lineRenderer.enabled = true;
+        List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(selectUnit.GetGridPostion(), gridPosition, out int pathLegth);
+        Vector3[] pathVectorPositionList = new Vector3[pathGridPositionList.Count];
+        lineRenderer.positionCount = pathVectorPositionList.Length;
 
+        for (int i = 0; i < pathGridPositionList.Count; i++)
+        {
+            pathVectorPositionList[i] = LevelGrid.Instance.GetWorldPosition(pathGridPositionList[i]) + Vector3.up * 0.02f;
+            lineRenderer.SetPosition(i, pathVectorPositionList[i]);
+        }
+    }
 
     private void HandleSelectAction()
     {
@@ -133,6 +159,7 @@ public class UnitActionSystem : MonoBehaviour
             if (!selectUnit.TrySpendActionPointsToTakeAction(selectedAction)) return;
 
             mousePosition.SetActive(false);
+            lineRenderer.enabled = false;
 
             SetBusy();
             selectedAction.TakeAction(mouseGridPosition, ClearBusy);
@@ -217,6 +244,9 @@ public class UnitActionSystem : MonoBehaviour
                 selectUnit.GetUiObject().transform.GetChild(i).transform.gameObject.SetActive(false);
             }
             selectUnit.GetUiObject().transform.GetChild(4).transform.gameObject.SetActive(true);
+
+            lineRenderer.enabled = false;
+            mousePosition.SetActive(false);
 
             return;
         }

@@ -179,6 +179,8 @@ public class Pathfinding : MonoBehaviour
         return null;
     }
 
+
+
     private bool DiagonalWalkable(PathNode curnode, PathNode neighbourNode)
     {
         GridPosition CurNodeGridPosition = curnode.GetGridPosition();

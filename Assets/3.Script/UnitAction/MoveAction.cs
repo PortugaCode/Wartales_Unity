@@ -24,12 +24,14 @@ public class MoveAction : BaseAction
     [Header("Image")]
     public Sprite sprite;
 
+
     [SerializeField] private Unit targetUnit;
     private bool isNowNodeisMaxDistance = false;
 
     private void Update()
     {
         if (!isActive) return;
+
         Vector3 targetPosition = positionList[currentPositionIndex];
         Vector3 moveDirection = (targetPosition - transform.position).normalized;
 
@@ -79,6 +81,8 @@ public class MoveAction : BaseAction
         OnStartMoving?.Invoke(this, EventArgs.Empty);
         ActionStart(onActionComplete);
     }
+
+
 
 
     public override List<GridPosition> GetValidGridPostionList()
@@ -219,7 +223,7 @@ public class MoveAction : BaseAction
         Vector3 targetdir = LevelGrid.Instance.GetWorldPosition(gridPosition) + Vector3.up * 1.2f - targetUnit.GetWorldPosition() + Vector3.up * 1.2f;
         Vector3 targetforward = targetUnit.transform.forward;
 
-        if(targetdir.magnitude > 2.2f)
+        if(targetdir.magnitude > 4.2f)
         {
             return false;
         }
