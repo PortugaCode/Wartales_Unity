@@ -8,6 +8,8 @@ public class UnitActionSystem : MonoBehaviour
 {
     public static UnitActionSystem Instance { get; private set; }
 
+
+
     //[¹üÀ§]
     [SerializeField] private GameObject range;
 
@@ -137,16 +139,71 @@ public class UnitActionSystem : MonoBehaviour
     private void DrawLineRenderer(GridPosition gridPosition)
     {
         if (selectUnit.isDie) return;
+
         lineRenderer.enabled = true;
         List<GridPosition> pathGridPositionList = Pathfinding.Instance.FindPath(selectUnit.GetGridPostion(), gridPosition, out int pathLegth);
         Vector3[] pathVectorPositionList = new Vector3[pathGridPositionList.Count];
-        lineRenderer.positionCount = pathVectorPositionList.Length;
+        
 
         for (int i = 0; i < pathGridPositionList.Count; i++)
         {
             pathVectorPositionList[i] = LevelGrid.Instance.GetWorldPosition(pathGridPositionList[i]) + Vector3.up * 0.02f;
-            lineRenderer.SetPosition(i, pathVectorPositionList[i]);
         }
+        //=======================================================================
+        var pointList = new List<Vector3>();
+       
+        float vertexCount = 8f;
+        Vector3 point1;
+        Vector3 point2;
+        Vector3 point3;
+        
+        if(pathVectorPositionList.Length <= 2)
+        {
+            lineRenderer.positionCount = pathVectorPositionList.Length;
+            lineRenderer.SetPositions(pathVectorPositionList);
+            return;
+        }
+        pointList.Add(pathVectorPositionList[0]);
+        for (int i = 0; i < pathVectorPositionList.Length -2; i++)
+        {
+            point1 = pointList[pointList.Count-1];//pathVectorPositionList[i];
+            point2 = pathVectorPositionList[i+1];
+            point3 = pathVectorPositionList[i+2];
+
+            for (float ratio = 0f; ratio < 1f; ratio += 1f / vertexCount)
+            {
+                if (ratio >= 0.5f && i < pathVectorPositionList.Length - 3) {
+                    break;
+                }
+                var tangent1 = Vector3.Lerp(point1, point2, ratio);
+                var tangent2 = Vector3.Lerp(point2, point3, ratio);
+                var curve = Vector3.Lerp(tangent1, tangent2, ratio);
+                pointList.Add(curve);
+            }
+        }
+        if(pathVectorPositionList.Length % 2 == 0)
+        {
+/*            int i = pathVectorPositionList.Length - 1;
+            point1 = pathVectorPositionList[i - 2];
+            point2 = pathVectorPositionList[i - 1];
+            point3 = pathVectorPositionList[i];
+
+            for (float ratio = 0f; ratio <= 1.0f; ratio += 1f / vertexCount)
+            {
+                if (ratio <= 0.5f)
+                {
+                    continue;
+                }
+                var tangent1 = Vector3.Lerp(point1, point2, ratio);
+                var tangent2 = Vector3.Lerp(point2, point3, ratio);
+                var curve = Vector3.Lerp(tangent1, tangent2, ratio);
+                pointList.Add(curve);
+            }*/
+            //pointList.Add(pathVectorPositionList[pathVectorPositionList.Length -1]);
+        }
+
+        lineRenderer.positionCount = pointList.Count;
+        lineRenderer.SetPositions(pointList.ToArray());
     }
 
     private void HandleSelectAction()

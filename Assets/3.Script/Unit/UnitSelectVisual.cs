@@ -11,7 +11,7 @@ public class UnitSelectVisual : MonoBehaviour
 
     private void Awake()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
+        TryGetComponent(out meshRenderer);
         UpdateVisual();
     }
 
@@ -24,14 +24,7 @@ public class UnitSelectVisual : MonoBehaviour
 
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
-        if(!TurnSystem.Instance.IsPlayerTurn())
-        {
-            meshRenderer.enabled = false;
-        }
-        else
-        {
-            UpdateVisual();
-        }
+        UpdateVisual();
     }
 
     private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs empty)
@@ -41,6 +34,13 @@ public class UnitSelectVisual : MonoBehaviour
 
     private void UpdateVisual()
     {
+
+        if (!TurnSystem.Instance.IsPlayerTurn())
+        {
+            meshRenderer.enabled = false;
+            return;
+        }
+
         if (UnitActionSystem.Instance.GetSelectedUnit() == unit)
         {
             meshRenderer.enabled = true;
@@ -54,5 +54,6 @@ public class UnitSelectVisual : MonoBehaviour
     private void OnDestroy()
     {
         UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitActionSystem_OnSelectedUnitChanged;
+        TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
     }
 }

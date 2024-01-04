@@ -171,17 +171,16 @@ public class Unit : MonoBehaviour
     private void HealthSystem_OnDead(object sender, EventArgs e)
     {
         gameObject.layer = 13;
+        LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
+        
+        OnDie?.Invoke(this, EventArgs.Empty);
+        Destroy(gameObject, 4f);
+        OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
 
         if (!isEnemy)
         {
             int r = UnityEngine.Random.Range(0, UnitManager.Instance.GetFriendlyUnitList().Count);
             UnitActionSystem.Instance.SetSelectUnit(UnitManager.Instance.GetFriendlyUnitList()[r]);
         }
-
-        LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
-        OnDie?.Invoke(this, EventArgs.Empty);
-        Destroy(gameObject, 4f);
-
-        OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
     }
 }
