@@ -91,7 +91,17 @@ public class UnitAnimator : MonoBehaviour
     private void Unit_OnDie(object sender, EventArgs e)
     {
         ScreenShake.Instance.Shake();
-        animator.SetTrigger("Die");
+        switch(sender)
+        {
+            case Unit unit:
+                if(unit.GetHealthSystem().isAssasin)
+                {
+                    animator.SetTrigger("//hir¾î½Ø½Å");
+                }
+                else { animator.SetTrigger("Die"); }
+                break;
+        }
+        
     }
 
     private void Unit_OnDamage(object sender, EventArgs e)

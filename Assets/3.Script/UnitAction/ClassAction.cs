@@ -107,8 +107,10 @@ public class ClassAction : BaseAction
             EffectSystem.Instance.SmokePlay(unit.GetWorldPosition());
             transform.position = targetUnit.GetWorldPosition() + targetUnit.transform.forward * -0.5f;
             transform.forward = targetUnit.transform.forward;
-            targetUnit.GetComponent<UnitAnimator>().animator.SetTrigger("HitAssassination");
+            
+            targetUnit.GetHealthSystem().isAssasin = true;
             targetUnit.SetHealth(-100);
+            
 
             StartCoroutine(DelayBlood());
 

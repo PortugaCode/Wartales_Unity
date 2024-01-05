@@ -14,6 +14,7 @@ public class HealthSystem : MonoBehaviour
     [Header("MaxHP")]
     [SerializeField] private int Maxhealth = 100;
 
+    public bool isAssasin;
     private void Awake()
     {
         health = Maxhealth;
