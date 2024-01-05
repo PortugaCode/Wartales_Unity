@@ -6,7 +6,7 @@ using UnityEngine;
 public class UnitAnimator : MonoBehaviour
 {
     [Header("Animator")]
-    [SerializeField] private Animator animator;
+    public Animator animator;
 
     private void Awake()
     {
@@ -42,7 +42,19 @@ public class UnitAnimator : MonoBehaviour
         if (TryGetComponent<ClassAction>(out ClassAction classAction))
         {
             classAction.OnBerserk += ClassAction_OnBerserk;
+            classAction.OnHealing += ClassAction_OnHealing;
+            classAction.OnAssassination += ClassAction_OnAssassination;
         }
+    }
+
+    private void ClassAction_OnHealing(object sender, EventArgs e)
+    {
+        animator.SetTrigger("Healing");
+    }
+
+    private void ClassAction_OnAssassination(object sender, EventArgs e)
+    {
+        animator.SetTrigger("Assassination");
     }
 
     private void ClassAction_OnBerserk(object sender, EventArgs e)

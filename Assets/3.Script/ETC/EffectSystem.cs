@@ -10,6 +10,7 @@ public class EffectSystem : MonoBehaviour
     public ParticleSystem hitEffect;
     public ParticleSystem bombEffect;
     public ParticleSystem fireball;
+    public ParticleSystem healEffect;
 
 
     private void Awake()
@@ -20,6 +21,12 @@ public class EffectSystem : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+
+    public void HealingPlay(Vector3 position)
+    {
+        healEffect.transform.position = position;
+        healEffect.Play();
     }
 
 

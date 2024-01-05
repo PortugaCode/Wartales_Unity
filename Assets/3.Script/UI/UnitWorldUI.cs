@@ -34,10 +34,16 @@ public class UnitWorldUI : MonoBehaviour
             wizardIcon.enabled = unit.isWizard;
             rogueIcon.enabled = unit.isRogue;
         }
+        unit.OnSetHealth += Unit_OnSetHealth;
         unit.OnDamage += Unit_OnDamage;
         unit.OnDie += Unit_OnDamage;
         UpdateHealthBar();
         UpdateActionPoitsText();
+    }
+
+    private void Unit_OnSetHealth(object sender, EventArgs e)
+    {
+        UpdateHealthBar();
     }
 
     private void Unit_OnDamage(object sender, EventArgs e)

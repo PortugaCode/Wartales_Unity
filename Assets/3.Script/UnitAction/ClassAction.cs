@@ -9,8 +9,11 @@ public class ClassAction : BaseAction
     public delegate void SpinCompleteDelegate();
 
     public event EventHandler OnBerserk;
+    public event EventHandler OnHealing;
+    public event EventHandler OnAssassination;
 
-    
+    private Unit targetUnit;
+
 
     [Header("Image")]
     public Sprite Trap;
@@ -24,6 +27,13 @@ public class ClassAction : BaseAction
     private void Update()
     {
         if (!isActive) return;
+        if(unit.isWizard)
+        {
+            Vector3 aimDirection = (targetUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
+            float rotationSpeed = 8f;
+            transform.forward = Vector3.Slerp(transform.forward, aimDirection, rotationSpeed * Time.deltaTime);
+        }
+
         if(isActive2)
         {
             StartCoroutine(DelayActionComplete());
@@ -34,7 +44,21 @@ public class ClassAction : BaseAction
     {
         yield return new WaitForSeconds(1f);
         isActive2 = false;
+
         ActionComplete();
+    }
+
+    private IEnumerator DelayHeal()
+    {
+        yield return new WaitForSeconds(0.5f);
+        targetUnit.SetHealth(20);
+    }
+
+    private IEnumerator DelayBlood()
+    {
+        yield return new WaitForSeconds(0.5f);
+        EffectSystem.Instance.hitEffect.transform.position = targetUnit.GetWorldPosition() + Vector3.up * 1.6f;
+        EffectSystem.Instance.hitEffect.Play();
     }
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
@@ -42,10 +66,38 @@ public class ClassAction : BaseAction
         if (unit.isDie) return;
         if (unit.isWarrior)
         {
-            OnBerserk?.Invoke(this, EventArgs.Empty);
             unit.GetAction<SwordAction>().SetBerserk(true);
             unit.GetAction<SwordAction>().berserkEffect.Play();
-            unit.GetHealthSystem().Sethealth(-50);
+            unit.SetHealth(-100);
+            OnBerserk?.Invoke(this, EventArgs.Empty);
+        }
+
+        else if(unit.isWizard)
+        {
+            targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(gridPosition);
+
+            StartCoroutine(DelayHeal());
+
+            EffectSystem.Instance.HealingPlay(targetUnit.GetWorldPosition());
+
+            OnHealing?.Invoke(this, EventArgs.Empty);
+        }
+
+        else if(unit.isRogue)
+        {
+            targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(gridPosition);
+            Vector3 aimDirection = (targetUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
+
+            transform.position = targetUnit.GetWorldPosition() + targetUnit.transform.forward * -0.5f;
+            transform.forward = targetUnit.transform.forward;
+            targetUnit.GetComponent<UnitAnimator>().animator.SetTrigger("HitAssassination");
+            targetUnit.SetHealth(-100);
+
+            StartCoroutine(DelayBlood());
+
+            Destroy(targetUnit.gameObject, 4f);
+
+            OnAssassination?.Invoke(this, EventArgs.Empty);
         }
         isActive2 = true;
         ActionStart(onActionComplete);
@@ -233,6 +285,11 @@ public class ClassAction : BaseAction
                     }
 
                     Unit targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(testGridPosition);
+
+                    if(targetUnit.GetHealthSystem().Gethealth() > 100)
+                    {
+                        continue;
+                    }
 
                     if (targetUnit.IsEnemy() == unit.IsEnemy())
                     {

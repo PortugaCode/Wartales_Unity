@@ -12,6 +12,7 @@ public class Unit : MonoBehaviour
     //EventHandler==========================================
     public static event EventHandler OnAnyActionPointsChanged;
     public event EventHandler OnDamage;
+    public event EventHandler OnSetHealth;
     public event EventHandler OnDie;
     public static event EventHandler OnAnyUnitSpawned;
     public static event EventHandler OnAnyUnitDead;
@@ -166,6 +167,12 @@ public class Unit : MonoBehaviour
         {
             OnDamage?.Invoke(this, EventArgs.Empty);
         }
+    }
+
+    public void SetHealth(int a)
+    {
+        healthSystem.Sethealth(a);
+        OnSetHealth?.Invoke(this, EventArgs.Empty);
     }
 
     private void HealthSystem_OnDead(object sender, EventArgs e)
