@@ -152,7 +152,7 @@ public class UnitActionSystem : MonoBehaviour
         //=======================================================================
         var pointList = new List<Vector3>();
        
-        float vertexCount = 8f;
+        float vertexCount = 12f;
         Vector3 point1;
         Vector3 point2;
         Vector3 point3;
@@ -163,16 +163,17 @@ public class UnitActionSystem : MonoBehaviour
             lineRenderer.SetPositions(pathVectorPositionList);
             return;
         }
+
         pointList.Add(pathVectorPositionList[0]);
         for (int i = 0; i < pathVectorPositionList.Length -2; i++)
         {
-            point1 = pointList[pointList.Count-1];//pathVectorPositionList[i];
+            point1 = pointList[pointList.Count-1];
             point2 = pathVectorPositionList[i+1];
             point3 = pathVectorPositionList[i+2];
 
             for (float ratio = 0f; ratio < 1f; ratio += 1f / vertexCount)
             {
-                if (ratio >= 0.5f && i < pathVectorPositionList.Length - 3) {
+                if (ratio >= 0.8f && i < pathVectorPositionList.Length - 3) {
                     break;
                 }
                 var tangent1 = Vector3.Lerp(point1, point2, ratio);
@@ -181,27 +182,7 @@ public class UnitActionSystem : MonoBehaviour
                 pointList.Add(curve);
             }
         }
-        if(pathVectorPositionList.Length % 2 == 0)
-        {
-/*            int i = pathVectorPositionList.Length - 1;
-            point1 = pathVectorPositionList[i - 2];
-            point2 = pathVectorPositionList[i - 1];
-            point3 = pathVectorPositionList[i];
-
-            for (float ratio = 0f; ratio <= 1.0f; ratio += 1f / vertexCount)
-            {
-                if (ratio <= 0.5f)
-                {
-                    continue;
-                }
-                var tangent1 = Vector3.Lerp(point1, point2, ratio);
-                var tangent2 = Vector3.Lerp(point2, point3, ratio);
-                var curve = Vector3.Lerp(tangent1, tangent2, ratio);
-                pointList.Add(curve);
-            }*/
-            //pointList.Add(pathVectorPositionList[pathVectorPositionList.Length -1]);
-        }
-
+        pointList.Add(pathVectorPositionList[pathVectorPositionList.Length - 1]);
         lineRenderer.positionCount = pointList.Count;
         lineRenderer.SetPositions(pointList.ToArray());
     }

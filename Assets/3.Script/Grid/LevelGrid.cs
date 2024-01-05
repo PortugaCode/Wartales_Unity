@@ -72,6 +72,8 @@ public class LevelGrid : MonoBehaviour
     public int GetWidth() => gridSystem.GetWidth();
     public int GetHeight() => gridSystem.GetHeight();
 
+
+
     public bool HasAnyUnitOnGridPosition(GridPosition gridPosition)
     {
         GridObject gridObject = gridSystem.GetGridObjectArray(gridPosition);
@@ -82,5 +84,29 @@ public class LevelGrid : MonoBehaviour
     {
         GridObject gridObject = gridSystem.GetGridObjectArray(gridPosition);
         return gridObject.HasGetUnit();
+    }
+
+    public Door GetDoorAtGridPosition(GridPosition gridPosition)
+    {
+        GridObject gridObject = gridSystem.GetGridObjectArray(gridPosition);
+        return gridObject.GetDoor();
+    }
+
+    public void SetDoorAtGridPosition(GridPosition gridPosition, Door door)
+    {
+        GridObject gridObject = gridSystem.GetGridObjectArray(gridPosition);
+        gridObject.SetDoor(door);
+    }
+
+    public DestructibleCrate GetCrateAtGridPosition(GridPosition gridPosition)
+    {
+        GridObject gridObject = gridSystem.GetGridObjectArray(gridPosition);
+        return gridObject.GetCrate();
+    }
+
+    public void SetCrateAtGridPosition(GridPosition gridPosition, DestructibleCrate crate)
+    {
+        GridObject gridObject = gridSystem.GetGridObjectArray(gridPosition);
+        gridObject.SetCrate(crate);
     }
 }

@@ -7,6 +7,8 @@ public class GridObject
     private GridSystem<GridObject> gridSystem;
     private GridPosition gridPosition;
     private List<Unit> units;
+    private Door door;
+    private DestructibleCrate crate;
 
     public GridObject(GridSystem<GridObject> gridSystem, GridPosition gridPosition)
     {
@@ -55,5 +57,25 @@ public class GridObject
         {
             return null;
         }
+    }
+
+    public Door GetDoor()
+    {
+        return door;
+    }
+
+    public void SetDoor(Door door)
+    {
+        this.door = door;
+    }
+
+    public DestructibleCrate GetCrate()
+    {
+        return crate;
+    }
+
+    public void SetCrate(DestructibleCrate crate)
+    {
+        this.crate = crate;
     }
 }

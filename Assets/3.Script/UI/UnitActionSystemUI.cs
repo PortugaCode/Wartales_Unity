@@ -63,6 +63,7 @@ public class UnitActionSystemUI : MonoBehaviour
     private void UnitActionSystem_OnSelectActionChange(object sender, EventArgs e)
     {
         UndateSelectVisual();
+        UnitActionSystem.Instance.lineRenderer.enabled = false;
     }
 
     private void UndateSelectVisual()

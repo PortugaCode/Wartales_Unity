@@ -191,11 +191,28 @@ public class SwordAction : BaseAction
     {
         Unit targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(gridPosition);
 
-        return new EnemyAIAction
+        Vector3 targetdir = unit.GetWorldPosition() + Vector3.up * 1.2f - targetUnit.GetWorldPosition() + Vector3.up * 1.2f;
+        Vector3 targetforward = targetUnit.transform.forward;
+        targetdir.Normalize();
+
+        dotProduct = Vector3.Dot(targetdir, targetforward);
+
+        if (dotProduct < -0.55 && dotProduct > -0.75 && unit.isRogue)
         {
-            gridPosition = gridPosition,
-            actionValue = 200 + Mathf.RoundToInt((1 - targetUnit.GetHealthSystem().GetHealthNormalized()) * 100f),
-        };
+            return new EnemyAIAction
+            {
+                gridPosition = gridPosition,
+                actionValue = 300 + Mathf.RoundToInt((1 - targetUnit.GetHealthSystem().GetHealthNormalized()) * 100f),
+            };
+        }
+        else
+        {
+            return new EnemyAIAction
+            {
+                gridPosition = gridPosition,
+                actionValue = 100 + Mathf.RoundToInt((1 - targetUnit.GetHealthSystem().GetHealthNormalized()) * 100f),
+            };
+        }
     }
 
     public override List<GridPosition> GetValidGridPostionList()
