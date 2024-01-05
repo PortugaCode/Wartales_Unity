@@ -8,10 +8,17 @@ public class InteractAction : BaseAction
     [SerializeField] private Sprite sprite;
     private int maxDistance = 1;
 
+    public event EventHandler OnInteract;
+
+    private Vector3 target;
 
     private void Update()
     {
         if (!isActive) return;
+
+        Vector3 aimDirection = (target - unit.GetWorldPosition()).normalized;
+        float rotationSpeed = 8f;
+        transform.forward = Vector3.Slerp(transform.forward, aimDirection, rotationSpeed * Time.deltaTime);
     }
 
 
@@ -70,11 +77,13 @@ public class InteractAction : BaseAction
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
         if (unit.isDie) return;
+        target = LevelGrid.Instance.GetWorldPosition(gridPosition);
+
         Door door = LevelGrid.Instance.GetDoorAtGridPosition(gridPosition);
         DestructibleCrate crate = LevelGrid.Instance.GetCrateAtGridPosition(gridPosition);
         door?.Interact(OnInteractComplete);
         crate?.Interact(OnInteractComplete);
-
+        OnInteract?.Invoke(this, EventArgs.Empty);
         ActionStart(onActionComplete);
     }
 

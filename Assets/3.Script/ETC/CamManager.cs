@@ -59,7 +59,9 @@ public class CamManager : MonoBehaviour
                 Unit attackUnit = swordAction.GetUnit();
                 Unit targetUnit_Sword = swordAction.GetTargetUnit();
 
-                if (targetUnit_Sword.GetHealthSystem().Gethealth() <= swordAction.intdamage || (swordAction.IsBackAttack && targetUnit_Sword.GetHealthSystem().Gethealth() <= swordAction.intdamage * 2))
+                if (targetUnit_Sword.GetHealthSystem().Gethealth() <= swordAction.intdamage 
+                    || (swordAction.IsBackAttack && targetUnit_Sword.GetHealthSystem().Gethealth() <= swordAction.intdamage * 2) 
+                    || (swordAction.IsBerserk && targetUnit_Sword.GetHealthSystem().Gethealth() <= swordAction.intdamage * 4))
                 {
                     Vector3 CamHeight = Vector3.up * 1.7f;
 

@@ -18,7 +18,16 @@ public class AttackEvent : MonoBehaviour
         {
             if (collision.CompareTag("Enemy"))
             {
-                collision.transform.GetComponent<Unit>().Damage(damage);
+                if(masterUnit.GetAction<SwordAction>().IsBerserk)
+                {
+                    collision.transform.GetComponent<Unit>().Damage(damage * 4);
+                    masterUnit.GetAction<SwordAction>().SetBerserk(false);
+                }
+                else
+                {
+                    collision.transform.GetComponent<Unit>().Damage(damage);
+                }
+                
                 EffectSystem.Instance.hitEffect.transform.position = transform.position;
                 EffectSystem.Instance.hitEffect.Play();
             }
@@ -27,7 +36,15 @@ public class AttackEvent : MonoBehaviour
         {
             if (collision.CompareTag("Player"))
             {
-                collision.transform.GetComponent<Unit>().Damage(damage);
+                if (masterUnit.GetAction<SwordAction>().IsBerserk)
+                {
+                    collision.transform.GetComponent<Unit>().Damage(damage * 4);
+                    masterUnit.GetAction<SwordAction>().SetBerserk(false);
+                }
+                else
+                {
+                    collision.transform.GetComponent<Unit>().Damage(damage);
+                }
                 EffectSystem.Instance.hitEffect.transform.position = transform.position;
                 EffectSystem.Instance.hitEffect.Play();
             }

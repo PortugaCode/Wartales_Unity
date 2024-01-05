@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5b553c579a1ee2d4fb3c56206891bc0a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - Trap: {fileID: 21300000, guid: 05f25969c8798c046a68e1db82d50e95, type: 3}
+  - Berserk: {fileID: 21300000, guid: 0c8eef87aabccf445bae2928488c639e, type: 3}
+  - Assassination: {fileID: 21300000, guid: 0f2e07027e0be9145a8288f9c43b9db2, type: 3}
+  - Healing: {fileID: 21300000, guid: fb231a5980604ff4b993100bd06ff22d, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

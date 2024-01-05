@@ -24,6 +24,15 @@ public class HealthSystem : MonoBehaviour
         return health;
     }
 
+    public void Sethealth(int a)
+    {
+        health += a;
+        if(health <= 0)
+        {
+            health = 1;
+        }
+    }
+
     public void Damage(int amount)
     {
         health -= amount;

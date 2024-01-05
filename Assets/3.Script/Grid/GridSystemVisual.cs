@@ -160,8 +160,19 @@ public class GridSystemVisual : MonoBehaviour
             case MoveAction moveAction:
                 gridVisualType = GridVisualType.White;
                 break;
-            case SpinAction spinAction:
-                gridVisualType = GridVisualType.Blue;
+            case ClassAction classAction:
+                if (selectUnit.isRogue)
+                {
+                    gridVisualType = GridVisualType.Red;
+                }
+                else if(selectUnit.isAchor)
+                {
+                    gridVisualType = GridVisualType.Yellow;
+                }
+                else
+                {
+                    gridVisualType = GridVisualType.Blue;
+                }
                 break;
             case ShootAction shootAction:
                 gridVisualType = GridVisualType.Red;

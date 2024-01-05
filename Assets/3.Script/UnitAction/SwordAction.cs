@@ -8,11 +8,19 @@ public class SwordAction : BaseAction
     public event EventHandler OnAttack;
     public event EventHandler OnBackAttack;
 
+    public ParticleSystem berserkEffect;
 
     [SerializeField] private Sprite sprite;
     [SerializeField] private int damage = 50;
     public int intdamage => damage;
+    [SerializeField] private bool isBerserk;
+    public bool IsBerserk => isBerserk;
 
+
+    public void SetBerserk(bool a)
+    {
+        isBerserk = a;
+    }
 
 
     [SerializeField] private bool isBackAttack;
@@ -38,6 +46,11 @@ public class SwordAction : BaseAction
 
     private void Update()
     {
+        if(unit.isWarrior && !isBerserk && !unit.IsEnemy())
+        {
+            berserkEffect.Stop();
+        }
+
         if (!isActive) return;
 
         stateTimer -= Time.deltaTime;

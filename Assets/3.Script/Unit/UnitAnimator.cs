@@ -34,6 +34,25 @@ public class UnitAnimator : MonoBehaviour
             swordAction.OnAttack += SwordAction_OnAttack;
             swordAction.OnBackAttack += SwordAction_OnBackAttack;
         }
+        if (TryGetComponent<InteractAction>(out InteractAction interactAction))
+        {
+            interactAction.OnInteract += interactAction_OnInteract;
+        }
+
+        if (TryGetComponent<ClassAction>(out ClassAction classAction))
+        {
+            classAction.OnBerserk += ClassAction_OnBerserk;
+        }
+    }
+
+    private void ClassAction_OnBerserk(object sender, EventArgs e)
+    {
+        animator.SetTrigger("Berserk");
+    }
+
+    private void interactAction_OnInteract(object sender, EventArgs e)
+    {
+        animator.SetTrigger("Interact");
     }
 
     private void SwordAction_OnBackAttack(object sender, EventArgs e)
