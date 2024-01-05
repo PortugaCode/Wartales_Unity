@@ -109,4 +109,16 @@ public class LevelGrid : MonoBehaviour
         GridObject gridObject = gridSystem.GetGridObjectArray(gridPosition);
         gridObject.SetCrate(crate);
     }
+
+    public Trap GetTrapAtGridPosition(GridPosition gridPosition)
+    {
+        GridObject gridObject = gridSystem.GetGridObjectArray(gridPosition);
+        return gridObject.GetTrap();
+    }
+
+    public void SetTrapAtGridPosition(GridPosition gridPosition, Trap trap)
+    {
+        GridObject gridObject = gridSystem.GetGridObjectArray(gridPosition);
+        gridObject.SetTrap(trap);
+    }
 }

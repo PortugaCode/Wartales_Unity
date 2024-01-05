@@ -49,7 +49,6 @@ public class AttackEvent : MonoBehaviour
                 EffectSystem.Instance.hitEffect.Play();
             }
         }
-
     }
 
 }

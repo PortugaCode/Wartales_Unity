@@ -50,6 +50,8 @@ public abstract class BaseAction : MonoBehaviour
         isActive = false;
         onActionComplete();
 
+        GridSystemVisual.Instance.UpdateGridVisualPublic();
+
         OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
     }
 

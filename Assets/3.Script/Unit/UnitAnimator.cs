@@ -44,7 +44,13 @@ public class UnitAnimator : MonoBehaviour
             classAction.OnBerserk += ClassAction_OnBerserk;
             classAction.OnHealing += ClassAction_OnHealing;
             classAction.OnAssassination += ClassAction_OnAssassination;
+            classAction.OnTrap += ClassAction_OnTrap;
         }
+    }
+
+    private void ClassAction_OnTrap(object sender, EventArgs e)
+    {
+        animator.SetTrigger("Trap");
     }
 
     private void ClassAction_OnHealing(object sender, EventArgs e)

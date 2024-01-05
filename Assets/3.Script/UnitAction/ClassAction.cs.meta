@@ -8,6 +8,7 @@ MonoImporter:
   - Berserk: {fileID: 21300000, guid: 0c8eef87aabccf445bae2928488c639e, type: 3}
   - Assassination: {fileID: 21300000, guid: 0f2e07027e0be9145a8288f9c43b9db2, type: 3}
   - Healing: {fileID: 21300000, guid: fb231a5980604ff4b993100bd06ff22d, type: 3}
+  - trapPrefab: {fileID: 167384135758545063, guid: 744a87766c0737846b022cc02780cca7, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

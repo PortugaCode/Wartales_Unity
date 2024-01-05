@@ -18,6 +18,7 @@ public class UnitActionSystem : MonoBehaviour
     public event EventHandler OnSelectedUnitChanged;
     public event EventHandler OnSelectedActionChanged;
     public event EventHandler OnActionStarted;
+    public event EventHandler OnActionActive;
 
     //[Unit°ü·Ã]
     [SerializeField] private Unit selectUnit;
@@ -197,11 +198,11 @@ public class UnitActionSystem : MonoBehaviour
             if (!selectUnit.TrySpendActionPointsToTakeAction(selectedAction)) return;
 
             mousePosition.SetActive(false);
-            lineRenderer.enabled = false;
 
             SetBusy();
             selectedAction.TakeAction(mouseGridPosition, ClearBusy);
 
+            OnActionActive?.Invoke(this, EventArgs.Empty);
             OnActionStarted?.Invoke(this, EventArgs.Empty);
         }
     }

@@ -24,12 +24,19 @@ public class UnitActionSystemUI : MonoBehaviour
         UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectUnitChange;
         UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectActionChange;
         UnitActionSystem.Instance.OnActionStarted += UpdateActionPoints_OnActionChanged;
+        UnitActionSystem.Instance.OnActionActive += UpdateActionPoints_OnActionActive;
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
 
         CreateUnitActionButton();
         UndateSelectVisual();
         UpdateActionPoints();
+    }
+
+    private void UpdateActionPoints_OnActionActive(object sender, EventArgs e)
+    {
+        UndateSelectVisual();
+        UnitActionSystem.Instance.lineRenderer.enabled = false;
     }
 
     private void CreateUnitActionButton()

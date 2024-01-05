@@ -11,8 +11,10 @@ public class ClassAction : BaseAction
     public event EventHandler OnBerserk;
     public event EventHandler OnHealing;
     public event EventHandler OnAssassination;
+    public event EventHandler OnTrap;
 
     private Unit targetUnit;
+    private Vector3 targetPosition;
 
 
     [Header("Image")]
@@ -21,15 +23,24 @@ public class ClassAction : BaseAction
     public Sprite Assassination;
     public Sprite Healing;
 
+    [Header("Trap")]
+    public GameObject trapPrefab;
+
 
     private bool isActive2;
 
     private void Update()
     {
         if (!isActive) return;
-        if(unit.isWizard)
+        if (unit.isWizard)
         {
             Vector3 aimDirection = (targetUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
+            float rotationSpeed = 8f;
+            transform.forward = Vector3.Slerp(transform.forward, aimDirection, rotationSpeed * Time.deltaTime);
+        }
+        else if(unit.isAchor)
+        {
+            Vector3 aimDirection = (targetPosition - unit.GetWorldPosition()).normalized;
             float rotationSpeed = 8f;
             transform.forward = Vector3.Slerp(transform.forward, aimDirection, rotationSpeed * Time.deltaTime);
         }
@@ -42,7 +53,7 @@ public class ClassAction : BaseAction
 
     private IEnumerator DelayActionComplete()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         isActive2 = false;
 
         ActionComplete();
@@ -59,6 +70,12 @@ public class ClassAction : BaseAction
         yield return new WaitForSeconds(0.5f);
         EffectSystem.Instance.hitEffect.transform.position = targetUnit.GetWorldPosition() + Vector3.up * 1.6f;
         EffectSystem.Instance.hitEffect.Play();
+    }
+
+    private IEnumerator DelayTrap()
+    {
+        yield return new WaitForSeconds(0.8f);
+        GameObject cloneTrap = Instantiate(trapPrefab, targetPosition, Quaternion.identity);
     }
 
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
@@ -87,7 +104,7 @@ public class ClassAction : BaseAction
         {
             targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(gridPosition);
             Vector3 aimDirection = (targetUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
-
+            EffectSystem.Instance.SmokePlay(unit.GetWorldPosition());
             transform.position = targetUnit.GetWorldPosition() + targetUnit.transform.forward * -0.5f;
             transform.forward = targetUnit.transform.forward;
             targetUnit.GetComponent<UnitAnimator>().animator.SetTrigger("HitAssassination");
@@ -98,6 +115,15 @@ public class ClassAction : BaseAction
             Destroy(targetUnit.gameObject, 4f);
 
             OnAssassination?.Invoke(this, EventArgs.Empty);
+        }
+
+        else if(unit.isAchor)
+        {
+            targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+
+            StartCoroutine(DelayTrap());
+
+            OnTrap?.Invoke(this, EventArgs.Empty);
         }
         isActive2 = true;
         ActionStart(onActionComplete);
@@ -116,7 +142,7 @@ public class ClassAction : BaseAction
         }
         else if (unit.isRogue)
         {
-            return "Assassination";
+            return "Assassin";
         }
         else if (unit.isWizard)
         {
@@ -202,6 +228,12 @@ public class ClassAction : BaseAction
                     }
 
                     if (!Pathfinding.Instance.IsWalkableGridPosition(testGridPosition))
+                    {
+                        continue;
+                    }
+
+                    Trap trap = LevelGrid.Instance.GetTrapAtGridPosition(testGridPosition);
+                    if(trap != null)
                     {
                         continue;
                     }

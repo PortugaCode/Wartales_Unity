@@ -9,6 +9,7 @@ public class GridObject
     private List<Unit> units;
     private Door door;
     private DestructibleCrate crate;
+    private Trap trap;
 
     public GridObject(GridSystem<GridObject> gridSystem, GridPosition gridPosition)
     {
@@ -77,5 +78,15 @@ public class GridObject
     public void SetCrate(DestructibleCrate crate)
     {
         this.crate = crate;
+    }
+
+    public Trap GetTrap()
+    {
+        return trap;
+    }
+
+    public void SetTrap(Trap trap)
+    {
+        this.trap = trap;
     }
 }

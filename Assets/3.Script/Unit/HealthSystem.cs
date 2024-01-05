@@ -27,10 +27,35 @@ public class HealthSystem : MonoBehaviour
     public void Sethealth(int a)
     {
         health += a;
-        if(health <= 0)
+
+
+        if (health <= 0)
         {
-            health = 1;
+            TryGetComponent<SwordAction>(out SwordAction swordAction);
+            if(swordAction != null)
+            {
+                if(swordAction.IsBerserk)
+                {
+                    health = 1;
+                }
+                else
+                {
+                    health = 0;
+                }
+            }
+            else
+            {
+                health = 0;
+            }
         }
+
+
+        if (health == 0 && !isDie)
+        {
+            isDie = true;
+            Die();
+        }
+
     }
 
     public void Damage(int amount)

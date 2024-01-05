@@ -63,6 +63,7 @@ public class GridSystemVisual : MonoBehaviour
         }
 
         UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
+        UnitActionSystem.Instance.OnActionActive += UnitActionSystem_OnActionActive;
         LevelGrid.Instance.OnAnyUnitMovedGridPosition += LevelGrid_OnAnyUnitMovedGridPosition;
         Unit.OnAnyUnitSpawned += Unit_OnAnyUnitSpawned;
         Unit.OnAnyUnitDead += Unit_OnAnyUnitSpawned;
@@ -197,6 +198,8 @@ public class GridSystemVisual : MonoBehaviour
         ShowGridPositionList(selectAction.GetValidGridPostionList(), gridVisualType);
     }
 
+    public void UpdateGridVisualPublic() => UpdateGridVisual();
+
     private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
         UpdateGridVisual();
@@ -209,11 +212,16 @@ public class GridSystemVisual : MonoBehaviour
 
     private void LevelGrid_OnAnyUnitMovedGridPosition(object sender, EventArgs e)
     {
-        UpdateGridVisual();
+        HideAllGridPosition();
     }
     private void Unit_OnAnyUnitSpawned(object sender, EventArgs e)
     {
         UpdateGridVisual();
+    }
+
+    private void UnitActionSystem_OnActionActive(object sender, EventArgs e)
+    {
+        HideAllGridPosition();
     }
 
     private Material GetGridVisualTypeMaterial(GridVisualType gridVisualType)
