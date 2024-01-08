@@ -31,6 +31,17 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip[] assasinAttackClip;
 
     [SerializeField] private AudioClip smokeClip;
+    [SerializeField] private AudioClip[] fireShot;
+    [SerializeField] private AudioClip explosionClip;
+    [SerializeField] private AudioClip[] healClip;
+
+    [SerializeField] private AudioClip[] bowDraws;
+    [SerializeField] private AudioClip[] bowHandle;
+    [SerializeField] private AudioClip[] bowShoot;
+    [SerializeField] private AudioClip[] trapSound;
+
+
+
 
 
     private void Awake()
@@ -45,6 +56,41 @@ public class AudioManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
+    }
+
+    public void HealSoundPlay()
+    {
+        audioSource.PlayOneShot(healClip[Random.Range(0, healClip.Length)]);
+    }
+
+    public void ExplosionSoundPlay()
+    {
+        audioSource.PlayOneShot(explosionClip);
+    }
+
+    public void FireShotSoundPlay()
+    {
+        audioSource.PlayOneShot(fireShot[Random.Range(0, fireShot.Length)]);
+    }
+
+    public void TrapSoundPlay()
+    {
+        audioSource.PlayOneShot(trapSound[Random.Range(0, trapSound.Length)]);
+    }
+
+    public void BowDrawSoundPlay()
+    {
+        audioSource.PlayOneShot(bowDraws[Random.Range(0, bowDraws.Length)]);
+    }
+
+    public void BowShootSoundPlay()
+    {
+        audioSource.PlayOneShot(bowShoot[Random.Range(0, bowShoot.Length)]);
+    }
+
+    public void BowHandleSoundPlay()
+    {
+        audioSource.PlayOneShot(bowHandle[Random.Range(0, bowHandle.Length)]);
     }
 
     public void SmokeSoundPlay()

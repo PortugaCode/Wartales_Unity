@@ -26,12 +26,14 @@ public class UnitAudio : MonoBehaviour
 
     public void VoiceMale()
     {
-        AudioManager.Instance.VoiceMalePlay();
-    }
-
-    public void VoiceFeMale()
-    {
-        AudioManager.Instance.VoiceFemalePlay();
+        if(gameObject.transform.parent.GetComponent<Unit>().isAchor && !gameObject.transform.parent.GetComponent<Unit>().IsEnemy())
+        {
+            AudioManager.Instance.VoiceFemalePlay();
+        }
+        else if(!gameObject.transform.parent.GetComponent<Unit>().IsEnemy())
+        {
+            AudioManager.Instance.VoiceMalePlay();
+        }
     }
 
     public void BodyFallsSound()
@@ -42,5 +44,35 @@ public class UnitAudio : MonoBehaviour
     public void DaggerAttackSound()
     {
         AudioManager.Instance.AssasinAttackSoundPlay();
+    }
+
+    public void BowShootSound()
+    {
+        AudioManager.Instance.BowShootSoundPlay();
+    }
+
+    public void BowDrawSound()
+    {
+        AudioManager.Instance.BowDrawSoundPlay();
+    }
+
+    public void BowHandleSound()
+    {
+        AudioManager.Instance.BowHandleSoundPlay();
+    }
+
+    public void SetTrapSound()
+    {
+        AudioManager.Instance.TrapSoundPlay();
+    }
+
+    public void FireShotSound()
+    {
+        AudioManager.Instance.FireShotSoundPlay();
+    }
+
+    public void HealSound()
+    {
+        AudioManager.Instance.HealSoundPlay();
     }
 }

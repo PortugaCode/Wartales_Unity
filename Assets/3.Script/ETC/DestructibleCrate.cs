@@ -64,7 +64,7 @@ public class DestructibleCrate : MonoBehaviour
 
         Destroy(a.gameObject, 6f);
         gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
-        Destroy(gameObject, 1f);
+        Destroy(gameObject, 0.81f);
     }
 
     private void ApplyExplosionToChildren(Transform root, float explosionForce, Vector3 explosionPosition, float explosionRange)

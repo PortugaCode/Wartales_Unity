@@ -66,6 +66,7 @@ public class FireBall : MonoBehaviour
             OnAnyFireBallExploded?.Invoke(this, EventArgs.Empty);
             EffectSystem.Instance.BombEffect(transform.position);
             EffectSystem.Instance.fireball.Stop();
+            AudioManager.Instance.ExplosionSoundPlay();
             Destroy(gameObject);
             onFireBallBehaviourComplete();
         }

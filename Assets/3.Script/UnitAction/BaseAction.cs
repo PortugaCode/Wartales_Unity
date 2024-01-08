@@ -57,7 +57,7 @@ public abstract class BaseAction : MonoBehaviour
 
     private IEnumerator DelayUpdateGridVisual()
     {
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.015f);
         GridSystemVisual.Instance.UpdateGridVisualPublic();
     }
 
