@@ -6,6 +6,11 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
+    [SerializeField] private AudioSource BGM;
+    [SerializeField] private AudioClip[] BGMS;
+
+
+
     [SerializeField] private AudioSource audioSource;
 
     [SerializeField] private AudioClip[] walkSoundClip;
@@ -56,6 +61,9 @@ public class AudioManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
+        BGM.clip = BGMS[0];
+        BGM.Play();
     }
 
     public void HealSoundPlay()
