@@ -22,6 +22,11 @@ public class SwordAction : BaseAction
         isBerserk = a;
     }
 
+    public void SetDamage(int a)
+    {
+        damage += a;
+    }
+
 
     [SerializeField] private bool isBackAttack;
     public bool IsBackAttack => isBackAttack;

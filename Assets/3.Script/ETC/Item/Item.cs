@@ -9,7 +9,8 @@ public class Item : MonoBehaviour
         Axe,
         Bow,
         Dagger,
-        Book
+        Book,
+        Potion
     }
 
     [SerializeField] private State state;
@@ -21,39 +22,49 @@ public class Item : MonoBehaviour
         {
             Unit target = other.GetComponent<Unit>();
             GridPosition targetGridPosition = LevelGrid.Instance.GetGridPosition(gameObject.transform.position);
-            if (target.isRogue && state == State.Dagger)
+            if (target.isRogue && state == State.Dagger && !target.IsEnemy())
             {
                 other.gameObject.GetComponent<ClassAction>().enabled = true;
                 target.SetWeapon();
+                target.GetAction<SwordAction>().SetDamage(10);
                 UnitActionSystem.Instance.UndateSelectVisual();
-                EffectSystem.Instance.ItemEffectPlay(LevelGrid.Instance.GetWorldPosition(targetGridPosition));
+                EffectSystem.Instance.ItemEffectPlay(target.gameObject);
                 Destroy(gameObject);
             }
-            else if (target.isWarrior && state == State.Axe)
+            else if (target.isWarrior && state == State.Axe && !target.IsEnemy())
             {
                 other.gameObject.GetComponent<ClassAction>().enabled = true;
                 target.SetWeapon();
+                target.GetAction<SwordAction>().SetDamage(15);
                 UnitActionSystem.Instance.UndateSelectVisual();
-                EffectSystem.Instance.ItemEffectPlay(LevelGrid.Instance.GetWorldPosition(targetGridPosition));
+                EffectSystem.Instance.ItemEffectPlay(target.gameObject);
                 Destroy(gameObject);
             }
-            else if (target.isAchor && state == State.Bow)
+            else if (target.isAchor && state == State.Bow && !target.IsEnemy())
             {
                 other.gameObject.GetComponent<ClassAction>().enabled = true;
                 target.SetWeapon();
+                target.GetAction<ShootAction>().SetDamage(10);
                 UnitActionSystem.Instance.UndateSelectVisual();
-                EffectSystem.Instance.ItemEffectPlay(LevelGrid.Instance.GetWorldPosition(targetGridPosition));
+                EffectSystem.Instance.ItemEffectPlay(target.gameObject);
                 Destroy(gameObject);
             }
-            else if (target.isWizard && state == State.Book)
+            else if (target.isWizard && state == State.Book && !target.IsEnemy())
             {
                 other.gameObject.GetComponent<ClassAction>().enabled = true;
                 target.SetWeapon();
+                target.GetAction<FireBallAction>().SetDamage2(20);
                 UnitActionSystem.Instance.UndateSelectVisual();
-                EffectSystem.Instance.ItemEffectPlay(LevelGrid.Instance.GetWorldPosition(targetGridPosition));
+                EffectSystem.Instance.ItemEffectPlay(target.gameObject);
                 Destroy(gameObject);
             }
-
+            else if(state == State.Potion)
+            {
+                target.SetHealth(50);
+                UnitActionSystem.Instance.UndateSelectVisual();
+                EffectSystem.Instance.ItemEffectPlay(target.gameObject);
+                Destroy(gameObject);
+            }
         }
     }
 }

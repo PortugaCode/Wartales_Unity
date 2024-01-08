@@ -31,9 +31,10 @@ public class EffectSystem : MonoBehaviour
         healEffect.Play();
     }
 
-    public void ItemEffectPlay(Vector3 position)
+    public void ItemEffectPlay(GameObject a)
     {
-        ItemEffect.transform.position = position;
+        ItemEffect.transform.position = a.transform.position;
+        ItemEffect.transform.SetParent(a.transform);
         ItemEffect.Play();
     }
     public void SmokePlay(Vector3 position)

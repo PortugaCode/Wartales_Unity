@@ -32,6 +32,12 @@ public class FireBallAction : BaseAction
         this.damage = damage;
     }
 
+    public void SetDamage2(int a)
+    {
+        damage += a;
+    }
+
+
     private void Update()
     {
         if (!isActive)

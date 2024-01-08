@@ -21,6 +21,13 @@ public class ShootAction : BaseAction
 
     [SerializeField] private int maxShootDistance = 7;
     [SerializeField] private int damage = 50;
+
+    public void SetDamage(int a)
+    {
+        damage += a;
+    }
+
+
     private Unit targetUnit;
     private bool canShootArrow;
 
