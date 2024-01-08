@@ -187,6 +187,7 @@ public class Unit : MonoBehaviour
 
     public void Damage(int amount)
     {
+        AudioManager.Instance.TakeDamageSoundPlay();
         healthSystem.Damage(amount);
         if(healthSystem.Gethealth() != 0)
         {

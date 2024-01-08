@@ -24,6 +24,7 @@ public class Item : MonoBehaviour
             GridPosition targetGridPosition = LevelGrid.Instance.GetGridPosition(gameObject.transform.position);
             if (target.isRogue && state == State.Dagger && !target.IsEnemy())
             {
+                AudioManager.Instance.ItemSoundPlay(true);
                 other.gameObject.GetComponent<ClassAction>().enabled = true;
                 target.SetWeapon();
                 target.GetAction<SwordAction>().SetDamage(10);
@@ -33,6 +34,7 @@ public class Item : MonoBehaviour
             }
             else if (target.isWarrior && state == State.Axe && !target.IsEnemy())
             {
+                AudioManager.Instance.ItemSoundPlay(true);
                 other.gameObject.GetComponent<ClassAction>().enabled = true;
                 target.SetWeapon();
                 target.GetAction<SwordAction>().SetDamage(15);
@@ -42,6 +44,7 @@ public class Item : MonoBehaviour
             }
             else if (target.isAchor && state == State.Bow && !target.IsEnemy())
             {
+                AudioManager.Instance.ItemSoundPlay(true);
                 other.gameObject.GetComponent<ClassAction>().enabled = true;
                 target.SetWeapon();
                 target.GetAction<ShootAction>().SetDamage(10);
@@ -51,6 +54,7 @@ public class Item : MonoBehaviour
             }
             else if (target.isWizard && state == State.Book && !target.IsEnemy())
             {
+                AudioManager.Instance.ItemSoundPlay(true);
                 other.gameObject.GetComponent<ClassAction>().enabled = true;
                 target.SetWeapon();
                 target.GetAction<FireBallAction>().SetDamage2(20);
@@ -60,6 +64,7 @@ public class Item : MonoBehaviour
             }
             else if(state == State.Potion)
             {
+                AudioManager.Instance.ItemSoundPlay(false);
                 target.SetHealth(50);
                 UnitActionSystem.Instance.UndateSelectVisual();
                 EffectSystem.Instance.ItemEffectPlay(target.gameObject);

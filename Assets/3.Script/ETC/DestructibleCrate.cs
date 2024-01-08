@@ -56,7 +56,7 @@ public class DestructibleCrate : MonoBehaviour
         {
             Transform c = Instantiate(item[UnityEngine.Random.Range(0, item.Length)], transform.position, transform.rotation);
         }
-        
+        AudioManager.Instance.BreakingCrateSoundPlay();
 
         ApplyExplosionToChildren(a, 150f, transform.position, 10f);
 

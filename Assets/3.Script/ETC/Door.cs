@@ -32,6 +32,8 @@ public class Door : MonoBehaviour
         isActive = true;
         timer = 0.8f;
 
+        AudioManager.Instance.OpenDoorSoundPlay();
+
         if (isOpen)
         {
             CloseDoor();

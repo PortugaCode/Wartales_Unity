@@ -80,6 +80,7 @@ public class ClassAction : BaseAction
     private IEnumerator DelayBlood()
     {
         yield return new WaitForSeconds(0.5f);
+        AudioManager.Instance.TakeDamageSoundPlay();
         EffectSystem.Instance.hitEffect.transform.position = targetUnit.GetWorldPosition() + Vector3.up * 1.6f;
         EffectSystem.Instance.hitEffect.Play();
     }
@@ -119,10 +120,12 @@ public class ClassAction : BaseAction
             EffectSystem.Instance.SmokePlay(unit.GetWorldPosition());
             transform.position = targetUnit.GetWorldPosition() + targetUnit.transform.forward * -0.5f;
             transform.forward = targetUnit.transform.forward;
-            
+            AudioManager.Instance.AssasinAttackSoundPlay();
+            AudioManager.Instance.SmokeSoundPlay();
+
             targetUnit.GetHealthSystem().isAssasin = true;
             targetUnit.SetHealth(-100);
-            
+
 
             StartCoroutine(DelayBlood());
 

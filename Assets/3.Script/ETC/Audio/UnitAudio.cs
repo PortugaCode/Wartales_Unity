@@ -18,4 +18,29 @@ public class UnitAudio : MonoBehaviour
     {
         AudioManager.Instance.BerserkSoundPlay();
     }
+
+    public void AxeSwingSound()
+    {
+        AudioManager.Instance.AxeSwiongSoundPlay();
+    }
+
+    public void VoiceMale()
+    {
+        AudioManager.Instance.VoiceMalePlay();
+    }
+
+    public void VoiceFeMale()
+    {
+        AudioManager.Instance.VoiceFemalePlay();
+    }
+
+    public void BodyFallsSound()
+    {
+        AudioManager.Instance.BodyFallsSoundPlay();
+    }
+
+    public void DaggerAttackSound()
+    {
+        AudioManager.Instance.AssasinAttackSoundPlay();
+    }
 }
