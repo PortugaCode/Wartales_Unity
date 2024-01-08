@@ -96,7 +96,7 @@ public class UnitAnimator : MonoBehaviour
             case Unit unit:
                 if(unit.GetHealthSystem().isAssasin)
                 {
-                    animator.SetTrigger("//hir¾î½Ø½Å");
+                    animator.SetTrigger("HitAssassination");
                 }
                 else { animator.SetTrigger("Die"); }
                 break;
