@@ -8,6 +8,8 @@ public class DestructibleCrate : MonoBehaviour
 
     [SerializeField] private Transform destroyCratePrefab;
 
+    [SerializeField] private Transform[] item;
+
     private Action onInteractComplete;
     private float timer;
     private bool isActive;
@@ -28,7 +30,9 @@ public class DestructibleCrate : MonoBehaviour
         if (timer <= 0f)
         {
             isActive = false;
+            
             onInteractComplete();
+            
         }
     }
 
@@ -44,9 +48,19 @@ public class DestructibleCrate : MonoBehaviour
 
     public void Damage()
     {
+        int r = UnityEngine.Random.Range(0, 10);
+
         Transform a = Instantiate(destroyCratePrefab, transform.position, transform.rotation);
 
+        if(r < 7)
+        {
+            Transform c = Instantiate(item[UnityEngine.Random.Range(0, item.Length)], transform.position, transform.rotation);
+        }
+        
+
         ApplyExplosionToChildren(a, 150f, transform.position, 10f);
+
+
 
         Destroy(a.gameObject, 6f);
         gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;

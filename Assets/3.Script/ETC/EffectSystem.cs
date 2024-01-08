@@ -12,6 +12,7 @@ public class EffectSystem : MonoBehaviour
     public ParticleSystem fireball;
     public ParticleSystem healEffect;
     public ParticleSystem smokeEffect;
+    public ParticleSystem ItemEffect;
 
 
     private void Awake()
@@ -30,6 +31,11 @@ public class EffectSystem : MonoBehaviour
         healEffect.Play();
     }
 
+    public void ItemEffectPlay(Vector3 position)
+    {
+        ItemEffect.transform.position = position;
+        ItemEffect.Play();
+    }
     public void SmokePlay(Vector3 position)
     {
         smokeEffect.transform.position = position;

@@ -9,6 +9,7 @@ public class Unit : MonoBehaviour
     private BaseAction[] baseActionArray;
     private HealthSystem healthSystem;
 
+
     //EventHandler==========================================
     public static event EventHandler OnAnyActionPointsChanged;
     public event EventHandler OnDamage;
@@ -37,6 +38,26 @@ public class Unit : MonoBehaviour
     [Header("LayerMasks")]
     public LayerMask unitLayer;
     public LayerMask wallLayer;
+
+    [Header("SpecialWeapon")]
+    [SerializeField] private GameObject normalWeapon;
+    [SerializeField] private GameObject specialWeapon;
+
+    public void SetWeapon()
+    {
+        if(isWizard)
+        {
+            specialWeapon.SetActive(true);
+            return;
+        }
+        else if(isAchor)
+        {
+            specialWeapon.GetComponent<ParticleSystem>().Play();
+            return;
+        }
+        normalWeapon.SetActive(false);
+        specialWeapon.SetActive(true);
+    }
 
     [HideInInspector]
     public bool isDie;
