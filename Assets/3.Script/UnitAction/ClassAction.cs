@@ -51,6 +51,18 @@ public class ClassAction : BaseAction
         }
     }
 
+    public override int GetActionPointCost()
+    {
+        if(unit.isRogue)
+        {
+            return 2;
+        }
+        else
+        {
+            return 1;
+        }
+    }
+
     private IEnumerator DelayActionComplete()
     {
         yield return new WaitForSeconds(2f);
@@ -347,10 +359,6 @@ public class ClassAction : BaseAction
         }
     }
 
-    public override int GetActionPointCost()
-    {
-        return 1;
-    }
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {

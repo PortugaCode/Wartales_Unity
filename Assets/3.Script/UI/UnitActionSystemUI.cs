@@ -52,9 +52,15 @@ public class UnitActionSystemUI : MonoBehaviour
 
         foreach(BaseAction baseAction in selectUnit.GetBaseActionsArray())
         {
+            if (baseAction.enabled == false)
+            {
+                continue;
+            }
             Transform actionButtonTransform = Instantiate(actionButtonPrefab, actionButtonContainerTransform);
             ActionButtonUI actionButtonUI = actionButtonTransform.GetComponent<ActionButtonUI>();
             actionButtonUI.SetBaseAction(baseAction);
+
+
 
             actionButtonUIList.Add(actionButtonUI);
         }

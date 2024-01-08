@@ -48,6 +48,17 @@ public class UnitAnimator : MonoBehaviour
         }
     }
 
+    public void SetClassAciton()
+    {
+        if (TryGetComponent<ClassAction>(out ClassAction classAction))
+        {
+            classAction.OnBerserk += ClassAction_OnBerserk;
+            classAction.OnHealing += ClassAction_OnHealing;
+            classAction.OnAssassination += ClassAction_OnAssassination;
+            classAction.OnTrap += ClassAction_OnTrap;
+        }
+    }
+
     private void ClassAction_OnTrap(object sender, EventArgs e)
     {
         animator.SetTrigger("Trap");

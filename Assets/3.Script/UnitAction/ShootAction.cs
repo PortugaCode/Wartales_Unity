@@ -173,7 +173,7 @@ public class ShootAction : BaseAction
 
     public override int GetActionPointCost()
     {
-        return 2;
+        return 1;
     }
 
     public Unit GetTargetUnit()

@@ -65,7 +65,6 @@ public class Unit : MonoBehaviour
     private void Update()
     {
         isDie = healthSystem.IsDie;
-        
 
         GridPosition newgridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         if (newgridPosition != gridPosition)
@@ -75,6 +74,11 @@ public class Unit : MonoBehaviour
             gridPosition = newgridPosition;
             LevelGrid.Instance.UnitMoveGridPostion(this, oldGridPosition, newgridPosition);
         }
+    }
+
+    public void SetbaseActionArray()
+    {
+        baseActionArray = GetComponents<BaseAction>();
     }
 
     public GameObject GetUiObject()
