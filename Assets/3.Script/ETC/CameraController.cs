@@ -32,8 +32,7 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        int r = Random.Range(0, UnitManager.Instance.GetFriendlyUnitList().Count);
-        transform.position = UnitManager.Instance.GetFriendlyUnitList()[r].GetWorldPosition();
+        transform.position = UnitActionSystem.Instance.GetSelectedUnit().GetWorldPosition();
     }
 
 
