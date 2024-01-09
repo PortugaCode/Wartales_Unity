@@ -12,8 +12,6 @@ public class Door : MonoBehaviour
     private float timer;
     private bool isActive;
 
-    [SerializeField] private LayerMask Open;
-    [SerializeField] private LayerMask Close;
 
     private GridPosition gridPosition;
 
@@ -63,13 +61,13 @@ public class Door : MonoBehaviour
     private void OpenDoor()
     {
         isOpen = true;
-        gameObject.layer = (int)Open;
+        Pathfinding.Instance.SetIsWalkableGridPosition(gridPosition, true);
     }
 
     private void CloseDoor()
     {
         isOpen = false;
-        gameObject.layer = 11;
+        Pathfinding.Instance.SetIsWalkableGridPosition(gridPosition, false);
     }
 
 }

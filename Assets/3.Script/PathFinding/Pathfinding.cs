@@ -97,8 +97,8 @@ public class Pathfinding : MonoBehaviour
 
     public List<GridPosition> FindPath(GridPosition startGridPosition, GridPosition endGridPosition, out int pathLegth)
     {
-        SetWalkablePathNode();
-        SetWalkablePathNode_Obstacles();
+        //SetWalkablePathNode();
+        //SetWalkablePathNode_Obstacles();
         List<PathNode> openList = new List<PathNode>();
         List<PathNode> closedList = new List<PathNode>();
 
@@ -194,6 +194,7 @@ public class Pathfinding : MonoBehaviour
 
         return true;
     }
+
 
     private List<GridPosition> CalculatePath(PathNode endNode)
     {
@@ -336,5 +337,10 @@ public class Pathfinding : MonoBehaviour
     public LayerMask GetCannotWalkLayerMasks()
     {
         return cannotWalkLayerMasks;
+    }
+
+    public void SetIsWalkableGridPosition(GridPosition gridPosition, bool value)
+    {
+        gridSystem.GetGridObjectArray(gridPosition).SetWalkable(value);
     }
 }

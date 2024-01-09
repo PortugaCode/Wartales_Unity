@@ -60,7 +60,9 @@ public class LevelGrid : MonoBehaviour
     {
         OnAnyUnitMovedGridPosition?.Invoke(this, EventArgs.Empty);
         RemoveUnitAtGridPosition(fromgridposition, unit);
+        Pathfinding.Instance.SetIsWalkableGridPosition(fromgridposition, true);
         AddUnitAtGridPosition(togridposition, unit);
+        Pathfinding.Instance.SetIsWalkableGridPosition(togridposition, true);
 
         OnAnyUnitMovedGridPosition?.Invoke(this, EventArgs.Empty);
     }

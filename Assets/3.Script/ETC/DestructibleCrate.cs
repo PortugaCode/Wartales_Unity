@@ -64,6 +64,7 @@ public class DestructibleCrate : MonoBehaviour
 
         Destroy(a.gameObject, 6f);
         gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+        Pathfinding.Instance.SetIsWalkableGridPosition(gridPosition, true);
         Destroy(gameObject, 0.81f);
     }
 
@@ -75,7 +76,6 @@ public class DestructibleCrate : MonoBehaviour
             {
                 childRigidbody.AddExplosionForce(explosionForce, explosionPosition, explosionRange);
             }
-
             ApplyExplosionToChildren(child, explosionForce, explosionPosition, explosionRange);
         }
     }
