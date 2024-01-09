@@ -91,4 +91,9 @@ public class InteractAction : BaseAction
     {
         ActionComplete();
     }
+
+    public override int GetMaxDistance()
+    {
+        return maxDistance;
+    }
 }

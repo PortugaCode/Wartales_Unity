@@ -61,13 +61,15 @@ public class Door : MonoBehaviour
     private void OpenDoor()
     {
         isOpen = true;
-        Pathfinding.Instance.SetIsWalkableGridPosition(gridPosition, true);
+        gameObject.layer = 0;
+        Pathfinding.Instance.SetISWalkableGridPosition_Crate();
     }
 
     private void CloseDoor()
     {
         isOpen = false;
-        Pathfinding.Instance.SetIsWalkableGridPosition(gridPosition, false);
+        gameObject.layer = 11;
+        Pathfinding.Instance.SetISWalkableGridPosition_Crate();
     }
 
 }

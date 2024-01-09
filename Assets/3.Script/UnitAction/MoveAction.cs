@@ -314,4 +314,9 @@ public class MoveAction : BaseAction
             };
         }
     }
+
+    public override int GetMaxDistance()
+    {
+        return maxMoveDistance;
+    }
 }

@@ -247,4 +247,8 @@ public class ShootAction : BaseAction
         return GetValidGridPostionList(gridPosition).Count;
     }
 
+    public override int GetMaxDistance()
+    {
+        return maxShootDistance;
+    }
 }

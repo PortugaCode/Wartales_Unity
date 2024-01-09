@@ -312,4 +312,9 @@ public class SwordAction : BaseAction
     {
         return GetValidGridPostionList(gridPosition).Count;
     }
+
+    public override int GetMaxDistance()
+    {
+        return maxSwordDistance;
+    }
 }

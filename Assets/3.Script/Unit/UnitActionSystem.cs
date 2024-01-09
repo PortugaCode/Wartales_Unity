@@ -105,22 +105,12 @@ public class UnitActionSystem : MonoBehaviour
         if (TryHandleUnitSelection()) return;
 
 
-        GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.Instance.GetPoint());
+        
+        if(MouseWorld.Instance.isChangePosition())
+        {
+            SelectUnitMouseVisual();
+        }
 
-        if (selectedAction.isValidActionGridPosition(mouseGridPosition))
-        {
-            mousePosition.SetActive(true);
-            mousePosition.transform.position = LevelGrid.Instance.GetWorldPosition(mouseGridPosition) + Vector3.up * 0.02f;
-            if(selectedAction == selectUnit.GetAction<MoveAction>())
-            {
-                DrawLineRenderer(mouseGridPosition);
-            }
-        }
-        else
-        {
-            lineRenderer.enabled = false;
-            mousePosition.SetActive(false);
-        }
 
 
 
@@ -135,6 +125,53 @@ public class UnitActionSystem : MonoBehaviour
         }
 
         HandleSelectAction();
+    }
+
+    public void SelectUnitMouseVisual()
+    {
+        GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.Instance.GetPoint());
+
+        List<GridPosition> validGridPostionList = new List<GridPosition>();
+        GridPosition unitGridPosition = selectUnit.GetGridPostion();
+        int maxDistance = selectedAction.GetMaxDistance();
+
+        for (int x = -maxDistance; x <= maxDistance; x++)
+        {
+            for (int z = -maxDistance; z <= maxDistance; z++)
+            {
+                GridPosition offsetGridPosition = new GridPosition(x, z);
+                GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
+                if (!LevelGrid.Instance.isValidGridPosition(testGridPosition))
+                {
+                    //그리드 안에서만 움직이게끔
+                    continue;
+                }
+
+                int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
+                if (testDistance > maxDistance)
+                {
+                    continue;
+                }
+                validGridPostionList.Add(testGridPosition);
+            }
+        }
+
+        if (!validGridPostionList.Contains(mouseGridPosition))
+        {
+            lineRenderer.enabled = false;
+            mousePosition.SetActive(false);
+            return;
+        }
+
+        if (selectedAction.isValidActionGridPosition(mouseGridPosition))
+        {
+            mousePosition.SetActive(true);
+            mousePosition.transform.position = LevelGrid.Instance.GetWorldPosition(mouseGridPosition) + Vector3.up * 0.02f;
+            if (selectedAction == selectUnit.GetAction<MoveAction>())
+            {
+                DrawLineRenderer(mouseGridPosition);
+            }
+        }
     }
 
     private void DrawLineRenderer(GridPosition gridPosition)

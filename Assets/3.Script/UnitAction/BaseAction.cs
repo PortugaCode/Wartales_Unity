@@ -31,6 +31,7 @@ public abstract class BaseAction : MonoBehaviour
 
     public abstract List<GridPosition> GetValidGridPostionList();
 
+    public abstract int GetMaxDistance();
 
     public virtual int GetActionPointCost()
     {
@@ -57,7 +58,7 @@ public abstract class BaseAction : MonoBehaviour
 
     private IEnumerator DelayUpdateGridVisual()
     {
-        yield return new WaitForSeconds(0.015f);
+        yield return new WaitForSeconds(0.1f);
         GridSystemVisual.Instance.UpdateGridVisualPublic();
     }
 

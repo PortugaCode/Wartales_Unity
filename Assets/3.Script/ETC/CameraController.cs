@@ -30,6 +30,12 @@ public class CameraController : MonoBehaviour
         followOffset = cinemachineTransposer.m_FollowOffset;
     }
 
+    private void Start()
+    {
+        int r = Random.Range(0, UnitManager.Instance.GetFriendlyUnitList().Count);
+        transform.position = UnitManager.Instance.GetFriendlyUnitList()[r].GetWorldPosition();
+    }
+
 
     private void Update()
     {

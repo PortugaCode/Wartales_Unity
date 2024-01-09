@@ -144,4 +144,9 @@ public class FireBallAction : BaseAction
         fireballObject.SetUp(gridPosition, OnFireBallBehaviourComplete);
         fireballObject.SetDamage(damage);
     }
+
+    public override int GetMaxDistance()
+    {
+        return maxShootDistance;
+    }
 }

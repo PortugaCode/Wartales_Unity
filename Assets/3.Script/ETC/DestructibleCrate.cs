@@ -41,7 +41,7 @@ public class DestructibleCrate : MonoBehaviour
     {
         this.onInteractComplete = onInteractComplete;
         isActive = true;
-        timer = 0.8f;
+        timer = 0.79f;
 
         Damage();
     }
@@ -49,23 +49,24 @@ public class DestructibleCrate : MonoBehaviour
     public void Damage()
     {
         int r = UnityEngine.Random.Range(0, 10);
-
+        gameObject.layer = 0;
+        Pathfinding.Instance.SetISWalkableGridPosition_Crate();
         Transform a = Instantiate(destroyCratePrefab, transform.position, transform.rotation);
 
-        if(r < 7)
-        {
-            Transform c = Instantiate(item[UnityEngine.Random.Range(0, item.Length)], transform.position, transform.rotation);
-        }
+
         AudioManager.Instance.BreakingCrateSoundPlay();
 
         ApplyExplosionToChildren(a, 150f, transform.position, 10f);
 
-
+        if (r < 7)
+        {
+            Transform c = Instantiate(item[UnityEngine.Random.Range(0, item.Length)], transform.position, transform.rotation);
+        }
 
         Destroy(a.gameObject, 6f);
         gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
-        Pathfinding.Instance.SetIsWalkableGridPosition(gridPosition, true);
-        Destroy(gameObject, 0.81f);
+        
+        Destroy(gameObject, 0.8f);
     }
 
     private void ApplyExplosionToChildren(Transform root, float explosionForce, Vector3 explosionPosition, float explosionRange)

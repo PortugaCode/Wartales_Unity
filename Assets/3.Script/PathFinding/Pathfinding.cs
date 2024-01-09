@@ -97,6 +97,7 @@ public class Pathfinding : MonoBehaviour
 
     public List<GridPosition> FindPath(GridPosition startGridPosition, GridPosition endGridPosition, out int pathLegth)
     {
+        Debug.Log("FindPath");
         //SetWalkablePathNode();
         //SetWalkablePathNode_Obstacles();
         List<PathNode> openList = new List<PathNode>();
@@ -342,5 +343,11 @@ public class Pathfinding : MonoBehaviour
     public void SetIsWalkableGridPosition(GridPosition gridPosition, bool value)
     {
         gridSystem.GetGridObjectArray(gridPosition).SetWalkable(value);
+    }
+
+    public void SetISWalkableGridPosition_Crate()
+    {
+        SetWalkablePathNode();
+        SetWalkablePathNode_Obstacles();
     }
 }

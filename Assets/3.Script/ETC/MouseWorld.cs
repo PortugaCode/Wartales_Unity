@@ -15,6 +15,10 @@ public class MouseWorld : MonoBehaviour
 
     public static MouseWorld Instance;
 
+    private GridPosition gridPosition;
+
+    private bool isChange;
+
     private void Awake()
     {
         #region [½Ì±ÛÅæ]
@@ -31,9 +35,31 @@ public class MouseWorld : MonoBehaviour
         #endregion
     }
 
+    private void Start()
+    {
+        gridPosition = LevelGrid.Instance.GetGridPosition(GetPoint());
+    }
+
     private void Update()
     {
         GetCursor();
+
+        GridPosition newgridPosition = LevelGrid.Instance.GetGridPosition(GetPoint());
+        if (newgridPosition != gridPosition)
+        {
+            GridPosition oldGridPosition = gridPosition;
+            gridPosition = newgridPosition;
+            isChange = true;
+        }
+        else
+        {
+            isChange = false;
+        }
+    }
+
+    public bool isChangePosition()
+    {
+        return isChange;
     }
 
     public Vector3 GetPoint() //¸¶¿ì½º ½ºÅ©¸° Æ÷ÀÎÆ® Âï±â

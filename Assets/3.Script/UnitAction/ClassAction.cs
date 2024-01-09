@@ -29,6 +29,16 @@ public class ClassAction : BaseAction
 
     private bool isActive2;
 
+    private int maxDistance;
+
+    private void Start()
+    {
+        if (unit.isWarrior) maxDistance = 0;
+        if (unit.isAchor) maxDistance = 1;
+        if (unit.isWizard) maxDistance = 2;
+        if (unit.isRogue) maxDistance = 6;
+    }
+
     private void Update()
     {
         if (!isActive) return;
@@ -201,7 +211,6 @@ public class ClassAction : BaseAction
         {
             List<GridPosition> validGridPostionList = new List<GridPosition>();
             GridPosition unitGridPosition = unit.GetGridPostion();
-
             if (unit.GetAction<SwordAction>().IsBerserk)
             {
                 return validGridPostionList;
@@ -218,7 +227,6 @@ public class ClassAction : BaseAction
         {
             List<GridPosition> validGridPostionList = new List<GridPosition>();
             GridPosition unitGridPosition = unit.GetGridPostion();
-            int maxDistance = 1;
 
             for (int x = -maxDistance; x <= maxDistance; x++)
             {
@@ -229,6 +237,12 @@ public class ClassAction : BaseAction
                     if (!LevelGrid.Instance.isValidGridPosition(testGridPosition))
                     {
                         //그리드 안에서만 움직이게끔
+                        continue;
+                    }
+
+                    int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
+                    if (testDistance > maxDistance)
+                    {
                         continue;
                     }
 
@@ -264,7 +278,6 @@ public class ClassAction : BaseAction
         {
             List<GridPosition> validGridPostionList = new List<GridPosition>();
             GridPosition unitGridPosition = unit.GetGridPostion();
-            int maxDistance = 2;
 
             for (int x = -maxDistance; x <= maxDistance; x++)
             {
@@ -307,7 +320,6 @@ public class ClassAction : BaseAction
         {
             List<GridPosition> validGridPostionList = new List<GridPosition>();
             GridPosition unitGridPosition = unit.GetGridPostion();
-            int maxDistance = 6;
 
             for (int x = -maxDistance; x <= maxDistance; x++)
             {
@@ -370,5 +382,10 @@ public class ClassAction : BaseAction
             gridPosition = gridPosition,
             actionValue = 0,
         };
+    }
+
+    public override int GetMaxDistance()
+    {
+        return maxDistance;
     }
 }
