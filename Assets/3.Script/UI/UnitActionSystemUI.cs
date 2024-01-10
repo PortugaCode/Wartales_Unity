@@ -81,6 +81,7 @@ public class UnitActionSystemUI : MonoBehaviour
 
     private void UndateSelectVisual()
     {
+        UnitActionSystem.Instance.MousePosition.SetActive(false);
         foreach(ActionButtonUI actionButtonUI in actionButtonUIList)
         {
             actionButtonUI.UpdateSelectVisual();

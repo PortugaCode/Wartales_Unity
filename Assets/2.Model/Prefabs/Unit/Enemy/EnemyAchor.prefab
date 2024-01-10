@@ -1596,7 +1596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  Maxhealth: 100
+  Maxhealth: 150
   isAssasin: 0
 --- !u!1 &8665314157168814960
 GameObject:

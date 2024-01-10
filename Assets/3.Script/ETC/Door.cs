@@ -15,6 +15,8 @@ public class Door : MonoBehaviour
 
     private GridPosition gridPosition;
 
+    [SerializeField] private ShowAndHide showAndHide;
+    [SerializeField] private int stage;
 
     private void Start()
     {
@@ -61,6 +63,7 @@ public class Door : MonoBehaviour
     private void OpenDoor()
     {
         isOpen = true;
+        showAndHide.ShowStage(stage);
         gameObject.layer = 0;
         Pathfinding.Instance.SetISWalkableGridPosition_Crate();
     }
@@ -68,6 +71,7 @@ public class Door : MonoBehaviour
     private void CloseDoor()
     {
         isOpen = false;
+        showAndHide.HideStage(stage);
         gameObject.layer = 11;
         Pathfinding.Instance.SetISWalkableGridPosition_Crate();
     }

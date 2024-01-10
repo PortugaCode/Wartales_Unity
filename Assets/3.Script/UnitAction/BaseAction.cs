@@ -54,6 +54,7 @@ public abstract class BaseAction : MonoBehaviour
         OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
         //GridSystemVisual.Instance.UpdateGridVisualPublic();
         StartCoroutine(DelayUpdateGridVisual());
+        Pathfinding.Instance.SetISWalkableGridPosition_Crate();
     }
 
     private IEnumerator DelayUpdateGridVisual()

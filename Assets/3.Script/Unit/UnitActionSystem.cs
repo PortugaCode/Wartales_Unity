@@ -26,6 +26,7 @@ public class UnitActionSystem : MonoBehaviour
     private BaseAction selectedAction;
 
     [SerializeField] private GameObject mousePosition;
+    public GameObject MousePosition => mousePosition;
     [SerializeField] private Transform cameraTarget;
     public bool isCamMove;
     public bool needSetPosition;
@@ -74,6 +75,7 @@ public class UnitActionSystem : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (selectUnit == null) return;
         if (TurnSystem.Instance.IsPlayerTurn() && isCamMove)
         {
             if(needSetPosition)
@@ -104,9 +106,9 @@ public class UnitActionSystem : MonoBehaviour
 
         if (TryHandleUnitSelection()) return;
 
+        if (selectUnit == null) return;
 
-        
-        if(MouseWorld.Instance.isChangePosition())
+        if (MouseWorld.Instance.isChangePosition())
         {
             SelectUnitMouseVisual();
         }
@@ -148,7 +150,7 @@ public class UnitActionSystem : MonoBehaviour
                 }
 
                 int testDistance = Mathf.Abs(x) + Mathf.Abs(z);
-                if (testDistance > maxDistance)
+                if (testDistance > maxDistance && selectedAction != selectUnit.GetAction<SwordAction>())
                 {
                     continue;
                 }

@@ -7173,7 +7173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   berserkEffect: {fileID: 6635537390617570990}
   sprite: {fileID: 21300000, guid: d4a5fddf4a5d9ce46ab886c69385da18, type: 3}
-  damage: 25
+  damage: 35
   isBerserk: 0
   isBackAttack: 0
 --- !u!1 &6635537391023972324

@@ -20,6 +20,7 @@ public class MoveAction : BaseAction
 
     [Header("MaxMoveDistance")]
     [SerializeField] private int maxMoveDistance = 4;
+    private int baseMoveDistance;
 
     [Header("Image")]
     public Sprite sprite;
@@ -28,8 +29,16 @@ public class MoveAction : BaseAction
     [SerializeField] private Unit targetUnit;
     private bool isNowNodeisMaxDistance = false;
 
+    private void Start()
+    {
+        baseMoveDistance = maxMoveDistance;
+    }
+
     private void Update()
     {
+        if (UnitManager.Instance.GetEnemyUnitList().Count <= 0) maxMoveDistance = 8;
+        else maxMoveDistance = baseMoveDistance;
+
         if (!isActive) return;
 
         Vector3 targetPosition = positionList[currentPositionIndex];
@@ -91,14 +100,15 @@ public class MoveAction : BaseAction
 
         GridPosition unitGridPosition = unit.GetGridPostion();
 
-        for(int x = -maxMoveDistance; x <= maxMoveDistance; x++)
+
+        for (int x = -maxMoveDistance; x <= maxMoveDistance; x++)
         {
-            for(int z = -maxMoveDistance; z <= maxMoveDistance; z++)
+            for (int z = -maxMoveDistance; z <= maxMoveDistance; z++)
             {
                 GridPosition offsetGridPosition = new GridPosition(x, z);
                 GridPosition testGridPosition = unitGridPosition + offsetGridPosition;
 
-                if(!LevelGrid.Instance.isValidGridPosition(testGridPosition))
+                if (!LevelGrid.Instance.isValidGridPosition(testGridPosition))
                 {
                     //해당 unit의 최대 거리만큼만 움직이게
                     continue;
@@ -116,24 +126,24 @@ public class MoveAction : BaseAction
                     continue;
                 }
 
-                if(LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
+                if (LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition))
                 {
                     //해당 위치 그리드에 Unit이 있다면?
                     continue;
                 }
 
-                if(!Pathfinding.Instance.IsWalkableGridPosition(testGridPosition))
+                if (!Pathfinding.Instance.IsWalkableGridPosition(testGridPosition))
                 {
                     continue;
                 }
 
-                if(!Pathfinding.Instance.HasPath(unitGridPosition, testGridPosition))
+                if (!Pathfinding.Instance.HasPath(unitGridPosition, testGridPosition))
                 {
                     continue;
                 }
 
                 int pathFindingDistanceMulti = 10;
-                if(Pathfinding.Instance.PathLength(unitGridPosition, testGridPosition) > maxMoveDistance * pathFindingDistanceMulti)
+                if (Pathfinding.Instance.PathLength(unitGridPosition, testGridPosition) > maxMoveDistance * pathFindingDistanceMulti)
                 {
                     //해당 위치가 maxMoveDistance보다 더 많이 움직여야 한다면?
                     continue;

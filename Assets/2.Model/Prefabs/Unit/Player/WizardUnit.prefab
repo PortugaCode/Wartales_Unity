@@ -649,7 +649,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitUI: {fileID: 8662387107908346658}
   isEnemy: 0
-  BaseActionPoints: 4
+  BaseActionPoints: 3
   actionPoints: 0
   isWarrior: 0
   isAchor: 0
@@ -746,7 +746,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8662387107236520709}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b553c579a1ee2d4fb3c56206891bc0a, type: 3}
   m_Name: 

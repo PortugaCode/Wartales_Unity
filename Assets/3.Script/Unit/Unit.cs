@@ -94,6 +94,7 @@ public class Unit : MonoBehaviour
             GridPosition oldGridPosition = gridPosition;
             gridPosition = newgridPosition;
             LevelGrid.Instance.UnitMoveGridPostion(this, oldGridPosition, newgridPosition);
+            Pathfinding.Instance.SetISWalkableGridPosition_Crate();
         }
     }
 
@@ -205,12 +206,12 @@ public class Unit : MonoBehaviour
     {
         gameObject.layer = 13;
         LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
-        
+        Pathfinding.Instance.SetISWalkableGridPosition_Crate();
         OnDie?.Invoke(this, EventArgs.Empty);
         Destroy(gameObject, 4f);
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
 
-        if (!isEnemy)
+        if (!isEnemy && UnitManager.Instance.GetFriendlyUnitList().Count > 0)
         {
             int r = UnityEngine.Random.Range(0, UnitManager.Instance.GetFriendlyUnitList().Count);
             UnitActionSystem.Instance.SetSelectUnit(UnitManager.Instance.GetFriendlyUnitList()[r]);
