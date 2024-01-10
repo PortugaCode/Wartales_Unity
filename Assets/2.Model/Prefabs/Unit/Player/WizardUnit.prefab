@@ -725,7 +725,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  Maxhealth: 100
+  Maxhealth: 125
   isAssasin: 0
 --- !u!114 &8662387107236520706
 MonoBehaviour:

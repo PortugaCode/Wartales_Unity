@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class AudioManager : MonoBehaviour
 {
@@ -44,10 +45,6 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip[] bowHandle;
     [SerializeField] private AudioClip[] bowShoot;
     [SerializeField] private AudioClip[] trapSound;
-
-
-
-
 
     private void Awake()
     {
@@ -171,4 +168,6 @@ public class AudioManager : MonoBehaviour
     {
         audioSource.PlayOneShot(berserkClip);
     }
+
+
 }
