@@ -29,6 +29,11 @@ public class HealthSystem : MonoBehaviour
     {
         health += a;
 
+        if(health >= Maxhealth)
+        {
+            health = Maxhealth;
+        }
+
 
         if (health <= 0)
         {

@@ -46,6 +46,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip[] bowShoot;
     [SerializeField] private AudioClip[] trapSound;
 
+    [SerializeField] private AudioClip[] UiSound;
+
     public AudioSource GetBGM()
     {
         return BGM;
@@ -71,6 +73,21 @@ public class AudioManager : MonoBehaviour
 
         BGM.clip = BGMS[0];
         BGM.Play();
+    }
+
+    public void UIMouseOnSoundPlay()
+    {
+        audioSource.PlayOneShot(UiSound[0]);
+    }
+
+    public void UIMouseClcikSoundPlay()
+    {
+        audioSource.PlayOneShot(UiSound[1]);
+    }
+
+    public void UIMouseExitSoundPlay()
+    {
+        audioSource.PlayOneShot(UiSound[2]);
     }
 
     public void HealSoundPlay()

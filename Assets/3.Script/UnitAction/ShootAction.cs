@@ -81,7 +81,7 @@ public class ShootAction : BaseAction
 
             case State.Shooting:
                 state = State.Cooloff;
-                float coolOffStateTimer = 2.5f;
+                float coolOffStateTimer = 3f;
                 stateTimer = coolOffStateTimer;
                 break;
 

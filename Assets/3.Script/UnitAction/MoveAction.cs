@@ -32,6 +32,8 @@ public class MoveAction : BaseAction
     private void Start()
     {
         baseMoveDistance = maxMoveDistance;
+        if (UnitManager.Instance.GetEnemyUnitList().Count <= 0) maxMoveDistance = 8;
+        else maxMoveDistance = baseMoveDistance;
     }
 
     private void Update()

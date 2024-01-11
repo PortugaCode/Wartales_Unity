@@ -61,6 +61,7 @@ public class LevelGrid : MonoBehaviour
         OnAnyUnitMovedGridPosition?.Invoke(this, EventArgs.Empty);
         RemoveUnitAtGridPosition(fromgridposition, unit);
         AddUnitAtGridPosition(togridposition, unit);
+        Pathfinding.Instance.SetISWalkableGridPosition_Crate();
         OnAnyUnitMovedGridPosition?.Invoke(this, EventArgs.Empty);
     }
 

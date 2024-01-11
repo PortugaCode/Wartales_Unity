@@ -10578,14 +10578,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1890032518}
+      - m_Target: {fileID: 1643681683}
         m_TargetAssemblyTypeName: UnitSelectBtn, Assembly-CSharp
         m_MethodName: LeftBtnClick
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -18370,7 +18370,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Achor
+  m_Text: "\rArcher"
 --- !u!222 &690202999
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20223,6 +20223,7 @@ GameObject:
   - component: {fileID: 769221280}
   - component: {fileID: 769221282}
   - component: {fileID: 769221281}
+  - component: {fileID: 769221283}
   m_Layer: 5
   m_Name: Unit2
   m_TagString: Untagged
@@ -20294,6 +20295,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 769221279}
   m_CullTransparentMesh: 1
+--- !u!114 &769221283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769221279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0c2c45b8290bb74cb8f45d443538b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectUnit:
+  - {fileID: 429741873}
+  - {fileID: 2141706647}
+  - {fileID: 124384201}
+  - {fileID: 1719142768}
+  nowIndex: 0
 --- !u!1001 &771123237
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26140,14 +26159,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1890032518}
+      - m_Target: {fileID: 1643681683}
         m_TargetAssemblyTypeName: UnitSelectBtn, Assembly-CSharp
         m_MethodName: RightBtnClick
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -27232,14 +27251,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1890032518}
+      - m_Target: {fileID: 1680339426}
         m_TargetAssemblyTypeName: UnitSelectBtn, Assembly-CSharp
         m_MethodName: RightBtnClick
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -28349,14 +28368,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1890032518}
+      - m_Target: {fileID: 769221283}
         m_TargetAssemblyTypeName: UnitSelectBtn, Assembly-CSharp
         m_MethodName: RightBtnClick
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -31586,14 +31605,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1890032518}
+      - m_Target: {fileID: 769221283}
         m_TargetAssemblyTypeName: UnitSelectBtn, Assembly-CSharp
         m_MethodName: LeftBtnClick
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -37435,7 +37454,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1890032518}
+      - m_Target: {fileID: 1531417642}
         m_TargetAssemblyTypeName: UnitSelectBtn, Assembly-CSharp
         m_MethodName: LeftBtnClick
         m_Mode: 3
@@ -38659,6 +38678,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 947666329124705735, guid: afe3e7497dbb946489a5fb18729db786, type: 3}
+      propertyPath: UiSound.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 947666329124705735, guid: afe3e7497dbb946489a5fb18729db786, type: 3}
+      propertyPath: UiSound.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 081e4df62a3a5f742b1710088e89802f, type: 3}
+    - target: {fileID: 947666329124705735, guid: afe3e7497dbb946489a5fb18729db786, type: 3}
+      propertyPath: UiSound.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 300bec426532fd749899b627647403d1, type: 3}
+    - target: {fileID: 947666329124705735, guid: afe3e7497dbb946489a5fb18729db786, type: 3}
+      propertyPath: UiSound.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: e7442b0a5b954a3488cc9ab01cf7935a, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: afe3e7497dbb946489a5fb18729db786, type: 3}
 --- !u!1 &1445632914
@@ -41123,6 +41158,7 @@ GameObject:
   - component: {fileID: 1531417639}
   - component: {fileID: 1531417641}
   - component: {fileID: 1531417640}
+  - component: {fileID: 1531417642}
   m_Layer: 5
   m_Name: Unit1
   m_TagString: Untagged
@@ -41194,6 +41230,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1531417638}
   m_CullTransparentMesh: 1
+--- !u!114 &1531417642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531417638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0c2c45b8290bb74cb8f45d443538b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectUnit:
+  - {fileID: 1317535139}
+  - {fileID: 742113709}
+  - {fileID: 552163894}
+  - {fileID: 957343204}
+  nowIndex: 0
 --- !u!1001 &1537748937
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43990,7 +44044,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Achor
+  m_Text: "\rArcher"
 --- !u!222 &1631492158
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -44269,6 +44323,7 @@ GameObject:
   - component: {fileID: 1643681680}
   - component: {fileID: 1643681682}
   - component: {fileID: 1643681681}
+  - component: {fileID: 1643681683}
   m_Layer: 5
   m_Name: Unit4
   m_TagString: Untagged
@@ -44341,6 +44396,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1643681679}
   m_CullTransparentMesh: 1
+--- !u!114 &1643681683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643681679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0c2c45b8290bb74cb8f45d443538b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectUnit:
+  - {fileID: 118537766}
+  - {fileID: 724598474}
+  - {fileID: 1274915994}
+  - {fileID: 471045958}
+  nowIndex: 0
 --- !u!1001 &1644448952
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44888,7 +44961,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Achor
+  m_Text: "\rArcher"
 --- !u!222 &1668098389
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -45233,14 +45306,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1890032518}
+      - m_Target: {fileID: 1680339426}
         m_TargetAssemblyTypeName: UnitSelectBtn, Assembly-CSharp
         m_MethodName: LeftBtnClick
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -45348,6 +45421,7 @@ GameObject:
   - component: {fileID: 1680339423}
   - component: {fileID: 1680339425}
   - component: {fileID: 1680339424}
+  - component: {fileID: 1680339426}
   m_Layer: 5
   m_Name: Unit3
   m_TagString: Untagged
@@ -45419,6 +45493,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1680339422}
   m_CullTransparentMesh: 1
+--- !u!114 &1680339426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680339422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0c2c45b8290bb74cb8f45d443538b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectUnit:
+  - {fileID: 856662939}
+  - {fileID: 1114608265}
+  - {fileID: 1244733391}
+  - {fileID: 262240542}
+  nowIndex: 0
 --- !u!1001 &1685261403
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50953,7 +51045,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1890032517}
-  - component: {fileID: 1890032518}
   m_Layer: 5
   m_Name: UnitSelectIntro
   m_TagString: Untagged
@@ -50985,24 +51076,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1890032518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1890032516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0c2c45b8290bb74cb8f45d443538b07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectUnit:
-  - {fileID: 1317535139}
-  - {fileID: 742113709}
-  - {fileID: 552163894}
-  - {fileID: 957343204}
-  nowIndex: 0
 --- !u!1001 &1890692433
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53015,7 +53088,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Achor
+  m_Text: "\rArcher"
 --- !u!222 &1959734456
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -54351,7 +54424,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1890032518}
+      - m_Target: {fileID: 1531417642}
         m_TargetAssemblyTypeName: UnitSelectBtn, Assembly-CSharp
         m_MethodName: RightBtnClick
         m_Mode: 3

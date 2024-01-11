@@ -24,6 +24,7 @@ public class Unit : MonoBehaviour
 
     [Header("isEnemy")]
     [SerializeField] private bool isEnemy;
+    [SerializeField] private bool isBoss;
 
     [Header("ActionCount")]
     public int BaseActionPoints = 3;
@@ -206,10 +207,21 @@ public class Unit : MonoBehaviour
     {
         gameObject.layer = 13;
         LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
-        Pathfinding.Instance.SetISWalkableGridPosition_Crate();
         OnDie?.Invoke(this, EventArgs.Empty);
         Destroy(gameObject, 4f);
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
+
+        Pathfinding.Instance.SetISWalkableGridPosition_Crate();
+
+        if (UnitManager.Instance.GetFriendlyUnitList().Count <= 0)
+        {
+            GameManager.Instance.Lose();
+        }
+        else if(isEnemy && isBoss)
+        {
+            GameManager.Instance.Win();
+        }
+
 
         if (!isEnemy && UnitManager.Instance.GetFriendlyUnitList().Count > 0)
         {

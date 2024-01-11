@@ -207,7 +207,11 @@ public class SwordAction : BaseAction
     }
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
-        Unit targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(gridPosition);
+        if(targetUnit == null)
+        {
+            targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(gridPosition);
+        }
+        
 
         Vector3 targetdir = unit.GetWorldPosition() + Vector3.up * 1.2f - targetUnit.GetWorldPosition() + Vector3.up * 1.2f;
         Vector3 targetforward = targetUnit.transform.forward;

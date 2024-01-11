@@ -22,6 +22,8 @@ public class Trap : MonoBehaviour
 
             EffectSystem.Instance.hitEffect.transform.position = transform.position + Vector3.up * 0.5f;
             EffectSystem.Instance.hitEffect.Play();
+            AudioManager.Instance.TakeDamageSoundPlay();
+
             Destroy(gameObject);
 
         }
@@ -31,6 +33,7 @@ public class Trap : MonoBehaviour
 
             EffectSystem.Instance.hitEffect.transform.position = transform.position + Vector3.up * 0.5f;
             EffectSystem.Instance.hitEffect.Play();
+            AudioManager.Instance.TakeDamageSoundPlay();
             Destroy(gameObject);
 
         }

@@ -39,4 +39,10 @@ public class ButtonManager : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void EscapePause()
+    {
+        Time.timeScale = 1;
+        GameManager.Instance.isPause = false;
+    }
 }
