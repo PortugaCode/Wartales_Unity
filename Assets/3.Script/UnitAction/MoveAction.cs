@@ -178,13 +178,10 @@ public class MoveAction : BaseAction
         {
             foreach (Unit target in targetUnitList)
             {
-                if (!target.IsEnemy())
+                if (Vector3.Distance(unit.GetWorldPosition(), target.GetWorldPosition()) < distance)
                 {
-                    if (Vector3.Distance(unit.GetWorldPosition(), target.GetWorldPosition()) < distance)
-                    {
-                        distance = Vector3.Distance(unit.GetWorldPosition(), target.GetWorldPosition());
-                        targetUnit = target;
-                    }
+                    distance = Vector3.Distance(unit.GetWorldPosition(), target.GetWorldPosition());
+                    targetUnit = target;
                 }
             }
         }
@@ -192,6 +189,7 @@ public class MoveAction : BaseAction
 
     private int ShooterMoveToMaxDistance(int maxShootDistance, GridPosition gridPosition)
     {
+        if (targetUnit == null) return 0;
         GridPosition targetGridPosition = targetUnit.GetGridPostion();
         List<GridPosition> pathLengthList = Pathfinding.Instance.FindPath(targetGridPosition, gridPosition, out int pathLength);
 
@@ -212,6 +210,7 @@ public class MoveAction : BaseAction
 
     private int CalculateValue(int calculateActionValue, GridPosition gridPosition)
     {
+        if (targetUnit == null) return 0;
         GridPosition targetGridPosition = targetUnit.GetGridPostion();
         int baseValue = maxMoveDistance * 10;
         List<GridPosition> pathLengthList = Pathfinding.Instance.FindPath(targetGridPosition, gridPosition, out int pathLength);
@@ -232,6 +231,7 @@ public class MoveAction : BaseAction
 
     private bool GridPositionCanBackAttack(GridPosition gridPosition)
     {
+        if (targetUnit == null) return false;
         Vector3 targetdir = LevelGrid.Instance.GetWorldPosition(gridPosition) + Vector3.up * 1.2f - targetUnit.GetWorldPosition() + Vector3.up * 1.2f;
         Vector3 targetforward = targetUnit.transform.forward;
 
@@ -257,7 +257,7 @@ public class MoveAction : BaseAction
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
-        
+        targetUnit = null;
         int calculateActionValue = 0;
         List<Unit> targetUnitList = UnitManager.Instance.GetFriendlyUnitList();
         float distance = float.MaxValue;

@@ -53,13 +53,13 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator Win_Co()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         winUI.SetActive(true);
     }
 
     private IEnumerator Lose_Co()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         loseUI.SetActive(true);
     }
 }

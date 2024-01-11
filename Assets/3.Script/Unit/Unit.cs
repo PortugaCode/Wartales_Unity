@@ -86,7 +86,6 @@ public class Unit : MonoBehaviour
 
     private void Update()
     {
-        isDie = healthSystem.IsDie;
 
         GridPosition newgridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         if (newgridPosition != gridPosition)
@@ -191,9 +190,13 @@ public class Unit : MonoBehaviour
     {
         AudioManager.Instance.TakeDamageSoundPlay();
         healthSystem.Damage(amount);
-        if(healthSystem.Gethealth() != 0)
+        if (healthSystem.Gethealth() != 0)
         {
             OnDamage?.Invoke(this, EventArgs.Empty);
+        }
+        else if (healthSystem.Gethealth() <= 0 && !isDie)
+        {
+            isDie = true;
         }
     }
 

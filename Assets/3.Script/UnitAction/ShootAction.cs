@@ -81,11 +81,12 @@ public class ShootAction : BaseAction
 
             case State.Shooting:
                 state = State.Cooloff;
-                float coolOffStateTimer = 3f;
+                float coolOffStateTimer = 3.2f;
                 stateTimer = coolOffStateTimer;
                 break;
 
             case State.Cooloff:
+                targetUnit = null;
                 ActionComplete();
                 break;
         }
@@ -145,6 +146,11 @@ public class ShootAction : BaseAction
                     continue;
                 }
 
+                if(targetUnit.isDie)
+                {
+                    continue;
+                }
+
                 Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
 
                 Vector3 shootdir = (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
@@ -199,6 +205,15 @@ public class ShootAction : BaseAction
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         Unit targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(gridPosition);
+
+        if(targetUnit.isDie)
+        {
+            return new EnemyAIAction
+            {
+                gridPosition = gridPosition,
+                actionValue = 0
+            };
+        }
 
         //Debug.Log($"슈팅!!! 해당 지역 {gridPosition} / actionValue {200 + Mathf.RoundToInt((1 - targetUnit.GetHealthSystem().GetHealthNormalized()) * 100f)} ");
 
