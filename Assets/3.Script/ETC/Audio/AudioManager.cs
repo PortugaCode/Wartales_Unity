@@ -46,6 +46,16 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip[] bowShoot;
     [SerializeField] private AudioClip[] trapSound;
 
+    public AudioSource GetBGM()
+    {
+        return BGM;
+    }
+
+    public AudioSource GetSFX()
+    {
+        return audioSource;
+    }
+
     private void Awake()
     {
         if(Instance != null)

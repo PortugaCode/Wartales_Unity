@@ -58,6 +58,8 @@ public class UnitActionSystem : MonoBehaviour
     }
     private void Start()
     {
+        SpawnManager.Instance.SpawnUnitFin();
+
         IsPlayerUnit[] select = FindObjectsOfType<IsPlayerUnit>();
         int rand = UnityEngine.Random.Range(0, select.Length);
 
