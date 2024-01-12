@@ -197,6 +197,7 @@ public class Unit : MonoBehaviour
         else if (healthSystem.Gethealth() <= 0 && !isDie)
         {
             isDie = true;
+            LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, this);
         }
     }
 

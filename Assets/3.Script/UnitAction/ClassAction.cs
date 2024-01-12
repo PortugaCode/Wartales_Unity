@@ -63,7 +63,7 @@ public class ClassAction : BaseAction
 
     public override int GetActionPointCost()
     {
-        if(unit.isRogue)
+        if(unit.isRogue || unit.isWarrior)
         {
             return 2;
         }
@@ -128,18 +128,12 @@ public class ClassAction : BaseAction
             targetUnit = LevelGrid.Instance.GetAnyUnitOnGridPosition(gridPosition);
             Vector3 aimDirection = (targetUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
             EffectSystem.Instance.SmokePlay(unit.GetWorldPosition());
-            GridPosition oldGridPosition = unit.GetGridPostion();
             transform.position = targetUnit.GetWorldPosition() + targetUnit.transform.forward * -0.3f;
             transform.forward = targetUnit.transform.forward;
             AudioManager.Instance.AssasinAttackSoundPlay();
             AudioManager.Instance.SmokeSoundPlay();
 
-            GridPosition newgridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
-            if (newgridPosition != oldGridPosition)
-            {
-                //유닛이 기존 그리드 포지션에서 위치가 바뀌었다면
-                LevelGrid.Instance.UnitMoveGridPostion(unit, oldGridPosition, newgridPosition);
-            }
+            LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition, targetUnit);
 
             targetUnit.GetHealthSystem().isAssasin = true;
             targetUnit.SetHealth(-100);

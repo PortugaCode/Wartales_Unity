@@ -649,6 +649,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitUI: {fileID: 8662387107908346658}
   isEnemy: 0
+  isBoss: 0
   BaseActionPoints: 3
   actionPoints: 0
   isWarrior: 0
@@ -695,7 +696,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 9516bfbd0cd1e2641aa2ca4361325a31, type: 3}
-  maxShootDistance: 3
+  maxShootDistance: 4
   fireBallPrefab: {fileID: 3204530800819705901, guid: 0b3e43708c97ac04498bf1ee4fb116fb, type: 3}
   damage: 40
   pivot: {fileID: 8662387106215664010}
