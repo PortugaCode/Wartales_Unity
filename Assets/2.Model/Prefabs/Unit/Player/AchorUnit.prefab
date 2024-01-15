@@ -5808,6 +5808,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitUI: {fileID: 3589992730994435567}
   isEnemy: 0
+  isBoss: 0
   BaseActionPoints: 4
   actionPoints: 0
   isWarrior: 0
